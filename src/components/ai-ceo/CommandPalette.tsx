@@ -7,6 +7,9 @@ import {
 } from "@/components/ui/command";
 import { ALL_FOUNDER_NAV } from "@/lib/founder-nav";
 import { useCEOData } from "@/hooks/useCEOData";
+import { AGENTS } from "@/components/ai-ceo/ops/catalog";
+import { useOps } from "@/components/ai-ceo/ops/store";
+import { useWork } from "@/components/ai-ceo/work/store";
 
 const RECENT_KEY = "sv:founder:recent-searches";
 const SUGGESTED = ["Pending decisions", "High risks", "Weekly report", "Revenue signals"];
@@ -24,6 +27,14 @@ const COMMANDS: { label: string; to: string; keywords?: string }[] = [
   { label: "View Tasks", to: "/ai-ceo/tasks" },
   { label: "View Agents", to: "/ai-ceo/agents" },
   { label: "Start Research", to: "/ai-ceo/research" },
+  { label: "Create Research", to: "/ai-ceo/research" },
+  { label: "Create Project", to: "/ai-ceo/projects" },
+  { label: "Ask Founder AI", to: "/ai-ceo/chat" },
+  { label: "View Automations", to: "/ai-ceo/automations" },
+  { label: "View Activity", to: "/ai-ceo/activity" },
+  { label: "View Notifications", to: "/ai-ceo/notifications" },
+  { label: "Open Settings", to: "/ai-ceo/settings" },
+  { label: "Help & Shortcuts", to: "/ai-ceo/help" },
   { label: "Search Company Brain", to: "/ai-ceo/company-brain", keywords: "knowledge" },
 ];
 
@@ -32,6 +43,8 @@ export function CommandPalette({ open, onOpenChange }: { open: boolean; onOpenCh
   const navigate = useNavigate();
   const { data, isLoading } = useCEOData();
   const [query, setQuery] = useState("");
+  const [ops] = useOps();
+  const [work] = useWork();
   const [recent, setRecent] = useState<string[]>([]);
 
   useEffect(() => {
@@ -40,11 +53,13 @@ export function CommandPalette({ open, onOpenChange }: { open: boolean; onOpenCh
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
+      const t = e.target as HTMLElement | null;
+      if (e.key === "?" && e.shiftKey && !(t && (t.tagName === "INPUT" || t.tagName === "TEXTAREA" || t.isContentEditable))) { void navigate({ to: "/ai-ceo/help" }); return; }
       if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "k") { e.preventDefault(); onOpenChange(!open); }
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, [open, onOpenChange]);
+  }, [open, onOpenChange, navigate]);
 
   const records = useMemo(() => [
     ...data.decisions.map((d) => ({ id: `d-${d.id}`, icon: Brain, title: d.action, type: "Decision", desc: d.reasoning, to: "/ai-ceo/decision-engine", time: undefined as string | undefined })),
@@ -52,7 +67,12 @@ export function CommandPalette({ open, onOpenChange }: { open: boolean; onOpenCh
     ...data.complianceItems.map((c) => ({ id: `p-${c.id}`, icon: Library, title: c.policy, type: "Policy", desc: `${c.status} · last audit ${c.lastAudit}`, to: "/ai-ceo/company-brain", time: undefined as string | undefined })),
     ...data.learningLogs.map((l) => ({ id: `l-${l.id}`, icon: Database, title: l.observation, type: "Learning", desc: l.outcome, to: "/ai-ceo/learning", time: undefined as string | undefined })),
     ...data.riskCategories.map((r) => ({ id: `k-${r.id}`, icon: ShieldAlert, title: r.category, type: "Risk", desc: `${r.level} · ${r.issues} open issues`, to: "/ai-ceo/risk", time: undefined as string | undefined })),
-  ], [data]);
+    ...AGENTS.map((a) => ({ id: `a-${a.id}`, icon: Brain, title: a.name, type: "Agent", desc: a.purpose, to: `/ai-ceo/agents/${a.id}`, time: undefined as string | undefined })),
+    ...ops.tasks.map((t) => ({ id: `t-${t.id}`, icon: FileText, title: t.title, type: "Task", desc: t.status, to: `/ai-ceo/tasks/${t.id}`, time: t.createdAt as string | undefined })),
+    ...ops.automations.map((a) => ({ id: `au-${a.id}`, icon: FileText, title: a.name, type: "Automation", desc: a.state, to: `/ai-ceo/automations/${a.id}`, time: undefined as string | undefined })),
+    ...work.projects.map((p) => ({ id: `pr-${p.id}`, icon: FileText, title: p.name, type: "Project", desc: p.status, to: `/ai-ceo/projects/${p.id}`, time: undefined as string | undefined })),
+    ...work.research.map((r) => ({ id: `rs-${r.id}`, icon: FileText, title: r.question, type: "Research", desc: r.stage, to: `/ai-ceo/research/${r.id}`, time: r.createdAt as string | undefined })),
+  ], [data, ops, work]);
 
   const go = (to: string, label?: string) => {
     const term = (label ?? query).trim();
