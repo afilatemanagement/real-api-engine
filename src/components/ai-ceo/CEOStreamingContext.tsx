@@ -1,6 +1,6 @@
 import { createContext, useContext, useState, type ReactNode } from 'react';
 
-const CEOStreamingContext = createContext({ streamingOn: true, toggleStreaming: () => undefined });
+const CEOStreamingContext = createContext<{ streamingOn: boolean; toggleStreaming: () => void }>({ streamingOn: true, toggleStreaming: () => {} });
 
 export function CEOStreamingProvider({ children }: { children: ReactNode }) {
   const [streamingOn, setStreamingOn] = useState(true);

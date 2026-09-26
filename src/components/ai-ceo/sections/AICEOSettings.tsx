@@ -32,8 +32,9 @@ const AICEOSettings = () => {
 
       {/* Settings Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
-        {settingsConfig.map((category, i) => (
-          (() => { const CategoryIcon = settingIcons[category.icon]; return (
+        {settingsConfig.map((category, i) => {
+          const CategoryIcon = settingIcons[category.icon];
+          return (
           <motion.div
             key={category.category}
             initial={{ opacity: 0, y: 20 }}
@@ -69,8 +70,8 @@ const AICEOSettings = () => {
               </CardContent>
             </Card>
           </motion.div>
-          ); })()
-        ))}
+          );
+        })}
       </div>
 
       {/* System Info */}
