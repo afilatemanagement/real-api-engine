@@ -8,6 +8,8 @@ export const Route = createFileRoute("/ai-ceo/")({
       { name: "description", content: "Executive AI overview: ecosystem metrics, AI observations, live activity and suggestions." },
       { property: "og:title", content: "AI CEO Dashboard — Software Vala" },
       { property: "og:description", content: "Executive AI overview: ecosystem metrics, AI observations, live activity and suggestions." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary" },
     ],
   }),
   component: AICEODashboardMain,

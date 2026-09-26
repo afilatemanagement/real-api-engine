@@ -78,7 +78,7 @@ test("sidebar navigation reaches every section without a full reload", async ({ 
 
 test("reports expose their source and download displayed content", async ({ page }) => {
   await page.goto("/ai-ceo/reports", { waitUntil: "domcontentloaded" });
-  await expect(page.getByText(/seed data|live api/i).first()).toBeVisible();
+  await expect(page.getByText(/realistic seed|live data/i).first()).toBeVisible();
   const downloadPromise = page.waitForEvent("download");
   await page.getByRole("button", { name: "Download" }).first().click();
   const download = await downloadPromise;

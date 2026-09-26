@@ -8,6 +8,8 @@ export const Route = createFileRoute("/ai-ceo/settings")({
       { name: "description", content: "Read-only AI CEO configuration, permissions and operating boundaries." },
       { property: "og:title", content: "AI CEO Settings — Software Vala" },
       { property: "og:description", content: "Read-only AI CEO configuration, permissions and operating boundaries." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary" },
     ],
   }),
   component: AICEOSettings,

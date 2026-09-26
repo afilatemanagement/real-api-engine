@@ -6,7 +6,7 @@ import { test, expect } from "@playwright/test";
  * The hook loads state through server functions backed by the external Prisma
  * API (AIRA_API_URL) and falls back to seed data when it is unconfigured. These
  * tests assert the data-loading contract holds in either mode: state hydrates,
- * survives a reload, and Boss-queue writes are reflected in the UI.
+ * survives a reload, and writes are only reported successful when AIRA confirms them.
  */
 
 const lastRefreshLabel = /Last:\s*(.+)/;
@@ -46,13 +46,13 @@ test("sending a suggestion to Boss persists through the server function", async 
   await expect(sendButton).toBeVisible();
   await sendButton.click();
 
-  // Toast confirms the write path completed (persisted or locally queued).
-  await expect(page.getByText(/Suggestion sent to Boss/i)).toBeVisible();
-
-  // The suggestion moves out of the pending list, so the count drops by one.
-  await expect(async () => {
-    expect(await page.getByRole("button", { name: /Send to Boss/i }).count()).toBeGreaterThanOrEqual(0);
-  }).toPass();
+  const seedMode = await page.getByText(/AIRA API offline/i).first().isVisible();
+  if (seedMode) {
+    await expect(page.getByText(/Suggestion was not sent/i)).toBeVisible();
+    await expect(sendButton).toBeVisible();
+  } else {
+    await expect(page.getByText(/Suggestion sent to Boss/i)).toBeVisible();
+  }
 });
 
 test("approvals section loads the Boss review queue", async ({ page }) => {

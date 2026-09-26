@@ -8,6 +8,8 @@ export const Route = createFileRoute("/ai-ceo/learning")({
       { name: "description", content: "AI memory and knowledge base: what the system has learned over time." },
       { property: "og:title", content: "System Learning Log — Software Vala" },
       { property: "og:description", content: "AI memory and knowledge base: what the system has learned over time." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary" },
     ],
   }),
   component: AICEOLearning,

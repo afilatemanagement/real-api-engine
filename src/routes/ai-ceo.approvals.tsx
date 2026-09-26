@@ -8,6 +8,8 @@ export const Route = createFileRoute("/ai-ceo/approvals")({
       { name: "description", content: "AI-generated approval recommendations awaiting executive review." },
       { property: "og:title", content: "Approval Suggestions — Software Vala" },
       { property: "og:description", content: "AI-generated approval recommendations awaiting executive review." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary" },
     ],
   }),
   component: AICEOApprovals,
