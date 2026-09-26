@@ -5,7 +5,7 @@ import { createThread } from "@/components/ai-ceo/chat/store";
 
 export const Route = createFileRoute("/ai-ceo/chat/")({
   validateSearch: (s: Record<string, unknown>): { context?: string } =>
-    typeof s.context === "string" && s.context ? { context: s.context.slice(0, 120) } : {},
+    typeof s['context'] === "string" && s['context'] ? { context: s['context'].slice(0, 120) } : {},
   head: () => ({
     meta: [
       { title: "Ask Founder AI — Software Vala" },
