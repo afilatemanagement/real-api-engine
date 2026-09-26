@@ -1,9 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Library } from "lucide-react";
-import { ModuleShell } from "@/components/ai-ceo/ModuleShell";
+import { CompanyBrain } from "@/components/ai-ceo/knowledge/CompanyBrain";
 
-// UI shell only — data source: COMPANY-BRAIN_API_REQUIRED (future phase).
-export const Route = createFileRoute("/ai-ceo/company-brain")({
+export const Route = createFileRoute("/ai-ceo/company-brain/")({
   head: () => ({
     meta: [
       { title: "Company Brain — Founder AI" },
@@ -14,5 +12,5 @@ export const Route = createFileRoute("/ai-ceo/company-brain")({
       { name: "twitter:card", content: "summary" },
     ],
   }),
-  component: () => <ModuleShell title="Company Brain" subtitle="Company knowledge, policies and operating context in one place." icon={Library} />,
+  component: CompanyBrain,
 });

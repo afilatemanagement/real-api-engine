@@ -1,7 +1,8 @@
+import { LearningIndex } from "@/components/ai-ceo/knowledge/LearningViews";
 import { createFileRoute } from "@tanstack/react-router";
 import AICEOLearning from "@/components/ai-ceo/sections/AICEOLearning";
 
-export const Route = createFileRoute("/ai-ceo/learning")({
+export const Route = createFileRoute("/ai-ceo/learning/")({
   head: () => ({
     meta: [
       { title: "System Learning Log — Software Vala" },
@@ -12,5 +13,5 @@ export const Route = createFileRoute("/ai-ceo/learning")({
       { name: "twitter:card", content: "summary" },
     ],
   }),
-  component: AICEOLearning,
+  component: () => (<><AICEOLearning /><LearningIndex /></>),
 });
