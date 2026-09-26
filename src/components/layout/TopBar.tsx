@@ -1,6 +1,8 @@
 import { Bell, Menu, Radio, Search, Settings, Shield } from "lucide-react";
 import { Link } from "@tanstack/react-router";
 import { CommandPalette } from "@/components/ai-ceo/CommandPalette";
+import { NotificationDrawer } from "@/components/ai-ceo/system/NotificationViews";
+import { useNotifications } from "@/components/ai-ceo/system/notifications";
 import { useCEOData } from "@/hooks/useCEOData";
 import { useState } from "react";
 
@@ -27,6 +29,8 @@ interface TopBarProps {
 
 export function TopBar({ onOpenMenu, streamingOn, onStreamingToggle }: TopBarProps) {
   const [paletteOpen, setPaletteOpen] = useState(false);
+  const [notifOpen, setNotifOpen] = useState(false);
+  const { unread } = useNotifications();
   const { isPersisted, isLoading } = useCEOData();
   const monitor = !streamingOn
     ? { label: "OFFLINE", hint: "Monitoring paused", cls: "border-destructive/40 bg-destructive/15 text-destructive" }
@@ -84,9 +88,10 @@ export function TopBar({ onOpenMenu, streamingOn, onStreamingToggle }: TopBarPro
 
           <Tooltip>
             <TooltipTrigger asChild>
-              <Link to="/ai-ceo/approvals" className={ICON_BTN} aria-label="Notifications">
+              <button onClick={() => setNotifOpen(true)} className={ICON_BTN} aria-label={`Notifications, ${unread} unread`}>
                 <Bell className="h-[18px] w-[18px]" />
-              </Link>
+                {unread > 0 && <span className="absolute -right-0.5 -top-0.5 grid h-4 min-w-4 place-items-center rounded-full bg-primary px-1 text-[9px] font-bold text-primary-foreground">{unread > 9 ? "9+" : unread}</span>}
+              </button>
             </TooltipTrigger>
             <TooltipContent side="bottom">Notifications</TooltipContent>
           </Tooltip>
@@ -111,6 +116,7 @@ export function TopBar({ onOpenMenu, streamingOn, onStreamingToggle }: TopBarPro
         </nav>
       </div>
       <CommandPalette open={paletteOpen} onOpenChange={setPaletteOpen} />
+      <NotificationDrawer open={notifOpen} onOpenChange={setNotifOpen} />
     </header>
   );
 }
