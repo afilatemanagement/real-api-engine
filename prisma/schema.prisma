@@ -12,14 +12,15 @@
 //
 // Endpoints consumed by src/lib/ceo-insights.functions.ts:
 //   GET   /ai-ceo/state            -> { suggestions: CeoSuggestion[], lastRefresh: string | null }
+//   GET   /ai-ceo/operational-data -> CEOOperationalData (validated aggregate from operational tables/views)
 //   POST  /ai-ceo/refresh          <- { lastRefresh }            -> { lastRefresh }
 //   GET   /ai-insights/boss-queue  -> { suggestions: CeoSuggestion[] }
 //   POST  /ai-insights             <- AiInsight row (snake_case)
 //   PATCH /ai-insights/:id         <- { status, is_acknowledged }
 //
 // TypeScript counterparts live in src/lib/ceo-types.ts
-// (CEOSuggestion, CEOState, AiInsightRecord, EcosystemMetrics,
-//  AIObservation, ActivityEvent). Keep both files updated together.
+// (CEOSuggestion, CEOState, AiInsightRecord, CEOOperationalData).
+// Keep both files and the external API response updated together.
 // ---------------------------------------------------------------------------
 
 generator client {
