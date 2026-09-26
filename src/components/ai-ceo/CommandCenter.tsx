@@ -57,11 +57,17 @@ export function CommandCenter() {
   const [attention, setAttention] = useState<AIObservation | null>(null);
   const [panelOpen, setPanelOpen] = useState(true);
   const [dismissed, setDismissed] = useState<string[]>([]);
+  const [narrow, setNarrow] = useState(false);
   const source = dataSourceStatus(isPersisted, "AIRA operational data");
 
   useEffect(() => {
     try { setPanelOpen(sessionStorage.getItem(PANEL_KEY) !== "0"); } catch { /* ignore */ }
-    if (window.matchMedia("(max-width: 1279px)").matches) setPanelOpen(false);
+    const mq = window.matchMedia("(max-width: 1279px)");
+    setNarrow(mq.matches);
+    if (mq.matches) setPanelOpen(false);
+    const onChange = () => setNarrow(mq.matches);
+    mq.addEventListener("change", onChange);
+    return () => mq.removeEventListener("change", onChange);
   }, []);
   const togglePanel = (next: boolean) => {
     setPanelOpen(next);
@@ -266,7 +272,7 @@ export function CommandCenter() {
           </section>
         </div>
 
-        {panelOpen && !isMobile && (
+        {panelOpen && !narrow && (
           <aside className="bento-card hidden h-fit p-5 xl:sticky xl:top-20 xl:block" aria-label="Context panel">
             <div className="mb-4 flex items-center justify-between">
               <h2 className="font-semibold">Context</h2>
@@ -278,7 +284,7 @@ export function CommandCenter() {
       </div>
 
       {/* Mobile / tablet context sheet */}
-      <Sheet open={panelOpen && typeof window !== "undefined" && window.innerWidth < 1280} onOpenChange={togglePanel}>
+      <Sheet open={panelOpen && narrow} onOpenChange={togglePanel}>
         <SheetContent side={isMobile ? "bottom" : "right"} className="max-h-[85vh] overflow-y-auto">
           <SheetHeader><SheetTitle>Context</SheetTitle><SheetDescription>Priorities, risks and decisions in view.</SheetDescription></SheetHeader>
           <div className="mt-4">{contextPanel}</div>
