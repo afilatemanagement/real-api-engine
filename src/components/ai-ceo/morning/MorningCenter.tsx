@@ -36,7 +36,7 @@ function useMorning() {
   return [s, set] as const;
 }
 const greeting = () => { const h = new Date().getHours(); return h < 12 ? "Good morning" : h < 17 ? "Good afternoon" : "Good evening"; };
-const Stat = ({ k, v, tone }: { k: string; v: number | string; tone?: string }) => (
+const Stat = ({ k, v, tone }: { k: string; v: number | string; tone?: string | undefined }) => (
   <div className="bento-card p-3"><p className={cn("text-xl font-semibold tabular-nums", tone)}>{v}</p><p className="text-[11px] text-muted-foreground">{k}</p></div>
 );
 
