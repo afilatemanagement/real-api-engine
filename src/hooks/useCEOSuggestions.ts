@@ -9,11 +9,10 @@ import {
   sendSuggestionToBoss,
 } from '@/lib/ceo-insights.functions';
 import {
-  generateActivityEvents,
-  generateEcosystemMetrics,
-  generateObservations,
+  CEO_SEED_DATA,
   generateSeedSuggestions,
 } from '@/lib/ceo-seed';
+import { loadCEOOperationalData } from '@/lib/ceo-data.functions';
 import type {
   ActivityEvent,
   AIObservation,
@@ -41,16 +40,17 @@ export function useCEOSuggestions() {
     let cancelled = false;
 
     (async () => {
-      const state = await loadCeoState();
+      const [state, operational] = await Promise.all([loadCeoState(), loadCEOOperationalData()]);
       if (cancelled) return;
 
-      setIsPersisted(state.persisted);
+      setIsPersisted(state.persisted && operational.persisted);
       setSuggestions(
         state.persisted && state.suggestions.length ? state.suggestions : generateSeedSuggestions(),
       );
-      setEcosystemMetrics(generateEcosystemMetrics());
-      setObservations(generateObservations());
-      setActivityEvents(generateActivityEvents());
+      const data = operational.persisted && operational.data ? operational.data : CEO_SEED_DATA;
+      setEcosystemMetrics(data.metrics);
+      setObservations(data.observations);
+      setActivityEvents(data.activityEvents);
       setIsLoading(false);
 
       // Persist and reuse the refresh timestamp so it survives reloads
@@ -68,7 +68,6 @@ export function useCEOSuggestions() {
   // Auto-refresh ecosystem metrics every 30 seconds and persist the timestamp
   useEffect(() => {
     const interval = setInterval(() => {
-      setEcosystemMetrics(generateEcosystemMetrics());
       const at = new Date().toISOString();
       void recordRefresh({ data: { at } }).then((result) => {
         setLastRefresh(new Date(result.persisted ? result.lastRefresh : at));
