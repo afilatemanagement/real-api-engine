@@ -1,0 +1,191 @@
+// ---------------------------------------------------------------------------
+// READ-ONLY REFERENCE SCHEMA — DOCUMENTATION ONLY. DO NOT RUN AGAINST THIS APP.
+// ---------------------------------------------------------------------------
+// Prisma cannot execute inside this app's edge server runtime, so this file is
+// never generated, migrated, or imported by the application. It exists to
+// document the PostgreSQL models that the EXTERNAL Prisma-backed AIRA API is
+// expected to expose, so the two sides stay in sync.
+//
+// The app talks to that API over HTTP (see src/lib/aira-api.server.ts):
+//   AIRA_API_URL    e.g. https://api.softwarevala.com
+//   AIRA_API_TOKEN  service token sent as `Authorization: Bearer …`
+//
+// Endpoints consumed by src/lib/ceo-insights.functions.ts:
+//   GET   /ai-ceo/state            -> { suggestions: CeoSuggestion[], lastRefresh: string | null }
+//   POST  /ai-ceo/refresh          <- { lastRefresh }            -> { lastRefresh }
+//   GET   /ai-insights/boss-queue  -> { suggestions: CeoSuggestion[] }
+//   POST  /ai-insights             <- AiInsight row (snake_case)
+//   PATCH /ai-insights/:id         <- { status, is_acknowledged }
+//
+// TypeScript counterparts live in src/lib/ceo-types.ts
+// (CEOSuggestion, CEOState, AiInsightRecord, EcosystemMetrics,
+//  AIObservation, ActivityEvent). Keep both files updated together.
+// ---------------------------------------------------------------------------
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL") // set on the external API host, not in this app
+}
+
+// --- Enums -----------------------------------------------------------------
+
+enum SuggestionType {
+  growth
+  risk
+  cost
+  efficiency
+  product
+  compliance
+}
+
+enum ImpactLevel {
+  high
+  medium
+  low
+}
+
+enum SuggestionStatus {
+  pending
+  approved
+  rejected
+  reviewed
+}
+
+enum SuggestionSource {
+  AI_CEO    @map("AI-CEO")
+  System
+  Analytics
+}
+
+enum ObservationCategory {
+  change
+  attention
+  revenue
+}
+
+enum ObservationSeverity {
+  info
+  warning
+  critical
+}
+
+enum ActivityType {
+  risk
+  revenue
+  operations
+  security
+  compliance
+}
+
+enum ActivityImpact {
+  positive
+  negative
+  neutral
+}
+
+// --- Models ----------------------------------------------------------------
+
+/// Maps to CEOSuggestion. Served by GET /ai-ceo/state.
+model CeoSuggestion {
+  id          String           @id @default(uuid())
+  type        SuggestionType
+  title       String
+  description String
+  /// 0-100 confidence produced by the AI CEO engine.
+  confidence  Int
+  impact      ImpactLevel
+  impactArea  String           @map("impact_area")
+  status      SuggestionStatus @default(pending)
+  source      SuggestionSource @default(AI_CEO)
+  createdAt   DateTime         @default(now()) @map("created_at")
+  updatedAt   DateTime         @updatedAt @map("updated_at")
+
+  /// Set when the suggestion has been pushed to the Boss approval queue.
+  insight AiInsight?
+
+  @@index([status, createdAt])
+  @@map("ceo_suggestions")
+}
+
+/// Maps to AiInsightRecord — the Boss approval queue.
+/// POST /ai-insights creates a row; PATCH /ai-insights/:id resolves it.
+model AiInsight {
+  id              String           @id @default(uuid())
+  issueDetected   String           @map("issue_detected")
+  suggestedAction String           @map("suggested_action")
+  confidenceScore Int              @map("confidence_score")
+  /// Business area the insight applies to (mirrors CEOSuggestion.impactArea).
+  scope           String
+  /// Narrower value within the scope (mirrors CEOSuggestion.type).
+  scopeValue      String           @map("scope_value")
+  /// Role expected to act on this insight, e.g. "boss_owner".
+  relatedRole     String           @map("related_role")
+  isAcknowledged  Boolean          @default(false) @map("is_acknowledged")
+  status          SuggestionStatus @default(pending)
+  createdAt       DateTime         @default(now()) @map("created_at")
+  updatedAt       DateTime         @updatedAt @map("updated_at")
+
+  suggestionId String?        @unique @map("suggestion_id")
+  suggestion   CeoSuggestion? @relation(fields: [suggestionId], references: [id], onDelete: SetNull)
+
+  @@index([relatedRole, isAcknowledged])
+  @@map("ai_insights")
+}
+
+/// Single-row-per-scope state for the dashboard. Backs `lastRefresh` in
+/// CEOState: read by GET /ai-ceo/state, written by POST /ai-ceo/refresh.
+model CeoDashboardState {
+  /// Stable key, e.g. "default" — one row per tenant/workspace.
+  scope       String   @id
+  lastRefresh DateTime @map("last_refresh")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  @@map("ceo_dashboard_state")
+}
+
+/// Maps to EcosystemMetrics — time series behind the KPI tiles.
+model EcosystemMetricSnapshot {
+  id                 String   @id @default(uuid())
+  systemActivityRate Float    @map("system_activity_rate")
+  deploymentFrequency Float   @map("deployment_frequency")
+  errorVelocity      Float    @map("error_velocity")
+  activeUsers        Int      @map("active_users")
+  transactionsToday  Int      @map("transactions_today")
+  /// API latency in milliseconds.
+  apiLatency         Int      @map("api_latency")
+  capturedAt         DateTime @default(now()) @map("captured_at")
+
+  @@index([capturedAt])
+  @@map("ecosystem_metric_snapshots")
+}
+
+/// Maps to AIObservation — the AI CEO observation feed.
+model AiObservation {
+  id        String              @id @default(uuid())
+  category  ObservationCategory
+  title     String
+  detail    String
+  severity  ObservationSeverity @default(info)
+  timestamp DateTime            @default(now())
+
+  @@index([severity, timestamp])
+  @@map("ai_observations")
+}
+
+/// Maps to ActivityEvent — the live action monitor stream.
+model ActivityEvent {
+  id        String         @id @default(uuid())
+  type      ActivityType
+  actor     String
+  action    String
+  target    String
+  impact    ActivityImpact @default(neutral)
+  timestamp DateTime       @default(now())
+
+  @@index([type, timestamp])
+  @@map("activity_events")
+}
