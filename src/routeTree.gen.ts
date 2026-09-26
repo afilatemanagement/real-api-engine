@@ -15,8 +15,16 @@ import { Route as OwnerRouteImport } from './routes/owner'
 import { Route as SoftwarewalaRouteImport } from './routes/softwarewala'
 import { Route as AiCeoIndexRouteImport } from './routes/ai-ceo.index'
 import { Route as AiCeoActivityRouteImport } from './routes/ai-ceo.activity'
+import { Route as AiCeoCollaborationRouteImport } from './routes/ai-ceo.collaboration'
+import { Route as AiCeoEvaluationRouteImport } from './routes/ai-ceo.evaluation'
+import { Route as AiCeoFilesRouteImport } from './routes/ai-ceo.files'
+import { Route as AiCeoHelpRouteImport } from './routes/ai-ceo.help'
 import { Route as AiCeoLiveMonitorRouteImport } from './routes/ai-ceo.live-monitor'
+import { Route as AiCeoNotificationsRouteImport } from './routes/ai-ceo.notifications'
+import { Route as AiCeoSecurityRouteImport } from './routes/ai-ceo.security'
 import { Route as AiCeoSettingsRouteImport } from './routes/ai-ceo.settings'
+import { Route as AiCeoStatusRouteImport } from './routes/ai-ceo.status'
+import { Route as AiCeoUsageRouteImport } from './routes/ai-ceo.usage'
 import { Route as ApiCeoBriefRouteImport } from './routes/api/ceo-brief'
 import { Route as AiCeoAgentsIndexRouteImport } from './routes/ai-ceo.agents.index'
 import { Route as AiCeoAgentsAgentIdRouteImport } from './routes/ai-ceo.agents.$agentId'
@@ -78,14 +86,54 @@ const AiCeoActivityRoute = AiCeoActivityRouteImport.update({
   path: '/activity',
   getParentRoute: () => AiCeoRoute,
 } as any)
+const AiCeoCollaborationRoute = AiCeoCollaborationRouteImport.update({
+  id: '/collaboration',
+  path: '/collaboration',
+  getParentRoute: () => AiCeoRoute,
+} as any)
+const AiCeoEvaluationRoute = AiCeoEvaluationRouteImport.update({
+  id: '/evaluation',
+  path: '/evaluation',
+  getParentRoute: () => AiCeoRoute,
+} as any)
+const AiCeoFilesRoute = AiCeoFilesRouteImport.update({
+  id: '/files',
+  path: '/files',
+  getParentRoute: () => AiCeoRoute,
+} as any)
+const AiCeoHelpRoute = AiCeoHelpRouteImport.update({
+  id: '/help',
+  path: '/help',
+  getParentRoute: () => AiCeoRoute,
+} as any)
 const AiCeoLiveMonitorRoute = AiCeoLiveMonitorRouteImport.update({
   id: '/live-monitor',
   path: '/live-monitor',
   getParentRoute: () => AiCeoRoute,
 } as any)
+const AiCeoNotificationsRoute = AiCeoNotificationsRouteImport.update({
+  id: '/notifications',
+  path: '/notifications',
+  getParentRoute: () => AiCeoRoute,
+} as any)
+const AiCeoSecurityRoute = AiCeoSecurityRouteImport.update({
+  id: '/security',
+  path: '/security',
+  getParentRoute: () => AiCeoRoute,
+} as any)
 const AiCeoSettingsRoute = AiCeoSettingsRouteImport.update({
   id: '/settings',
   path: '/settings',
+  getParentRoute: () => AiCeoRoute,
+} as any)
+const AiCeoStatusRoute = AiCeoStatusRouteImport.update({
+  id: '/status',
+  path: '/status',
+  getParentRoute: () => AiCeoRoute,
+} as any)
+const AiCeoUsageRoute = AiCeoUsageRouteImport.update({
+  id: '/usage',
+  path: '/usage',
   getParentRoute: () => AiCeoRoute,
 } as any)
 const ApiCeoBriefRoute = ApiCeoBriefRouteImport.update({
@@ -248,8 +296,16 @@ export interface FileRoutesByFullPath {
   '/owner': typeof OwnerRoute
   '/softwarewala': typeof SoftwarewalaRoute
   '/ai-ceo/activity': typeof AiCeoActivityRoute
+  '/ai-ceo/collaboration': typeof AiCeoCollaborationRoute
+  '/ai-ceo/evaluation': typeof AiCeoEvaluationRoute
+  '/ai-ceo/files': typeof AiCeoFilesRoute
+  '/ai-ceo/help': typeof AiCeoHelpRoute
   '/ai-ceo/live-monitor': typeof AiCeoLiveMonitorRoute
+  '/ai-ceo/notifications': typeof AiCeoNotificationsRoute
+  '/ai-ceo/security': typeof AiCeoSecurityRoute
   '/ai-ceo/settings': typeof AiCeoSettingsRoute
+  '/ai-ceo/status': typeof AiCeoStatusRoute
+  '/ai-ceo/usage': typeof AiCeoUsageRoute
   '/api/ceo-brief': typeof ApiCeoBriefRoute
   '/ai-ceo/': typeof AiCeoIndexRoute
   '/ai-ceo/agents/$agentId': typeof AiCeoAgentsAgentIdRoute
@@ -287,8 +343,16 @@ export interface FileRoutesByTo {
   '/owner': typeof OwnerRoute
   '/softwarewala': typeof SoftwarewalaRoute
   '/ai-ceo/activity': typeof AiCeoActivityRoute
+  '/ai-ceo/collaboration': typeof AiCeoCollaborationRoute
+  '/ai-ceo/evaluation': typeof AiCeoEvaluationRoute
+  '/ai-ceo/files': typeof AiCeoFilesRoute
+  '/ai-ceo/help': typeof AiCeoHelpRoute
   '/ai-ceo/live-monitor': typeof AiCeoLiveMonitorRoute
+  '/ai-ceo/notifications': typeof AiCeoNotificationsRoute
+  '/ai-ceo/security': typeof AiCeoSecurityRoute
   '/ai-ceo/settings': typeof AiCeoSettingsRoute
+  '/ai-ceo/status': typeof AiCeoStatusRoute
+  '/ai-ceo/usage': typeof AiCeoUsageRoute
   '/api/ceo-brief': typeof ApiCeoBriefRoute
   '/ai-ceo': typeof AiCeoIndexRoute
   '/ai-ceo/agents/$agentId': typeof AiCeoAgentsAgentIdRoute
@@ -328,8 +392,16 @@ export interface FileRoutesById {
   '/owner': typeof OwnerRoute
   '/softwarewala': typeof SoftwarewalaRoute
   '/ai-ceo/activity': typeof AiCeoActivityRoute
+  '/ai-ceo/collaboration': typeof AiCeoCollaborationRoute
+  '/ai-ceo/evaluation': typeof AiCeoEvaluationRoute
+  '/ai-ceo/files': typeof AiCeoFilesRoute
+  '/ai-ceo/help': typeof AiCeoHelpRoute
   '/ai-ceo/live-monitor': typeof AiCeoLiveMonitorRoute
+  '/ai-ceo/notifications': typeof AiCeoNotificationsRoute
+  '/ai-ceo/security': typeof AiCeoSecurityRoute
   '/ai-ceo/settings': typeof AiCeoSettingsRoute
+  '/ai-ceo/status': typeof AiCeoStatusRoute
+  '/ai-ceo/usage': typeof AiCeoUsageRoute
   '/api/ceo-brief': typeof ApiCeoBriefRoute
   '/ai-ceo/': typeof AiCeoIndexRoute
   '/ai-ceo/agents/$agentId': typeof AiCeoAgentsAgentIdRoute
@@ -370,8 +442,16 @@ export interface FileRouteTypes {
     | '/owner'
     | '/softwarewala'
     | '/ai-ceo/activity'
+    | '/ai-ceo/collaboration'
+    | '/ai-ceo/evaluation'
+    | '/ai-ceo/files'
+    | '/ai-ceo/help'
     | '/ai-ceo/live-monitor'
+    | '/ai-ceo/notifications'
+    | '/ai-ceo/security'
     | '/ai-ceo/settings'
+    | '/ai-ceo/status'
+    | '/ai-ceo/usage'
     | '/api/ceo-brief'
     | '/ai-ceo/'
     | '/ai-ceo/agents/$agentId'
@@ -409,8 +489,16 @@ export interface FileRouteTypes {
     | '/owner'
     | '/softwarewala'
     | '/ai-ceo/activity'
+    | '/ai-ceo/collaboration'
+    | '/ai-ceo/evaluation'
+    | '/ai-ceo/files'
+    | '/ai-ceo/help'
     | '/ai-ceo/live-monitor'
+    | '/ai-ceo/notifications'
+    | '/ai-ceo/security'
     | '/ai-ceo/settings'
+    | '/ai-ceo/status'
+    | '/ai-ceo/usage'
     | '/api/ceo-brief'
     | '/ai-ceo'
     | '/ai-ceo/agents/$agentId'
@@ -449,8 +537,16 @@ export interface FileRouteTypes {
     | '/owner'
     | '/softwarewala'
     | '/ai-ceo/activity'
+    | '/ai-ceo/collaboration'
+    | '/ai-ceo/evaluation'
+    | '/ai-ceo/files'
+    | '/ai-ceo/help'
     | '/ai-ceo/live-monitor'
+    | '/ai-ceo/notifications'
+    | '/ai-ceo/security'
     | '/ai-ceo/settings'
+    | '/ai-ceo/status'
+    | '/ai-ceo/usage'
     | '/api/ceo-brief'
     | '/ai-ceo/'
     | '/ai-ceo/agents/$agentId'
@@ -536,6 +632,34 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AiCeoActivityRouteImport
       parentRoute: typeof AiCeoRoute
     }
+    '/ai-ceo/collaboration': {
+      id: '/ai-ceo/collaboration'
+      path: '/collaboration'
+      fullPath: '/ai-ceo/collaboration'
+      preLoaderRoute: typeof AiCeoCollaborationRouteImport
+      parentRoute: typeof AiCeoRoute
+    }
+    '/ai-ceo/evaluation': {
+      id: '/ai-ceo/evaluation'
+      path: '/evaluation'
+      fullPath: '/ai-ceo/evaluation'
+      preLoaderRoute: typeof AiCeoEvaluationRouteImport
+      parentRoute: typeof AiCeoRoute
+    }
+    '/ai-ceo/files': {
+      id: '/ai-ceo/files'
+      path: '/files'
+      fullPath: '/ai-ceo/files'
+      preLoaderRoute: typeof AiCeoFilesRouteImport
+      parentRoute: typeof AiCeoRoute
+    }
+    '/ai-ceo/help': {
+      id: '/ai-ceo/help'
+      path: '/help'
+      fullPath: '/ai-ceo/help'
+      preLoaderRoute: typeof AiCeoHelpRouteImport
+      parentRoute: typeof AiCeoRoute
+    }
     '/ai-ceo/live-monitor': {
       id: '/ai-ceo/live-monitor'
       path: '/live-monitor'
@@ -543,11 +667,39 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AiCeoLiveMonitorRouteImport
       parentRoute: typeof AiCeoRoute
     }
+    '/ai-ceo/notifications': {
+      id: '/ai-ceo/notifications'
+      path: '/notifications'
+      fullPath: '/ai-ceo/notifications'
+      preLoaderRoute: typeof AiCeoNotificationsRouteImport
+      parentRoute: typeof AiCeoRoute
+    }
+    '/ai-ceo/security': {
+      id: '/ai-ceo/security'
+      path: '/security'
+      fullPath: '/ai-ceo/security'
+      preLoaderRoute: typeof AiCeoSecurityRouteImport
+      parentRoute: typeof AiCeoRoute
+    }
     '/ai-ceo/settings': {
       id: '/ai-ceo/settings'
       path: '/settings'
       fullPath: '/ai-ceo/settings'
       preLoaderRoute: typeof AiCeoSettingsRouteImport
+      parentRoute: typeof AiCeoRoute
+    }
+    '/ai-ceo/status': {
+      id: '/ai-ceo/status'
+      path: '/status'
+      fullPath: '/ai-ceo/status'
+      preLoaderRoute: typeof AiCeoStatusRouteImport
+      parentRoute: typeof AiCeoRoute
+    }
+    '/ai-ceo/usage': {
+      id: '/ai-ceo/usage'
+      path: '/usage'
+      fullPath: '/ai-ceo/usage'
+      preLoaderRoute: typeof AiCeoUsageRouteImport
       parentRoute: typeof AiCeoRoute
     }
     '/api/ceo-brief': {
@@ -765,8 +917,16 @@ declare module '@tanstack/react-router' {
 
 interface AiCeoRouteChildren {
   AiCeoActivityRoute: typeof AiCeoActivityRoute
+  AiCeoCollaborationRoute: typeof AiCeoCollaborationRoute
+  AiCeoEvaluationRoute: typeof AiCeoEvaluationRoute
+  AiCeoFilesRoute: typeof AiCeoFilesRoute
+  AiCeoHelpRoute: typeof AiCeoHelpRoute
   AiCeoLiveMonitorRoute: typeof AiCeoLiveMonitorRoute
+  AiCeoNotificationsRoute: typeof AiCeoNotificationsRoute
+  AiCeoSecurityRoute: typeof AiCeoSecurityRoute
   AiCeoSettingsRoute: typeof AiCeoSettingsRoute
+  AiCeoStatusRoute: typeof AiCeoStatusRoute
+  AiCeoUsageRoute: typeof AiCeoUsageRoute
   AiCeoIndexRoute: typeof AiCeoIndexRoute
   AiCeoAgentsAgentIdRoute: typeof AiCeoAgentsAgentIdRoute
   AiCeoApprovalsIdRoute: typeof AiCeoApprovalsIdRoute
@@ -801,8 +961,16 @@ interface AiCeoRouteChildren {
 
 const AiCeoRouteChildren: AiCeoRouteChildren = {
   AiCeoActivityRoute: AiCeoActivityRoute,
+  AiCeoCollaborationRoute: AiCeoCollaborationRoute,
+  AiCeoEvaluationRoute: AiCeoEvaluationRoute,
+  AiCeoFilesRoute: AiCeoFilesRoute,
+  AiCeoHelpRoute: AiCeoHelpRoute,
   AiCeoLiveMonitorRoute: AiCeoLiveMonitorRoute,
+  AiCeoNotificationsRoute: AiCeoNotificationsRoute,
+  AiCeoSecurityRoute: AiCeoSecurityRoute,
   AiCeoSettingsRoute: AiCeoSettingsRoute,
+  AiCeoStatusRoute: AiCeoStatusRoute,
+  AiCeoUsageRoute: AiCeoUsageRoute,
   AiCeoIndexRoute: AiCeoIndexRoute,
   AiCeoAgentsAgentIdRoute: AiCeoAgentsAgentIdRoute,
   AiCeoApprovalsIdRoute: AiCeoApprovalsIdRoute,
