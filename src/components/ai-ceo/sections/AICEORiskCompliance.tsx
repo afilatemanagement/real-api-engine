@@ -14,69 +14,10 @@ import {
   Clock,
   CheckCircle
 } from "lucide-react";
+import { useCEOData } from "@/hooks/useCEOData";
+import { dataSourceStatus } from "@/components/ai-ceo/DataSourceStatus";
 
-// Mock risk data
-const riskCategories = [
-  { 
-    id: 1, 
-    category: "Security Risk", 
-    level: "medium",
-    score: 45,
-    issues: 3,
-    trend: "stable",
-    icon: Shield
-  },
-  { 
-    id: 2, 
-    category: "Legal Risk", 
-    level: "low",
-    score: 18,
-    issues: 1,
-    trend: "improving",
-    icon: FileWarning
-  },
-  { 
-    id: 3, 
-    category: "Financial Exposure", 
-    level: "high",
-    score: 72,
-    issues: 5,
-    trend: "worsening",
-    icon: DollarSign
-  },
-  { 
-    id: 4, 
-    category: "SLA Breach", 
-    level: "low",
-    score: 12,
-    issues: 0,
-    trend: "stable",
-    icon: Clock
-  },
-  { 
-    id: 5, 
-    category: "Policy Violation", 
-    level: "medium",
-    score: 38,
-    issues: 2,
-    trend: "improving",
-    icon: Lock
-  },
-];
-
-const complianceItems = [
-  { id: 1, policy: "Data Protection (GDPR)", status: "compliant", lastAudit: "2 days ago" },
-  { id: 2, policy: "Financial Regulations", status: "warning", lastAudit: "1 week ago" },
-  { id: 3, policy: "User Privacy Policy", status: "compliant", lastAudit: "3 days ago" },
-  { id: 4, policy: "Access Control Policy", status: "compliant", lastAudit: "Today" },
-  { id: 5, policy: "Incident Response Plan", status: "review", lastAudit: "2 weeks ago" },
-];
-
-const preventiveSuggestions = [
-  "Implement additional MFA for high-value transactions",
-  "Review franchise payment thresholds - potential over-limit patterns detected",
-  "Schedule security audit for APAC region servers",
-];
+const riskIcons = { shield: Shield, file: FileWarning, money: DollarSign, clock: Clock, lock: Lock };
 
 const getLevelStyle = (level: string) => {
   switch (level) {
@@ -97,19 +38,22 @@ const getStatusStyle = (status: string) => {
 };
 
 const AICEORiskCompliance = () => {
+  const { data, isPersisted } = useCEOData();
+  const { riskCategories, complianceItems, preventiveSuggestions } = data;
   return (
     <PageShell>
       <PageBanner
         icon={ShieldAlert}
         title="Risk & Compliance"
         subtitle="Fraud detection, anomaly flagging and compliance posture across the ecosystem."
-        status="Monitoring 24/7"
+        status={dataSourceStatus(isPersisted, "risk monitoring")}
       />
 
       {/* Risk Categories Grid */}
       <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 sm:gap-4">
         {riskCategories.map((risk, i) => {
           const style = getLevelStyle(risk.level);
+          const RiskIcon = riskIcons[risk.icon];
           return (
             <motion.div
               key={risk.id}
@@ -120,7 +64,7 @@ const AICEORiskCompliance = () => {
               <Card className={`bg-card ${style.border} backdrop-blur-xl`}>
                 <CardContent className="p-4">
                   <div className="flex items-center gap-2 mb-3">
-                    <risk.icon className={`w-5 h-5 ${style.text}`} />
+                    <RiskIcon className={`w-5 h-5 ${style.text}`} />
                     <Badge className={`${style.bg} ${style.text} text-xs`}>
                       {risk.level}
                     </Badge>

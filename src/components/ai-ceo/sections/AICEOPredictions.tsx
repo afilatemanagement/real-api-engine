@@ -15,73 +15,10 @@ import {
   Server,
   Zap
 } from "lucide-react";
+import { useCEOData } from "@/hooks/useCEOData";
+import { dataSourceStatus } from "@/components/ai-ceo/DataSourceStatus";
 
-// Mock prediction data
-const predictions = [
-  {
-    id: 1,
-    title: "Revenue Growth Expected",
-    type: "positive",
-    timeline: "Next 7 days",
-    confidence: 89,
-    detail: "Based on current lead pipeline and conversion rates, expect 15% revenue increase",
-    icon: DollarSign
-  },
-  {
-    id: 2,
-    title: "System Overload Risk",
-    type: "warning",
-    timeline: "Next 30 days",
-    confidence: 72,
-    detail: "Traffic patterns suggest server capacity may reach 85% during peak hours",
-    icon: Server
-  },
-  {
-    id: 3,
-    title: "Staff Burnout Detected",
-    type: "negative",
-    timeline: "Next quarter",
-    confidence: 68,
-    detail: "Support team overtime hours trending 40% above healthy threshold",
-    icon: Users
-  },
-  {
-    id: 4,
-    title: "High-Risk Deal Identified",
-    type: "warning",
-    timeline: "Next 7 days",
-    confidence: 81,
-    detail: "Client #456 showing payment delay patterns similar to past defaults",
-    icon: AlertTriangle
-  },
-  {
-    id: 5,
-    title: "Feature Adoption Surge",
-    type: "positive",
-    timeline: "Next 30 days",
-    confidence: 85,
-    detail: "New reporting module adoption trending 3x higher than projected",
-    icon: Zap
-  },
-];
-
-const timelineData = {
-  sevenDays: [
-    { label: "Revenue", prediction: "+12%", confidence: 89 },
-    { label: "New Leads", prediction: "+45", confidence: 78 },
-    { label: "Support Load", prediction: "Normal", confidence: 92 },
-  ],
-  thirtyDays: [
-    { label: "Churn Risk", prediction: "2 clients", confidence: 71 },
-    { label: "Expansion", prediction: "3 regions", confidence: 65 },
-    { label: "Hiring Need", prediction: "+5 support", confidence: 82 },
-  ],
-  quarter: [
-    { label: "Market Share", prediction: "+2.3%", confidence: 58 },
-    { label: "Infrastructure", prediction: "Upgrade needed", confidence: 76 },
-    { label: "Compliance", prediction: "Audit due", confidence: 95 },
-  ],
-};
+const predictionIcons = { money: DollarSign, server: Server, users: Users, warning: AlertTriangle, zap: Zap };
 
 const getTypeStyle = (type: string) => {
   switch (type) {
@@ -93,13 +30,16 @@ const getTypeStyle = (type: string) => {
 };
 
 const AICEOPredictions = () => {
+  const { data, isPersisted } = useCEOData();
+  const predictions = data.predictions;
+  const timelineData = data.timelinePredictions;
   return (
     <PageShell>
       <PageBanner
         icon={Lightbulb}
         title="Predictive Insights"
         subtitle="Forward-looking forecasts, opportunity detection and risk projections from the AI models."
-        status="Forecast horizon · 90 days"
+        status={dataSourceStatus(isPersisted, "90-day forecast")}
       />
 
       {/* Timeline Predictions */}
@@ -150,6 +90,7 @@ const AICEOPredictions = () => {
             <div className="space-y-4">
               {predictions.map((prediction, i) => {
                 const style = getTypeStyle(prediction.type);
+                const PredictionIcon = predictionIcons[prediction.icon];
                 return (
                   <motion.div
                     key={prediction.id}
@@ -161,7 +102,7 @@ const AICEOPredictions = () => {
                     <div className="flex items-start justify-between mb-3">
                       <div className="flex items-start gap-4">
                         <div className={`w-12 h-12 rounded-xl ${style.bg} flex items-center justify-center`}>
-                          <prediction.icon className={`w-6 h-6 ${style.text}`} />
+                          <PredictionIcon className={`w-6 h-6 ${style.text}`} />
                         </div>
                         <div>
                           <h3 className="font-medium text-foreground">{prediction.title}</h3>

@@ -13,60 +13,27 @@ import {
   Clock,
   Globe
 } from "lucide-react";
+import { useCEOData } from "@/hooks/useCEOData";
+import { dataSourceStatus } from "@/components/ai-ceo/DataSourceStatus";
 
-// Read-only settings display
-const settingsConfig = [
-  {
-    category: "Monitoring",
-    icon: Eye,
-    settings: [
-      { label: "Real-time action monitoring", value: true, locked: true },
-      { label: "Risk detection alerts", value: true, locked: true },
-      { label: "Performance tracking", value: true, locked: true },
-    ]
-  },
-  {
-    category: "Notifications",
-    icon: Bell,
-    settings: [
-      { label: "Daily summary to Boss", value: true, locked: true },
-      { label: "Weekly report to CEO", value: true, locked: true },
-      { label: "Critical alerts immediate", value: true, locked: true },
-    ]
-  },
-  {
-    category: "Security",
-    icon: Shield,
-    settings: [
-      { label: "Fraud detection enabled", value: true, locked: true },
-      { label: "Anomaly flagging", value: true, locked: true },
-      { label: "Audit logging", value: true, locked: true },
-    ]
-  },
-  {
-    category: "System",
-    icon: Globe,
-    settings: [
-      { label: "24/7 active mode", value: true, locked: true },
-      { label: "Auto-learning enabled", value: true, locked: true },
-      { label: "Multi-region monitoring", value: true, locked: true },
-    ]
-  },
-];
+const settingIcons = { eye: Eye, bell: Bell, shield: Shield, globe: Globe };
 
 const AICEOSettings = () => {
+  const { data, isPersisted } = useCEOData();
+  const settingsConfig = data.settings;
   return (
     <PageShell>
       <PageBanner
         icon={Settings}
         title="Settings"
         subtitle="AI CEO configuration surface — read-only, controlled by the system owner."
-        status="Read-only mode"
+        status={dataSourceStatus(isPersisted, "read-only settings")}
       />
 
       {/* Settings Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
         {settingsConfig.map((category, i) => (
+          (() => { const CategoryIcon = settingIcons[category.icon]; return (
           <motion.div
             key={category.category}
             initial={{ opacity: 0, y: 20 }}
@@ -76,7 +43,7 @@ const AICEOSettings = () => {
             <Card className="card3d premium-halo hover-lift shimmer-sweep enter-soft rounded-2xl">
               <CardHeader>
                 <CardTitle className="text-foreground flex items-center gap-2">
-                  <category.icon className="w-5 h-5 text-primary-glow" />
+                  <CategoryIcon className="w-5 h-5 text-primary-glow" />
                   {category.category}
                 </CardTitle>
               </CardHeader>
@@ -102,6 +69,7 @@ const AICEOSettings = () => {
               </CardContent>
             </Card>
           </motion.div>
+          ); })()
         ))}
       </div>
 
@@ -117,15 +85,15 @@ const AICEOSettings = () => {
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4">
             <div className="p-4 rounded-lg bg-surface border border-border">
               <p className="text-xs text-muted-foreground mb-1">AI Version</p>
-              <p className="text-lg font-bold text-foreground">v2.0.4</p>
+              <p className="text-lg font-bold text-foreground">{data.systemInfo.aiVersion}</p>
             </div>
             <div className="p-4 rounded-lg bg-surface border border-border">
               <p className="text-xs text-muted-foreground mb-1">Model Version</p>
-              <p className="text-lg font-bold text-foreground">ML-3.2</p>
+              <p className="text-lg font-bold text-foreground">{data.systemInfo.modelVersion}</p>
             </div>
             <div className="p-4 rounded-lg bg-surface border border-border">
               <p className="text-xs text-muted-foreground mb-1">Last Training</p>
-              <p className="text-lg font-bold text-foreground">2 days ago</p>
+              <p className="text-lg font-bold text-foreground">{data.systemInfo.lastTraining}</p>
             </div>
           </div>
         </CardContent>
