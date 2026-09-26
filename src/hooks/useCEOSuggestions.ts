@@ -9,24 +9,22 @@ import {
   sendSuggestionToBoss,
 } from '@/lib/ceo-insights.functions';
 import {
-  generateActivityEvents,
-  generateEcosystemMetrics,
-  generateObservations,
+  CEO_SEED_DATA,
   generateSeedSuggestions,
 } from '@/lib/ceo-seed';
+import { loadCEOOperationalData } from '@/lib/ceo-data.functions';
 import type {
   ActivityEvent,
   AIObservation,
   CEOSuggestion,
   EcosystemMetrics,
 } from '@/lib/ceo-types';
+import { useCEOStreaming } from '@/components/ai-ceo/CEOStreamingContext';
 
 export type { ActivityEvent, AIObservation, CEOSuggestion, EcosystemMetrics };
 
-// Fallback Boss review queue, used only while the Prisma API is unreachable
-const localBossQueue = new Map<string, CEOSuggestion>();
-
 export function useCEOSuggestions() {
+  const { streamingOn } = useCEOStreaming();
   const [suggestions, setSuggestions] = useState<CEOSuggestion[]>([]);
   const [ecosystemMetrics, setEcosystemMetrics] = useState<EcosystemMetrics | null>(null);
   const [observations, setObservations] = useState<AIObservation[]>([]);
@@ -41,16 +39,17 @@ export function useCEOSuggestions() {
     let cancelled = false;
 
     (async () => {
-      const state = await loadCeoState();
+      const [state, operational] = await Promise.all([loadCeoState(), loadCEOOperationalData()]);
       if (cancelled) return;
 
-      setIsPersisted(state.persisted);
+      setIsPersisted(state.persisted && operational.persisted);
       setSuggestions(
         state.persisted && state.suggestions.length ? state.suggestions : generateSeedSuggestions(),
       );
-      setEcosystemMetrics(generateEcosystemMetrics());
-      setObservations(generateObservations());
-      setActivityEvents(generateActivityEvents());
+      const data = operational.persisted && operational.data ? operational.data : CEO_SEED_DATA;
+      setEcosystemMetrics(data.metrics);
+      setObservations(data.observations);
+      setActivityEvents(data.activityEvents);
       setIsLoading(false);
 
       // Persist and reuse the refresh timestamp so it survives reloads
@@ -67,8 +66,8 @@ export function useCEOSuggestions() {
 
   // Auto-refresh ecosystem metrics every 30 seconds and persist the timestamp
   useEffect(() => {
+    if (!streamingOn) return;
     const interval = setInterval(() => {
-      setEcosystemMetrics(generateEcosystemMetrics());
       const at = new Date().toISOString();
       void recordRefresh({ data: { at } }).then((result) => {
         setLastRefresh(new Date(result.persisted ? result.lastRefresh : at));
@@ -76,7 +75,7 @@ export function useCEOSuggestions() {
     }, 30000);
 
     return () => clearInterval(interval);
-  }, []);
+  }, [streamingOn]);
 
   // Send suggestion to the Boss review queue (persisted as an ai_insights row)
   const sendToBoss = useCallback(
@@ -86,7 +85,10 @@ export function useCEOSuggestions() {
 
       const result = await sendSuggestionToBoss({ data: { suggestion } });
       if (!result.persisted) {
-        localBossQueue.set(suggestion.id, { ...suggestion, status: 'pending' });
+        toast.error('Suggestion was not sent', {
+          description: result.error ?? 'Connect the AIRA API and try again.',
+        });
+        return false;
       }
 
       setSuggestions((prev) =>
@@ -96,7 +98,7 @@ export function useCEOSuggestions() {
       toast.success('Suggestion sent to Boss', {
         description: result.persisted
           ? `"${suggestion.title}" is now visible in the Boss dashboard`
-          : `"${suggestion.title}" queued locally — AI API unavailable`,
+          : `"${suggestion.title}" was not persisted`,
       });
 
       return true;
@@ -107,8 +109,7 @@ export function useCEOSuggestions() {
   // Suggestions awaiting the Boss decision
   const getBossSuggestions = useCallback(async (): Promise<CEOSuggestion[]> => {
     const result = await loadBossQueue();
-    const rows = result.persisted ? result.suggestions : Array.from(localBossQueue.values());
-    return rows
+    return result.suggestions
       .filter((s) => s.status === 'pending')
       .sort((a, b) => (a.createdAt < b.createdAt ? 1 : -1))
       .slice(0, 10);
@@ -119,8 +120,10 @@ export function useCEOSuggestions() {
     async (suggestionId: string, decision: 'approved' | 'rejected') => {
       const result = await decideSuggestion({ data: { id: suggestionId, decision } });
       if (!result.persisted) {
-        const existing = localBossQueue.get(suggestionId);
-        if (existing) localBossQueue.set(suggestionId, { ...existing, status: decision });
+        toast.error('Decision was not saved', {
+          description: result.error ?? 'Connect the AIRA API and try again.',
+        });
+        return false;
       }
 
       setSuggestions((prev) =>

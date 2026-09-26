@@ -15,50 +15,8 @@ import {
   Lightbulb,
   Send
 } from "lucide-react";
-
-// Mock decisions data
-const decisions = [
-  { 
-    id: 1, 
-    action: "Approve franchise payout request ($8,500)", 
-    requestedBy: "Franchise #234",
-    type: "financial",
-    aiDecision: "approve",
-    confidence: 94,
-    reasoning: "Clean transaction history, within limits, no fraud flags",
-    historicalOutcome: "98% approval rate for similar"
-  },
-  { 
-    id: 2, 
-    action: "Delay bulk user creation (150 users)", 
-    requestedBy: "Admin #8",
-    type: "user_management",
-    aiDecision: "delay",
-    confidence: 78,
-    reasoning: "Unusual volume, recommend manual review",
-    historicalOutcome: "65% delayed for review historically"
-  },
-  { 
-    id: 3, 
-    action: "Reject permission escalation request", 
-    requestedBy: "Country Head APAC",
-    type: "security",
-    aiDecision: "reject",
-    confidence: 89,
-    reasoning: "Request exceeds role boundaries, potential policy violation",
-    historicalOutcome: "92% rejected for similar patterns"
-  },
-  { 
-    id: 4, 
-    action: "Escalate server access request to Boss", 
-    requestedBy: "Developer #3",
-    type: "infrastructure",
-    aiDecision: "escalate",
-    confidence: 85,
-    reasoning: "Production access request requires explicit approval",
-    historicalOutcome: "100% escalated per policy"
-  },
-];
+import { useCEOData } from "@/hooks/useCEOData";
+import { dataSourceStatus } from "@/components/ai-ceo/DataSourceStatus";
 
 const getDecisionColor = (decision: string) => {
   switch (decision) {
@@ -81,22 +39,24 @@ const getDecisionIcon = (decision: string) => {
 };
 
 const AICEODecisionEngine = () => {
+  const { data, isPersisted } = useCEOData();
+  const decisions = data.decisions;
   return (
     <PageShell>
       <PageBanner
         icon={Brain}
         title="Decision Engine"
         subtitle="AI-powered decision recommendations scored by the ML model with full reasoning trails."
-        status="ML Model v3.2 · live scoring"
+        status={dataSourceStatus(isPersisted, "AI scoring")}
       />
 
       {/* Decision Stats */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4">
         {[
-          { label: "Approve", count: 156, icon: CheckCircle, color: "text-accent-emerald" },
-          { label: "Delay", count: 23, icon: Clock, color: "text-accent-amber" },
-          { label: "Reject", count: 12, icon: XCircle, color: "text-destructive" },
-          { label: "Escalate", count: 8, icon: Send, color: "text-accent-pink" },
+          { label: "Approve", count: decisions.filter((x) => x.aiDecision === "approve").length, icon: CheckCircle, color: "text-accent-emerald" },
+          { label: "Delay", count: decisions.filter((x) => x.aiDecision === "delay").length, icon: Clock, color: "text-accent-amber" },
+          { label: "Reject", count: decisions.filter((x) => x.aiDecision === "reject").length, icon: XCircle, color: "text-destructive" },
+          { label: "Escalate", count: decisions.filter((x) => x.aiDecision === "escalate").length, icon: Send, color: "text-accent-pink" },
         ].map((stat, i) => (
           <Card key={stat.label} className="card3d premium-halo enter-soft rounded-2xl">
             <CardContent className="p-4 flex items-center gap-3">

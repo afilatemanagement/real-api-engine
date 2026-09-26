@@ -36,11 +36,17 @@ Consumed by `src/lib/ceo-insights.functions.ts`:
 
 ```text
 GET   /ai-ceo/state            -> { suggestions, lastRefresh }
+GET   /ai-ceo/operational-data -> CEOOperationalData (complete validated screen payload)
 POST  /ai-ceo/refresh          <- { lastRefresh }  -> { lastRefresh }
 GET   /ai-insights/boss-queue  -> { suggestions }
 POST  /ai-insights             <- ai_insights row (snake_case)
 PATCH /ai-insights/:id         <- { status, is_acknowledged }
 ```
+
+`CEOOperationalData` is defined in `src/lib/ceo-types.ts` and validated at the
+server boundary in `src/lib/ceo-data.functions.ts`. The external API must return
+every field in that contract; partial or invalid responses fall back to the
+deterministic realistic seed and are never labeled as live.
 
 ## Keeping it current
 

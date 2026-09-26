@@ -13,62 +13,8 @@ import {
   Clock,
   Zap
 } from "lucide-react";
-
-// Mock learning log data
-const learningLogs = [
-  {
-    id: 1,
-    observation: "Franchise #101 payment delayed pattern",
-    suggestion: "Flag for manual review",
-    bossDecision: "approved",
-    outcome: "Fraud prevented - $5,200 saved",
-    timestamp: "2 hours ago",
-    learned: true
-  },
-  {
-    id: 2,
-    observation: "Bulk user creation request from Admin #8",
-    suggestion: "Delay for verification",
-    bossDecision: "overridden",
-    outcome: "Legitimate batch import - no issues",
-    timestamp: "5 hours ago",
-    learned: true
-  },
-  {
-    id: 3,
-    observation: "Server CPU spike in APAC region",
-    suggestion: "Scale up resources",
-    bossDecision: "approved",
-    outcome: "Prevented downtime during peak",
-    timestamp: "Yesterday",
-    learned: true
-  },
-  {
-    id: 4,
-    observation: "New user login from unusual location",
-    suggestion: "Trigger MFA verification",
-    bossDecision: "approved",
-    outcome: "Legitimate travel - verified",
-    timestamp: "2 days ago",
-    learned: true
-  },
-  {
-    id: 5,
-    observation: "Support ticket surge detected",
-    suggestion: "Allocate extra staff",
-    bossDecision: "partially_approved",
-    outcome: "Managed with 50% suggested resources",
-    timestamp: "3 days ago",
-    learned: true
-  },
-];
-
-const learningStats = {
-  totalObservations: 12847,
-  accuracyRate: 94.2,
-  improvementThisMonth: 2.1,
-  decisionsAnalyzed: 3421
-};
+import { useCEOData } from "@/hooks/useCEOData";
+import { dataSourceStatus } from "@/components/ai-ceo/DataSourceStatus";
 
 const getDecisionStyle = (decision: string) => {
   switch (decision) {
@@ -80,13 +26,15 @@ const getDecisionStyle = (decision: string) => {
 };
 
 const AICEOLearning = () => {
+  const { data, isPersisted } = useCEOData();
+  const { learningLogs, learningStats } = data;
   return (
     <PageShell>
       <PageBanner
         icon={Database}
         title="System Learning Log"
         subtitle="Every AI observation, decision and outcome recorded for continuous model learning."
-        status="Continuous learning enabled"
+        status={dataSourceStatus(isPersisted, "continuous learning")}
       />
 
       {/* Learning Stats */}

@@ -13,18 +13,8 @@ import {
   Eye,
   Shield
 } from "lucide-react";
-
-// Mock live action stream
-const liveActions = [
-  { id: 1, actor: "CEO", action: "Viewed revenue report", role: "ceo", location: "HQ", impact: "low", risk: 5, time: "Just now" },
-  { id: 2, actor: "Admin #12", action: "Created 5 new users", role: "admin", location: "Europe", impact: "medium", risk: 25, time: "30s ago" },
-  { id: 3, actor: "Franchise #101", action: "Requested withdrawal $5,000", role: "franchise", location: "USA", impact: "high", risk: 45, time: "1m ago" },
-  { id: 4, actor: "Super Admin", action: "Modified permission matrix", role: "super_admin", location: "HQ", impact: "critical", risk: 70, time: "2m ago" },
-  { id: 5, actor: "Country Head", action: "Approved lead assignment", role: "country_head", location: "India", impact: "low", risk: 10, time: "3m ago" },
-  { id: 6, actor: "Reseller #45", action: "Generated demo link", role: "reseller", location: "UK", impact: "low", risk: 5, time: "4m ago" },
-  { id: 7, actor: "Lead Manager", action: "Bulk assigned 50 leads", role: "lead_manager", location: "Australia", impact: "medium", risk: 30, time: "5m ago" },
-  { id: 8, actor: "Developer #7", action: "Deployed hotfix v2.3.1", role: "developer", location: "Remote", impact: "high", risk: 55, time: "8m ago" },
-];
+import { useCEOData } from "@/hooks/useCEOData";
+import { dataSourceStatus } from "@/components/ai-ceo/DataSourceStatus";
 
 const getImpactColor = (impact: string) => {
   switch (impact) {
@@ -42,23 +32,25 @@ const getRiskBadge = (risk: number) => {
 };
 
 const AICEOLiveMonitor = () => {
+  const { data, isPersisted } = useCEOData();
+  const liveActions = data.liveActions;
   return (
     <PageShell>
       <PageBanner
         icon={Activity}
         title="Live Action Monitor"
         subtitle="Real-time stream of every action taken across CEO, admin, franchise and creator layers."
-        status="Streaming live"
+        status={dataSourceStatus(isPersisted, "streaming")}
       />
 
       {/* Filter Stats */}
       <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 sm:gap-4">
         {[
-          { label: "CEO", count: 12, icon: Eye },
-          { label: "Admins", count: 45, icon: Shield },
-          { label: "Franchises", count: 89, icon: User },
-          { label: "High Risk", count: 8, icon: AlertTriangle },
-          { label: "Completed", count: 234, icon: CheckCircle },
+          { label: "CEO", count: liveActions.filter((x) => x.role === "ceo").length, icon: Eye },
+          { label: "Admins", count: liveActions.filter((x) => x.role.includes("admin")).length, icon: Shield },
+          { label: "Franchises", count: liveActions.filter((x) => x.role === "franchise").length, icon: User },
+          { label: "High Risk", count: liveActions.filter((x) => x.risk >= 50).length, icon: AlertTriangle },
+          { label: "Observed", count: liveActions.length, icon: CheckCircle },
         ].map((stat, i) => (
           <Card key={stat.label} className="card3d premium-halo enter-soft rounded-2xl">
             <CardContent className="p-4 flex items-center gap-3">

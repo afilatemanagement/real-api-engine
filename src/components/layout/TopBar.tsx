@@ -1,5 +1,6 @@
 import { Bell, Menu, Radio, Search, Settings, Shield } from "lucide-react";
-import { Link } from "@tanstack/react-router";
+import { Link, useNavigate } from "@tanstack/react-router";
+import { useState } from "react";
 
 import { cn } from "@/lib/utils";
 import softwareValaLogo from "@/assets/software-vala-logo.jpg.asset.json";
@@ -23,6 +24,20 @@ interface TopBarProps {
 }
 
 export function TopBar({ onOpenMenu, streamingOn, onStreamingToggle }: TopBarProps) {
+  const navigate = useNavigate();
+  const [query, setQuery] = useState("");
+  const search = () => {
+    const q = query.trim().toLowerCase();
+    const destination = q.includes("risk") || q.includes("compliance") ? "/ai-ceo/risk"
+      : q.includes("report") ? "/ai-ceo/reports"
+      : q.includes("predict") || q.includes("forecast") ? "/ai-ceo/predictions"
+      : q.includes("learn") || q.includes("memory") ? "/ai-ceo/learning"
+      : q.includes("performance") || q.includes("kpi") ? "/ai-ceo/performance"
+      : q.includes("decision") ? "/ai-ceo/decision-engine"
+      : q.includes("approval") || q.includes("notification") ? "/ai-ceo/approvals"
+      : q.includes("setting") ? "/ai-ceo/settings" : "/ai-ceo/live-monitor";
+    if (q) void navigate({ to: destination });
+  };
   return (
     <header className="sticky top-0 z-40 border-b border-border bg-background/80 backdrop-blur-xl">
       <div className="flex h-14 items-center gap-1.5 px-3 lg:px-5">
@@ -44,6 +59,9 @@ export function TopBar({ onOpenMenu, streamingOn, onStreamingToggle }: TopBarPro
             <input
               placeholder="Search actions, decisions, insights…"
               aria-label="Search actions, decisions, insights"
+              value={query}
+              onChange={(event) => setQuery(event.target.value)}
+              onKeyDown={(event) => { if (event.key === "Enter") search(); }}
               className="w-full bg-transparent text-xs outline-none placeholder:text-muted-foreground"
             />
           </div>
@@ -68,18 +86,18 @@ export function TopBar({ onOpenMenu, streamingOn, onStreamingToggle }: TopBarPro
 
           <Tooltip>
             <TooltipTrigger asChild>
-              <button className={ICON_BTN} aria-label="Notifications">
+              <Link to="/ai-ceo/approvals" className={ICON_BTN} aria-label="Notifications">
                 <Bell className="h-[18px] w-[18px]" />
-              </button>
+              </Link>
             </TooltipTrigger>
             <TooltipContent side="bottom">Notifications</TooltipContent>
           </Tooltip>
 
           <Tooltip>
             <TooltipTrigger asChild>
-              <button className={cn(ICON_BTN, "hidden sm:grid")} aria-label="Risk & Compliance">
+              <Link to="/ai-ceo/risk" className={cn(ICON_BTN, "hidden sm:grid")} aria-label="Risk & Compliance">
                 <Shield className="h-[18px] w-[18px]" />
-              </button>
+              </Link>
             </TooltipTrigger>
             <TooltipContent side="bottom">Risk &amp; Compliance</TooltipContent>
           </Tooltip>

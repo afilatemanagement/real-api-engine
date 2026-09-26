@@ -14,37 +14,19 @@ import {
   Award,
   AlertCircle
 } from "lucide-react";
-
-// Mock performance data
-const rolePerformance = [
-  { role: "Franchises", score: 87, trend: "up", metric: "Sales conversion", change: "+12%" },
-  { role: "Resellers", score: 72, trend: "stable", metric: "Lead closure", change: "+2%" },
-  { role: "Support Team", score: 94, trend: "up", metric: "Resolution time", change: "-18%" },
-  { role: "Sales Team", score: 68, trend: "down", metric: "New clients", change: "-8%" },
-  { role: "Developers", score: 91, trend: "up", metric: "Deploy success", change: "+5%" },
-];
-
-const productivityMetrics = [
-  { metric: "Avg Tasks/Day", value: "23.4", trend: "up", target: 20 },
-  { metric: "Response Time", value: "4.2h", trend: "up", target: 6 },
-  { metric: "Quality Score", value: "8.7/10", trend: "stable", target: 8.5 },
-  { metric: "Completion Rate", value: "94%", trend: "up", target: 90 },
-];
-
-const correctiveActions = [
-  { team: "Sales Team", issue: "Below target for 3 weeks", action: "Recommend training session", priority: "high" },
-  { team: "Reseller #23", issue: "Low engagement", action: "Schedule check-in call", priority: "medium" },
-  { team: "Region LATAM", issue: "SLA approaching breach", action: "Allocate additional resources", priority: "high" },
-];
+import { useCEOData } from "@/hooks/useCEOData";
+import { dataSourceStatus } from "@/components/ai-ceo/DataSourceStatus";
 
 const AICEOPerformance = () => {
+  const { data, isPersisted } = useCEOData();
+  const { rolePerformance, productivityMetrics, correctiveActions } = data;
   return (
     <PageShell>
       <PageBanner
         icon={TrendingUp}
         title="Performance Intelligence"
         subtitle="Ecosystem-wide performance intelligence across revenue, growth, efficiency and team output."
-        status="Live metrics"
+        status={dataSourceStatus(isPersisted, "performance metrics")}
       />
 
       {/* Productivity Overview */}

@@ -43,10 +43,12 @@ export async function airaFetch<T>(
   if (init.body !== undefined) headers['Content-Type'] = 'application/json';
 
   try {
+    const timeout = AbortSignal.timeout(8000);
     const response = await fetch(`${base}${path}`, {
       method: init.method ?? 'GET',
       headers,
       ...(init.body === undefined ? {} : { body: JSON.stringify(init.body) }),
+      signal: timeout,
     });
 
 
