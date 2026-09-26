@@ -24,6 +24,7 @@ import { Route as AiCeoNotificationsRouteImport } from './routes/ai-ceo.notifica
 import { Route as AiCeoSecurityRouteImport } from './routes/ai-ceo.security'
 import { Route as AiCeoSettingsRouteImport } from './routes/ai-ceo.settings'
 import { Route as AiCeoStatusRouteImport } from './routes/ai-ceo.status'
+import { Route as AiCeoSystemMapRouteImport } from './routes/ai-ceo.system-map'
 import { Route as AiCeoUsageRouteImport } from './routes/ai-ceo.usage'
 import { Route as ApiCeoBriefRouteImport } from './routes/api/ceo-brief'
 import { Route as AiCeoAgentsIndexRouteImport } from './routes/ai-ceo.agents.index'
@@ -139,6 +140,11 @@ const AiCeoSettingsRoute = AiCeoSettingsRouteImport.update({
 const AiCeoStatusRoute = AiCeoStatusRouteImport.update({
   id: '/status',
   path: '/status',
+  getParentRoute: () => AiCeoRoute,
+} as any)
+const AiCeoSystemMapRoute = AiCeoSystemMapRouteImport.update({
+  id: '/system-map',
+  path: '/system-map',
   getParentRoute: () => AiCeoRoute,
 } as any)
 const AiCeoUsageRoute = AiCeoUsageRouteImport.update({
@@ -366,6 +372,7 @@ export interface FileRoutesByFullPath {
   '/ai-ceo/security': typeof AiCeoSecurityRoute
   '/ai-ceo/settings': typeof AiCeoSettingsRoute
   '/ai-ceo/status': typeof AiCeoStatusRoute
+  '/ai-ceo/system-map': typeof AiCeoSystemMapRoute
   '/ai-ceo/usage': typeof AiCeoUsageRoute
   '/api/ceo-brief': typeof ApiCeoBriefRoute
   '/ai-ceo/': typeof AiCeoIndexRoute
@@ -423,6 +430,7 @@ export interface FileRoutesByTo {
   '/ai-ceo/security': typeof AiCeoSecurityRoute
   '/ai-ceo/settings': typeof AiCeoSettingsRoute
   '/ai-ceo/status': typeof AiCeoStatusRoute
+  '/ai-ceo/system-map': typeof AiCeoSystemMapRoute
   '/ai-ceo/usage': typeof AiCeoUsageRoute
   '/api/ceo-brief': typeof ApiCeoBriefRoute
   '/ai-ceo': typeof AiCeoIndexRoute
@@ -482,6 +490,7 @@ export interface FileRoutesById {
   '/ai-ceo/security': typeof AiCeoSecurityRoute
   '/ai-ceo/settings': typeof AiCeoSettingsRoute
   '/ai-ceo/status': typeof AiCeoStatusRoute
+  '/ai-ceo/system-map': typeof AiCeoSystemMapRoute
   '/ai-ceo/usage': typeof AiCeoUsageRoute
   '/api/ceo-brief': typeof ApiCeoBriefRoute
   '/ai-ceo/': typeof AiCeoIndexRoute
@@ -542,6 +551,7 @@ export interface FileRouteTypes {
     | '/ai-ceo/security'
     | '/ai-ceo/settings'
     | '/ai-ceo/status'
+    | '/ai-ceo/system-map'
     | '/ai-ceo/usage'
     | '/api/ceo-brief'
     | '/ai-ceo/'
@@ -599,6 +609,7 @@ export interface FileRouteTypes {
     | '/ai-ceo/security'
     | '/ai-ceo/settings'
     | '/ai-ceo/status'
+    | '/ai-ceo/system-map'
     | '/ai-ceo/usage'
     | '/api/ceo-brief'
     | '/ai-ceo'
@@ -657,6 +668,7 @@ export interface FileRouteTypes {
     | '/ai-ceo/security'
     | '/ai-ceo/settings'
     | '/ai-ceo/status'
+    | '/ai-ceo/system-map'
     | '/ai-ceo/usage'
     | '/api/ceo-brief'
     | '/ai-ceo/'
@@ -819,6 +831,13 @@ declare module '@tanstack/react-router' {
       path: '/status'
       fullPath: '/ai-ceo/status'
       preLoaderRoute: typeof AiCeoStatusRouteImport
+      parentRoute: typeof AiCeoRoute
+    }
+    '/ai-ceo/system-map': {
+      id: '/ai-ceo/system-map'
+      path: '/system-map'
+      fullPath: '/ai-ceo/system-map'
+      preLoaderRoute: typeof AiCeoSystemMapRouteImport
       parentRoute: typeof AiCeoRoute
     }
     '/ai-ceo/usage': {
@@ -1122,6 +1141,7 @@ interface AiCeoRouteChildren {
   AiCeoSecurityRoute: typeof AiCeoSecurityRoute
   AiCeoSettingsRoute: typeof AiCeoSettingsRoute
   AiCeoStatusRoute: typeof AiCeoStatusRoute
+  AiCeoSystemMapRoute: typeof AiCeoSystemMapRoute
   AiCeoUsageRoute: typeof AiCeoUsageRoute
   AiCeoIndexRoute: typeof AiCeoIndexRoute
   AiCeoAgentsAgentIdRoute: typeof AiCeoAgentsAgentIdRoute
@@ -1171,6 +1191,7 @@ const AiCeoRouteChildren: AiCeoRouteChildren = {
   AiCeoSecurityRoute: AiCeoSecurityRoute,
   AiCeoSettingsRoute: AiCeoSettingsRoute,
   AiCeoStatusRoute: AiCeoStatusRoute,
+  AiCeoSystemMapRoute: AiCeoSystemMapRoute,
   AiCeoUsageRoute: AiCeoUsageRoute,
   AiCeoIndexRoute: AiCeoIndexRoute,
   AiCeoAgentsAgentIdRoute: AiCeoAgentsAgentIdRoute,
