@@ -10,12 +10,18 @@ import { useCEOData } from "@/hooks/useCEOData";
 import { AGENTS } from "@/components/ai-ceo/ops/catalog";
 import { useOps } from "@/components/ai-ceo/ops/store";
 import { useWork } from "@/components/ai-ceo/work/store";
+import { deriveNotifications } from "@/components/ai-ceo/system/notifications";
 
 const RECENT_KEY = "sv:founder:recent-searches";
 const SUGGESTED = ["Pending decisions", "High risks", "Weekly report", "Revenue signals"];
 
 const COMMANDS: { label: string; to: string; keywords?: string }[] = [
   { label: "Open Command Center", to: "/ai-ceo" },
+  { label: "Open Morning AI", to: "/ai-ceo/morning", keywords: "daily brief priorities" },
+  { label: "Build Work Plan", to: "/ai-ceo/morning/plan", keywords: "orchestration" },
+  { label: "Live Execution", to: "/ai-ceo/morning/execution", keywords: "exceptions handoff daily close" },
+  { label: "View Worker Agents", to: "/ai-ceo/workers", keywords: "workforce queue failures" },
+  { label: "System Map & Lifecycles", to: "/ai-ceo/system-map", keywords: "governance lifecycle status" },
   { label: "View Decisions", to: "/ai-ceo/decision-engine" },
   { label: "View Predictions", to: "/ai-ceo/predictions" },
   { label: "View Performance", to: "/ai-ceo/performance" },
@@ -62,12 +68,16 @@ export function CommandPalette({ open, onOpenChange }: { open: boolean; onOpenCh
   }, [open, onOpenChange, navigate]);
 
   const records = useMemo(() => [
-    ...data.decisions.map((d) => ({ id: `d-${d.id}`, icon: Brain, title: d.action, type: "Decision", desc: d.reasoning, to: "/ai-ceo/decision-engine", time: undefined as string | undefined })),
-    ...data.reports.map((r) => ({ id: `r-${r.id}`, icon: FileText, title: r.title, type: "Report", desc: r.highlights[0] ?? r.status, to: "/ai-ceo/reports", time: r.generatedAt })),
+    ...data.decisions.map((d) => ({ id: `d-${d.id}`, icon: Brain, title: d.action, type: "Decision", desc: d.reasoning, to: `/ai-ceo/decision-engine/${d.id}`, time: undefined as string | undefined })),
+    ...data.reports.map((r) => ({ id: `r-${r.id}`, icon: FileText, title: r.title, type: "Report", desc: r.highlights[0] ?? r.status, to: `/ai-ceo/reports/${r.id}`, time: r.generatedAt })),
     ...data.complianceItems.map((c) => ({ id: `p-${c.id}`, icon: Library, title: c.policy, type: "Policy", desc: `${c.status} · last audit ${c.lastAudit}`, to: "/ai-ceo/company-brain", time: undefined as string | undefined })),
     ...data.learningLogs.map((l) => ({ id: `l-${l.id}`, icon: Database, title: l.observation, type: "Learning", desc: l.outcome, to: "/ai-ceo/learning", time: undefined as string | undefined })),
-    ...data.riskCategories.map((r) => ({ id: `k-${r.id}`, icon: ShieldAlert, title: r.category, type: "Risk", desc: `${r.level} · ${r.issues} open issues`, to: "/ai-ceo/risk", time: undefined as string | undefined })),
-    ...AGENTS.map((a) => ({ id: `a-${a.id}`, icon: Brain, title: a.name, type: "Agent", desc: a.purpose, to: `/ai-ceo/agents/${a.id}`, time: undefined as string | undefined })),
+    ...data.riskCategories.map((r) => ({ id: `k-${r.id}`, icon: ShieldAlert, title: r.category, type: "Risk", desc: `${r.level} · ${r.issues} open issues`, to: `/ai-ceo/risk/${r.id}`, time: undefined as string | undefined })),
+    ...AGENTS.map((a) => ({ id: `a-${a.id}`, icon: Brain, title: a.name, type: "Agent", desc: `${a.category} · ${a.purpose}`, to: `/ai-ceo/agents/${a.id}`, time: undefined as string | undefined })),
+    ...AGENTS.map((a) => ({ id: `w-${a.id}`, icon: Brain, title: a.name, type: "Worker", desc: `Workforce · ${a.category}`, to: `/ai-ceo/workers/${a.id}`, time: undefined as string | undefined })),
+    ...data.decisions.filter((d) => d.aiDecision !== "approve").map((d) => ({ id: `ap-${d.id}`, icon: ShieldAlert, title: d.action, type: "Approval", desc: `Awaiting Founder · ${d.type}`, to: `/ai-ceo/approvals/${d.id}`, time: undefined as string | undefined })),
+    ...ops.events.slice(0, 50).map((e) => ({ id: `ev-${e.id}`, icon: History, title: e.text, type: "Activity", desc: e.kind, to: "/ai-ceo/activity", time: e.at as string | undefined })),
+    ...deriveNotifications(data, ops).map((n) => ({ id: `n-${n.id}`, icon: Sparkles, title: n.title, type: "Notification", desc: `${n.category} · ${n.module}`, to: "/ai-ceo/notifications", time: n.at })),
     ...ops.tasks.map((t) => ({ id: `t-${t.id}`, icon: FileText, title: t.title, type: "Task", desc: t.status, to: `/ai-ceo/tasks/${t.id}`, time: t.createdAt as string | undefined })),
     ...ops.automations.map((a) => ({ id: `au-${a.id}`, icon: FileText, title: a.name, type: "Automation", desc: a.state, to: `/ai-ceo/automations/${a.id}`, time: undefined as string | undefined })),
     ...work.projects.map((p) => ({ id: `pr-${p.id}`, icon: FileText, title: p.name, type: "Project", desc: p.status, to: `/ai-ceo/projects/${p.id}`, time: undefined as string | undefined })),

@@ -1,5 +1,5 @@
 import {
-  Users, Sunrise, Activity, BarChart3, Bell, Bot, Files, Gauge, HelpCircle, KeyRound, MessagesSquare, Radar, Brain, CheckSquare, Database, FileText, FolderKanban, LayoutDashboard, Lightbulb,
+  Map, Users, Sunrise, Activity, BarChart3, Bell, Bot, Files, Gauge, HelpCircle, KeyRound, MessagesSquare, Radar, Brain, CheckSquare, Database, FileText, FolderKanban, LayoutDashboard, Lightbulb,
   Library, ListTodo, MessageSquare, Microscope, Settings, ShieldAlert, TrendingUp, Workflow,
 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
@@ -71,6 +71,7 @@ export const FOUNDER_NAV_GROUPS: { label: string; items: FounderNavItem[] }[] = 
       { label: "Usage & Cost", to: "/ai-ceo/usage", icon: BarChart3, description: "AI consumption and cost" },
       { label: "AI Evaluation", to: "/ai-ceo/evaluation", icon: Gauge, description: "AI quality monitoring" },
       { label: "Security & Permissions", to: "/ai-ceo/security", icon: KeyRound, description: "Permissions and security events" },
+      { label: "System Map", to: "/ai-ceo/system-map", icon: Map, description: "Lifecycles, governance and boundaries" },
       { label: "System Status", to: "/ai-ceo/status", icon: Radar, description: "Service availability" },
       { label: "Help & Shortcuts", to: "/ai-ceo/help", icon: HelpCircle, description: "Shortcuts and guidance" },
     ],
