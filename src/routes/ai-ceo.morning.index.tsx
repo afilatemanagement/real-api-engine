@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { MorningCenter } from "@/components/ai-ceo/morning/MorningCenter";
 
-export const Route = createFileRoute("/ai-ceo/morning")({
+export const Route = createFileRoute("/ai-ceo/morning/")({
   head: () => ({
     meta: [
       { title: "Morning AI Command Center — Founder AI" },
