@@ -16,7 +16,7 @@ export interface NavItem {
   icon: LucideIcon;
 }
 
-const primary: NavItem[] = FOUNDER_NAV_GROUPS[0].items;
+const primary: NavItem[] = FOUNDER_NAV_GROUPS[0]?.items ?? [];
 const groups: { label: string; items: NavItem[] }[] = FOUNDER_NAV_GROUPS.slice(1);
 const bottomItems: NavItem[] = [FOUNDER_SETTINGS];
 

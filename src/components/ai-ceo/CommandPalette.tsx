@@ -47,9 +47,9 @@ export function CommandPalette({ open, onOpenChange }: { open: boolean; onOpenCh
   }, [open, onOpenChange]);
 
   const records = useMemo(() => [
-    ...data.decisions.map((d) => ({ id: `d-${d.id}`, icon: Brain, title: d.action, type: "Decision", desc: d.reasoning, to: "/ai-ceo/decision-engine" })),
+    ...data.decisions.map((d) => ({ id: `d-${d.id}`, icon: Brain, title: d.action, type: "Decision", desc: d.reasoning, to: "/ai-ceo/decision-engine", time: undefined as string | undefined })),
     ...data.reports.map((r) => ({ id: `r-${r.id}`, icon: FileText, title: r.title, type: "Report", desc: r.highlights[0] ?? r.status, to: "/ai-ceo/reports", time: r.generatedAt })),
-    ...data.riskCategories.map((r) => ({ id: `k-${r.id}`, icon: ShieldAlert, title: r.category, type: "Risk", desc: `${r.level} · ${r.issues} open issues`, to: "/ai-ceo/risk" })),
+    ...data.riskCategories.map((r) => ({ id: `k-${r.id}`, icon: ShieldAlert, title: r.category, type: "Risk", desc: `${r.level} · ${r.issues} open issues`, to: "/ai-ceo/risk", time: undefined as string | undefined })),
   ], [data]);
 
   const go = (to: string, label?: string) => {
@@ -113,7 +113,7 @@ export function CommandPalette({ open, onOpenChange }: { open: boolean; onOpenCh
                   <p className="truncate">{r.title}</p>
                   <p className="truncate text-xs text-muted-foreground">{r.type} · {r.desc}</p>
                 </div>
-                {"time" in r && r.time && (
+                {r.time && (
                   <CommandShortcut className="flex items-center gap-1"><Clock className="h-3 w-3" />{new Date(r.time).toLocaleDateString()}</CommandShortcut>
                 )}
               </CommandItem>
