@@ -108,7 +108,11 @@ export function MorningCenter() {
             <h1 className="mt-1 text-2xl font-semibold tracking-tight sm:text-3xl">{greeting()}, Founder</h1>
             <p className="mt-1 text-sm text-muted-foreground">{new Date().toLocaleDateString(undefined, { weekday: "long", dateStyle: "long" } as Intl.DateTimeFormatOptions)} · {critical.length} critical changes · {priorities.filter((p) => p.level === "Critical").length} critical priorities · {escalations.length} escalations</p>
           </div>
-          <Button variant="outline" size="sm" onClick={refresh} disabled={refreshing}>{refreshing ? <Loader2 className="mr-1 h-4 w-4 animate-spin" /> : <RefreshCw className="mr-1 h-4 w-4" />}Refresh</Button>
+          <div className="flex flex-wrap gap-2">
+            <Button asChild size="sm"><Link to="/ai-ceo/morning/plan">Work plan</Link></Button>
+            <Button asChild size="sm" variant="outline"><Link to="/ai-ceo/morning/execution">Live execution</Link></Button>
+            <Button variant="outline" size="sm" onClick={refresh} disabled={refreshing}>{refreshing ? <Loader2 className="mr-1 h-4 w-4 animate-spin" /> : <RefreshCw className="mr-1 h-4 w-4" />}Refresh</Button>
+          </div>
         </div>
         <div className="mt-4 flex flex-wrap gap-2 text-[11px]">
           <span className={cn("rounded-md border px-2 py-0.5", isPersisted ? "border-accent-emerald/40 text-accent-emerald" : "border-accent-amber/40 text-accent-amber")}>{isLoading ? "Loading operational record…" : isPersisted ? "Live operational record" : "Partial data: seed record, live connection not configured"}</span>
