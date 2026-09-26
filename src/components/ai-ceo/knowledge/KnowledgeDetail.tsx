@@ -1,4 +1,4 @@
-import { Link } from "@tanstack/react-router";
+import { Link, useNavigate } from "@tanstack/react-router";
 import { Copy, Star } from "lucide-react";
 import { toast } from "sonner";
 
@@ -10,6 +10,7 @@ import { useSessionMap } from "@/components/ai-ceo/governance/state";
 import { FAVORITES_KEY, FreshnessBadge, LOCAL_KNOWLEDGE_KEY, buildKnowledge, type KnowledgeItem } from "./model";
 
 export function KnowledgeDetail({ id }: { id: string }) {
+  const navigate = useNavigate();
   const { data, isLoading } = useCEOData();
   const [local] = useSessionMap<KnowledgeItem>(LOCAL_KNOWLEDGE_KEY);
   const [fav, setFav] = useSessionMap<boolean>(FAVORITES_KEY);
@@ -27,7 +28,7 @@ export function KnowledgeDetail({ id }: { id: string }) {
         <div className="flex flex-wrap gap-2">
           <Button size="sm" variant="outline" onClick={() => setFav(k.id, !fav[k.id])} aria-pressed={!!fav[k.id]}><Star className={`h-4 w-4 ${fav[k.id] ? "fill-current text-accent-amber" : ""}`} /> {fav[k.id] ? "Favorited" : "Favorite"}</Button>
           <Button size="sm" variant="ghost" onClick={() => { void navigator.clipboard?.writeText(`${k.title} — ${k.source}`); toast.success("Reference copied"); }}><Copy className="h-4 w-4" /> Copy Reference</Button>
-          {k.link && <Button size="sm" variant="ghost" asChild><Link to={k.link.to}>{k.link.label}</Link></Button>}
+          {k.link && <Button size="sm" variant="ghost" onClick={() => k.link && navigate({ href: k.link.to })}>{k.link.label}</Button>}
         </div>
       </header>
       <div className="grid gap-4 lg:grid-cols-[minmax(0,1fr)_320px]">
