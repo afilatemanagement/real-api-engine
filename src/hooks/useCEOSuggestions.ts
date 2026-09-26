@@ -19,6 +19,7 @@ import type {
   CEOSuggestion,
   EcosystemMetrics,
 } from '@/lib/ceo-types';
+import { useCEOStreaming } from '@/components/ai-ceo/CEOStreamingContext';
 
 export type { ActivityEvent, AIObservation, CEOSuggestion, EcosystemMetrics };
 
@@ -26,6 +27,7 @@ export type { ActivityEvent, AIObservation, CEOSuggestion, EcosystemMetrics };
 const localBossQueue = new Map<string, CEOSuggestion>();
 
 export function useCEOSuggestions() {
+  const { streamingOn } = useCEOStreaming();
   const [suggestions, setSuggestions] = useState<CEOSuggestion[]>([]);
   const [ecosystemMetrics, setEcosystemMetrics] = useState<EcosystemMetrics | null>(null);
   const [observations, setObservations] = useState<AIObservation[]>([]);
@@ -67,6 +69,7 @@ export function useCEOSuggestions() {
 
   // Auto-refresh ecosystem metrics every 30 seconds and persist the timestamp
   useEffect(() => {
+    if (!streamingOn) return;
     const interval = setInterval(() => {
       const at = new Date().toISOString();
       void recordRefresh({ data: { at } }).then((result) => {
@@ -75,7 +78,7 @@ export function useCEOSuggestions() {
     }, 30000);
 
     return () => clearInterval(interval);
-  }, []);
+  }, [streamingOn]);
 
   // Send suggestion to the Boss review queue (persisted as an ai_insights row)
   const sendToBoss = useCallback(

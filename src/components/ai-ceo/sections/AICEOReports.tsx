@@ -14,52 +14,9 @@ import {
   AlertTriangle,
   TrendingUp
 } from "lucide-react";
-
-// Mock reports data
-const reports = [
-  {
-    id: 1,
-    title: "Daily AI Summary",
-    type: "daily",
-    generatedAt: "Today, 6:00 AM",
-    status: "delivered",
-    recipients: ["Boss", "CEO"],
-    highlights: ["847 actions monitored", "3 risks detected", "12 approvals pending"]
-  },
-  {
-    id: 2,
-    title: "Weekly Executive Brief",
-    type: "weekly",
-    generatedAt: "Sunday, 8:00 PM",
-    status: "delivered",
-    recipients: ["Boss", "CEO"],
-    highlights: ["Revenue +8%", "New franchises: 12", "SLA compliance: 99.2%"]
-  },
-  {
-    id: 3,
-    title: "Monthly Risk Report",
-    type: "monthly",
-    generatedAt: "Dec 31, 2024",
-    status: "delivered",
-    recipients: ["Boss"],
-    highlights: ["45 risks addressed", "0 critical breaches", "Fraud prevented: $24K"]
-  },
-  {
-    id: 4,
-    title: "Decision Accuracy Report",
-    type: "monthly",
-    generatedAt: "Dec 31, 2024",
-    status: "delivered",
-    recipients: ["Boss", "CEO"],
-    highlights: ["AI accuracy: 94%", "False positives: 3%", "Improvement: +2%"]
-  },
-];
-
-const upcomingReports = [
-  { title: "Daily AI Summary", scheduled: "Tomorrow 6:00 AM" },
-  { title: "Weekly Executive Brief", scheduled: "Sunday 8:00 PM" },
-  { title: "Monthly Risk Report", scheduled: "Jan 31, 2025" },
-];
+import { useCEOData } from "@/hooks/useCEOData";
+import { dataSourceStatus } from "@/components/ai-ceo/DataSourceStatus";
+import type { ReportItem } from "@/lib/ceo-types";
 
 const getTypeColor = (type: string) => {
   switch (type) {
@@ -71,22 +28,33 @@ const getTypeColor = (type: string) => {
 };
 
 const AICEOReports = () => {
+  const { data, isPersisted } = useCEOData();
+  const { reports, upcomingReports } = data;
+  const downloadReport = (report: ReportItem) => {
+    const content = [report.title, `Generated: ${report.generatedAt}`, `Status: ${report.status}`, `Recipients: ${report.recipients.join(', ')}`, '', 'Highlights', ...report.highlights.map((item) => `- ${item}`)].join('\n');
+    const url = URL.createObjectURL(new Blob([content], { type: 'text/plain;charset=utf-8' }));
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `${report.title.toLowerCase().replace(/[^a-z0-9]+/g, '-')}.txt`;
+    link.click();
+    URL.revokeObjectURL(url);
+  };
   return (
     <PageShell>
       <PageBanner
         icon={FileText}
         title="AI Reports"
         subtitle="Executive briefings and AI-generated reports, ready for download and board review."
-        status="Auto-generated daily"
+        status={dataSourceStatus(isPersisted, "scheduled reporting")}
       />
 
       {/* Stats */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4">
         {[
-          { label: "Daily Reports", count: 365, icon: Calendar, color: "text-primary-glow" },
-          { label: "Weekly Reports", count: 52, icon: TrendingUp, color: "text-accent-pink" },
-          { label: "Monthly Reports", count: 12, icon: FileText, color: "text-accent-emerald" },
-          { label: "Delivered", count: "100%", icon: CheckCircle, color: "text-primary-glow" },
+          { label: "Daily Reports", count: reports.filter((x) => x.type === "daily").length, icon: Calendar, color: "text-primary-glow" },
+          { label: "Weekly Reports", count: reports.filter((x) => x.type === "weekly").length, icon: TrendingUp, color: "text-accent-pink" },
+          { label: "Monthly Reports", count: reports.filter((x) => x.type === "monthly").length, icon: FileText, color: "text-accent-emerald" },
+          { label: "Delivered", count: reports.filter((x) => x.status === "delivered").length, icon: CheckCircle, color: "text-primary-glow" },
         ].map((stat, i) => (
           <Card key={stat.label} className="card3d premium-halo enter-soft rounded-2xl">
             <CardContent className="p-4 flex items-center gap-3">
@@ -154,7 +122,7 @@ const AICEOReports = () => {
                       </div>
 
                       <div className="flex justify-end">
-                        <Button size="sm" variant="ghost" className="text-primary-glow hover:text-primary-glow">
+                        <Button size="sm" variant="ghost" className="text-primary-glow hover:text-primary-glow" onClick={() => downloadReport(report)}>
                           <Download className="w-4 h-4 mr-1" />
                           Download
                         </Button>

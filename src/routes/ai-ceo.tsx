@@ -1,10 +1,10 @@
 import { createFileRoute, Outlet, useRouterState } from "@tanstack/react-router";
 import { AnimatePresence, motion } from "framer-motion";
-import { useState } from "react";
 import { TooltipProvider } from "@/components/ui/tooltip";
 
 import { AppSidebar, useSidebarState } from "@/components/layout/AppSidebar";
 import { TopBar } from "@/components/layout/TopBar";
+import { CEOStreamingProvider, useCEOStreaming } from "@/components/ai-ceo/CEOStreamingContext";
 
 export const Route = createFileRoute("/ai-ceo")({
   head: () => ({
@@ -22,6 +22,8 @@ export const Route = createFileRoute("/ai-ceo")({
           "Observer and advisor AI CEO: live monitoring, decisions, approvals, risk, performance and predictions.",
       },
       { name: "robots", content: "noindex" },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary" },
     ],
   }),
   component: AICEODashboard,
@@ -29,7 +31,11 @@ export const Route = createFileRoute("/ai-ceo")({
 
 function AICEODashboard() {
   const { collapsed, toggleCollapsed, mobileOpen, setMobileOpen } = useSidebarState();
-  const [streamingOn, setStreamingOn] = useState(true);
+  return <CEOStreamingProvider><AICEODashboardShell collapsed={collapsed} toggleCollapsed={toggleCollapsed} mobileOpen={mobileOpen} setMobileOpen={setMobileOpen} /></CEOStreamingProvider>;
+}
+
+function AICEODashboardShell({ collapsed, toggleCollapsed, mobileOpen, setMobileOpen }: ReturnType<typeof useSidebarState>) {
+  const { streamingOn, toggleStreaming } = useCEOStreaming();
   const pathname = useRouterState({ select: (s) => s.location.pathname });
 
   return (
@@ -46,7 +52,7 @@ function AICEODashboard() {
           <TopBar
             onOpenMenu={() => setMobileOpen(true)}
             streamingOn={streamingOn}
-            onStreamingToggle={() => setStreamingOn(!streamingOn)}
+            onStreamingToggle={toggleStreaming}
           />
 
           <main className="min-w-0 flex-1">
