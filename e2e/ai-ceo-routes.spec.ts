@@ -75,3 +75,20 @@ test("sidebar navigation reaches every section without a full reload", async ({ 
 
   expect(errors, "console/page errors during navigation").toEqual([]);
 });
+
+test("reports expose their source and download displayed content", async ({ page }) => {
+  await page.goto("/ai-ceo/reports", { waitUntil: "domcontentloaded" });
+  await expect(page.getByText(/seed data|live api/i).first()).toBeVisible();
+  const downloadPromise = page.waitForEvent("download");
+  await page.getByRole("button", { name: "Download" }).first().click();
+  const download = await downloadPromise;
+  expect(download.suggestedFilename()).toMatch(/\.txt$/);
+});
+
+test("monitoring toggle changes the truthful paused state", async ({ page }) => {
+  await page.goto("/ai-ceo", { waitUntil: "domcontentloaded" });
+  const toggle = page.getByRole("button", { name: /monitoring/i });
+  await expect(toggle).toContainText("Monitoring");
+  await toggle.click();
+  await expect(toggle).toContainText("Paused");
+});

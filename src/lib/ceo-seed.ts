@@ -6,7 +6,8 @@ import type {
   CEOOperationalData,
 } from './ceo-types';
 
-/** Seed suggestions used only until the Prisma-backed API is connected. */
+/** Deterministic realistic seed suggestions used only until the Prisma-backed API is connected. */
+const SEED_CREATED_AT = '2025-01-15T09:00:00.000Z';
 export const generateSeedSuggestions = (): CEOSuggestion[] => [
   {
     id: 'sug-001',
@@ -17,7 +18,7 @@ export const generateSeedSuggestions = (): CEOSuggestion[] => [
     impact: 'high',
     impactArea: 'Revenue Growth',
     status: 'pending',
-    createdAt: new Date().toISOString(),
+    createdAt: SEED_CREATED_AT,
     source: 'AI-CEO'
   },
   {
@@ -29,7 +30,7 @@ export const generateSeedSuggestions = (): CEOSuggestion[] => [
     impact: 'medium',
     impactArea: 'Risk Mitigation',
     status: 'pending',
-    createdAt: new Date().toISOString(),
+    createdAt: SEED_CREATED_AT,
     source: 'AI-CEO'
   },
   {
@@ -41,7 +42,7 @@ export const generateSeedSuggestions = (): CEOSuggestion[] => [
     impact: 'medium',
     impactArea: 'Cost Reduction',
     status: 'pending',
-    createdAt: new Date().toISOString(),
+    createdAt: SEED_CREATED_AT,
     source: 'AI-CEO'
   },
   {
@@ -53,7 +54,7 @@ export const generateSeedSuggestions = (): CEOSuggestion[] => [
     impact: 'high',
     impactArea: 'Operational Efficiency',
     status: 'pending',
-    createdAt: new Date().toISOString(),
+    createdAt: SEED_CREATED_AT,
     source: 'AI-CEO'
   },
   {
@@ -65,7 +66,7 @@ export const generateSeedSuggestions = (): CEOSuggestion[] => [
     impact: 'high',
     impactArea: 'Market Position',
     status: 'pending',
-    createdAt: new Date().toISOString(),
+    createdAt: SEED_CREATED_AT,
     source: 'Analytics'
   }
 ];

@@ -170,7 +170,7 @@ const AICEOReports = () => {
         <div className="flex items-center gap-3">
           <FileText className="w-5 h-5 text-primary-glow" />
           <p className="text-sm text-primary-glow/80">
-            <strong>Report Delivery:</strong> All reports are auto-generated and delivered to Boss and CEO. No manual intervention required.
+            <strong>Report Source:</strong> Live API reports reflect external delivery records; seed reports are clearly labeled until AIRA is connected.
           </p>
         </div>
       </div>
