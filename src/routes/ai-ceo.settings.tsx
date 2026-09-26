@@ -1,5 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import AICEOSettings from "@/components/ai-ceo/sections/AICEOSettings";
+import { SettingsCenter } from "@/components/ai-ceo/system/SettingsCenter";
+import { PageShell } from "@/components/layout/PageShell";
 
 export const Route = createFileRoute("/ai-ceo/settings")({
   head: () => ({
@@ -12,5 +14,5 @@ export const Route = createFileRoute("/ai-ceo/settings")({
       { name: "twitter:card", content: "summary" },
     ],
   }),
-  component: AICEOSettings,
+  component: () => (<><PageShell><SettingsCenter /></PageShell><AICEOSettings /></>),
 });
