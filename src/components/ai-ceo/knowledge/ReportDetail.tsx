@@ -1,3 +1,4 @@
+import { Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { ChevronDown, ChevronRight, Download, FileSearch, Share2 } from "lucide-react";
 import { toast } from "sonner";
@@ -36,6 +37,7 @@ export function ReportDetail({ id }: { id: string }) {
         <div className="flex flex-wrap gap-2">
           <Button size="sm" onClick={() => downloadReport(r)}><Download className="h-4 w-4" /> Download</Button>
           <Button size="sm" variant="outline" onClick={() => { void navigator.clipboard?.writeText(window.location.href); toast.success("Report link copied"); }}><Share2 className="h-4 w-4" /> Share</Button>
+          <Button size="sm" variant="ghost" asChild><Link to="/ai-ceo/chat" search={{ context: `Report: ${r.title}` }}>Explain this report</Link></Button>
           <Button size="sm" variant="ghost" onClick={() => setOpen(Object.fromEntries(sections.map((s) => [s.title, true])))}>Expand all</Button>
           <Button size="sm" variant="ghost" onClick={() => setOpen({})}>Collapse all</Button>
         </div>

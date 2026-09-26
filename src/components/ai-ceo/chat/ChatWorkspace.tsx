@@ -133,7 +133,7 @@ export function ChatWorkspace({ threadId }: { threadId: string }) {
       </div>
       <div>
         <p className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">Relevant records</p>
-        {related.length ? <ul className="mt-1 space-y-1.5">{related.map((c) => <li key={c.type + c.id}><Link to={c.href} className="text-primary-glow hover:underline">{c.type}: {c.title}</Link></li>)}</ul> : <p className="mt-1 text-xs text-muted-foreground">Pick a context to see the KPIs, insights, decisions and risks it covers.</p>}
+        {related.length ? <ul className="mt-1 space-y-1.5">{related.map((c) => <li key={c.type + c.id}><button onClick={() => navigate({ href: c.href })} className="text-left text-primary-glow hover:underline">{c.type}: {c.title}</button></li>)}</ul> : <p className="mt-1 text-xs text-muted-foreground">Pick a context to see the KPIs, insights, decisions and risks it covers.</p>}
       </div>
       <div><p className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">Time period</p><p className="mt-1 text-xs">Current operating period</p></div>
     </div>

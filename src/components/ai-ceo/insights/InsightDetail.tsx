@@ -29,6 +29,7 @@ export function InsightDetail({ id }: { id: string }) {
         <Confidence value={p.confidence} freshness={isPersisted ? "live" : "seed snapshot"} />
         <div className="flex flex-wrap gap-2">
           <Button size="sm" asChild><Link to="/ai-ceo/decision-engine">Add to Decision</Link></Button>
+          <Button size="sm" variant="ghost" asChild><Link to="/ai-ceo/chat" search={{ context: `Insight: ${p.title}` }}>Ask Founder AI</Link></Button>
           <Button size="sm" variant="outline" onClick={() => setState(p.id, s === "watch" ? "" : "watch")}><Eye className="h-4 w-4" /> {s === "watch" ? "Unwatch" : "Watch"}</Button>
           <Button size="sm" variant="ghost" onClick={() => toast.info("Assignment connects with team data in a later phase.")}><UserPlus className="h-4 w-4" /> Assign</Button>
           <Button size="sm" variant="ghost" asChild><Link to="/ai-ceo/reports"><FileText className="h-4 w-4" /> Open Report</Link></Button>

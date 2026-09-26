@@ -1,6 +1,6 @@
 import {
   Activity, Bot, Brain, CheckSquare, Database, FileText, LayoutDashboard, Lightbulb,
-  Library, ListTodo, Microscope, Settings, ShieldAlert, TrendingUp, Workflow,
+  Library, ListTodo, MessageSquare, Microscope, Settings, ShieldAlert, TrendingUp, Workflow,
 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 
@@ -17,6 +17,7 @@ export const FOUNDER_NAV_GROUPS: { label: string; items: FounderNavItem[] }[] = 
     label: "Primary",
     items: [
       { label: "Command Center", to: "/ai-ceo", icon: LayoutDashboard, description: "Executive operational overview" },
+      { label: "Ask Founder AI", to: "/ai-ceo/chat", icon: MessageSquare, description: "Ask questions about your operations" },
       { label: "Decision Engine", to: "/ai-ceo/decision-engine", icon: Brain, description: "AI decision recommendations" },
       { label: "Predictive Insights", to: "/ai-ceo/predictions", icon: Lightbulb, description: "Forecasts and early signals" },
       { label: "Performance Intelligence", to: "/ai-ceo/performance", icon: TrendingUp, description: "Team and KPI performance" },

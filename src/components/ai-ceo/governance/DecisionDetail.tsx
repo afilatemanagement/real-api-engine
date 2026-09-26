@@ -46,7 +46,7 @@ export function DecisionDetail({ id }: { id: string }) {
             <Button size="sm" variant="outline" onClick={() => setAction({ kind: "reject", item: d })}><X className="h-4 w-4" /> Reject</Button>
             <Button size="sm" variant="outline" onClick={() => setAction({ kind: "delegate", item: d })}><UserCheck className="h-4 w-4" /> Delegate</Button>
           </>}
-          <Button size="sm" variant="ghost" onClick={() => { void navigate({ to: "/ai-ceo" }); setTimeout(() => document.getElementById("decision-brief")?.scrollIntoView({ behavior: "smooth" }), 400); }}><MessageSquare className="h-4 w-4" /> Ask Founder AI</Button>
+          <Button size="sm" variant="ghost" asChild><Link to="/ai-ceo/chat" search={{ context: `Decision: ${d.action}` }}><MessageSquare className="h-4 w-4" /> Ask Founder AI</Link></Button>
           <Button size="sm" variant="ghost" onClick={toTask}><ListTodo className="h-4 w-4" /> Create Task</Button>
         </div>
         {o && <p className="text-xs text-muted-foreground">{o.outcome.toLowerCase()} this session · {o.at}{o.note ? ` · ${o.note}` : ""}</p>}

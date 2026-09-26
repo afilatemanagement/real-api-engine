@@ -22,6 +22,7 @@ export function RiskDetail({ id }: { id: string }) {
         <h1 className="text-2xl font-semibold tracking-tight sm:text-3xl">{r.category}</h1>
         <div className="flex flex-wrap gap-2">
           <Button size="sm" onClick={toTask}>Create Task</Button>
+          <Button size="sm" variant="ghost" asChild><Link to="/ai-ceo/chat" search={{ context: `Risk: ${r.category}` }}>Ask Founder AI</Link></Button>
           <Button size="sm" variant="outline" asChild><Link to="/ai-ceo/decision-engine">Create Decision</Link></Button>
           <Button size="sm" variant="ghost" onClick={() => toast.info("Owner assignment connects with team data in a later phase.")}>Assign Owner</Button>
         </div>

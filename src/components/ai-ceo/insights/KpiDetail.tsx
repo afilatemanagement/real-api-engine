@@ -27,6 +27,7 @@ export function KpiDetail({ id }: { id: string }) {
         <DetailSection title="Drivers & segments"><Unavailable>Drivers and segments will appear when connected.</Unavailable></DetailSection>
         <DetailSection title="Related">
           <ul className="space-y-1.5">
+            <li><Link className="text-primary-glow hover:underline" to="/ai-ceo/chat" search={{ context: `KPI: ${k.label}` }}>Explain this KPI</Link></li>
             <li><Link className="text-primary-glow hover:underline" to="/ai-ceo/predictions">Related insights</Link></li>
             <li><Link className="text-primary-glow hover:underline" to="/ai-ceo/decision-engine">Related decisions</Link></li>
             <li><Link className="text-primary-glow hover:underline" to="/ai-ceo/risk">Related risks</Link></li>
