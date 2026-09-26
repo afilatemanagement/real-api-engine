@@ -1,26 +1,12 @@
 import { Link, useRouterState } from "@tanstack/react-router";
 import { useEffect, useMemo, useState } from "react";
-import {
-  Activity,
-  Bot,
-  Brain,
-  CheckSquare,
-  Database,
-  FileText,
-  LayoutDashboard,
-  Lightbulb,
-  PanelLeftClose,
-  PanelLeftOpen,
-  Search,
-  Settings,
-  ShieldAlert,
-  TrendingUp,
-  X,
-} from "lucide-react";
+import { Bot, PanelLeftClose, PanelLeftOpen, Search, X } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 
 import softwareValaLogo from "@/assets/software-vala-logo.jpg.asset.json";
 import { cn } from "@/lib/utils";
+import { FOUNDER_NAV_GROUPS, FOUNDER_SETTINGS } from "@/lib/founder-nav";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 
 const COLLAPSE_KEY = "sv:sidebar:collapsed";
 
@@ -30,39 +16,9 @@ export interface NavItem {
   icon: LucideIcon;
 }
 
-const primary: NavItem[] = [
-  { label: "Dashboard", to: "/ai-ceo", icon: LayoutDashboard },
-];
-
-const groups: { label: string; items: NavItem[] }[] = [
-  {
-    label: "Intelligence",
-    items: [
-      { label: "Live Action Monitor", to: "/ai-ceo/live-monitor", icon: Activity },
-      { label: "Decision Engine", to: "/ai-ceo/decision-engine", icon: Brain },
-      { label: "Predictive Insights", to: "/ai-ceo/predictions", icon: Lightbulb },
-      { label: "Performance Intelligence", to: "/ai-ceo/performance", icon: TrendingUp },
-    ],
-  },
-  {
-    label: "Governance",
-    items: [
-      { label: "Approval Suggestions", to: "/ai-ceo/approvals", icon: CheckSquare },
-      { label: "Risk & Compliance", to: "/ai-ceo/risk", icon: ShieldAlert },
-    ],
-  },
-  {
-    label: "Knowledge",
-    items: [
-      { label: "AI Reports", to: "/ai-ceo/reports", icon: FileText },
-      { label: "System Learning Log", to: "/ai-ceo/learning", icon: Database },
-    ],
-  },
-];
-
-const bottomItems: NavItem[] = [
-  { label: "Settings", to: "/ai-ceo/settings", icon: Settings },
-];
+const primary: NavItem[] = FOUNDER_NAV_GROUPS[0]?.items ?? [];
+const groups: { label: string; items: NavItem[] }[] = FOUNDER_NAV_GROUPS.slice(1);
+const bottomItems: NavItem[] = [FOUNDER_SETTINGS];
 
 export function useSidebarState() {
   const [collapsed, setCollapsed] = useState(false);
