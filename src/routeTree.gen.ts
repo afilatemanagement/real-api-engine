@@ -41,6 +41,8 @@ import { Route as AiCeoDecisionEngineIdRouteImport } from './routes/ai-ceo.decis
 import { Route as AiCeoLearningIndexRouteImport } from './routes/ai-ceo.learning.index'
 import { Route as AiCeoLearningIdRouteImport } from './routes/ai-ceo.learning.$id'
 import { Route as AiCeoMorningIndexRouteImport } from './routes/ai-ceo.morning.index'
+import { Route as AiCeoMorningExecutionRouteImport } from './routes/ai-ceo.morning.execution'
+import { Route as AiCeoMorningPlanRouteImport } from './routes/ai-ceo.morning.plan'
 import { Route as AiCeoPerformanceIndexRouteImport } from './routes/ai-ceo.performance.index'
 import { Route as AiCeoPerformanceKpiRouteImport } from './routes/ai-ceo.performance.$kpi'
 import { Route as AiCeoPredictionsIndexRouteImport } from './routes/ai-ceo.predictions.index'
@@ -226,6 +228,16 @@ const AiCeoMorningIndexRoute = AiCeoMorningIndexRouteImport.update({
   path: '/morning/',
   getParentRoute: () => AiCeoRoute,
 } as any)
+const AiCeoMorningExecutionRoute = AiCeoMorningExecutionRouteImport.update({
+  id: '/morning/execution',
+  path: '/morning/execution',
+  getParentRoute: () => AiCeoRoute,
+} as any)
+const AiCeoMorningPlanRoute = AiCeoMorningPlanRouteImport.update({
+  id: '/morning/plan',
+  path: '/morning/plan',
+  getParentRoute: () => AiCeoRoute,
+} as any)
 const AiCeoPerformanceIndexRoute = AiCeoPerformanceIndexRouteImport.update({
   id: '/performance/',
   path: '/performance/',
@@ -364,6 +376,8 @@ export interface FileRoutesByFullPath {
   '/ai-ceo/company-brain/$id': typeof AiCeoCompanyBrainIdRoute
   '/ai-ceo/decision-engine/$id': typeof AiCeoDecisionEngineIdRoute
   '/ai-ceo/learning/$id': typeof AiCeoLearningIdRoute
+  '/ai-ceo/morning/execution': typeof AiCeoMorningExecutionRoute
+  '/ai-ceo/morning/plan': typeof AiCeoMorningPlanRoute
   '/ai-ceo/performance/$kpi': typeof AiCeoPerformanceKpiRoute
   '/ai-ceo/predictions/$id': typeof AiCeoPredictionsIdRoute
   '/ai-ceo/predictions/scenarios': typeof AiCeoPredictionsScenariosRoute
@@ -419,6 +433,8 @@ export interface FileRoutesByTo {
   '/ai-ceo/company-brain/$id': typeof AiCeoCompanyBrainIdRoute
   '/ai-ceo/decision-engine/$id': typeof AiCeoDecisionEngineIdRoute
   '/ai-ceo/learning/$id': typeof AiCeoLearningIdRoute
+  '/ai-ceo/morning/execution': typeof AiCeoMorningExecutionRoute
+  '/ai-ceo/morning/plan': typeof AiCeoMorningPlanRoute
   '/ai-ceo/performance/$kpi': typeof AiCeoPerformanceKpiRoute
   '/ai-ceo/predictions/$id': typeof AiCeoPredictionsIdRoute
   '/ai-ceo/predictions/scenarios': typeof AiCeoPredictionsScenariosRoute
@@ -476,6 +492,8 @@ export interface FileRoutesById {
   '/ai-ceo/company-brain/$id': typeof AiCeoCompanyBrainIdRoute
   '/ai-ceo/decision-engine/$id': typeof AiCeoDecisionEngineIdRoute
   '/ai-ceo/learning/$id': typeof AiCeoLearningIdRoute
+  '/ai-ceo/morning/execution': typeof AiCeoMorningExecutionRoute
+  '/ai-ceo/morning/plan': typeof AiCeoMorningPlanRoute
   '/ai-ceo/performance/$kpi': typeof AiCeoPerformanceKpiRoute
   '/ai-ceo/predictions/$id': typeof AiCeoPredictionsIdRoute
   '/ai-ceo/predictions/scenarios': typeof AiCeoPredictionsScenariosRoute
@@ -534,6 +552,8 @@ export interface FileRouteTypes {
     | '/ai-ceo/company-brain/$id'
     | '/ai-ceo/decision-engine/$id'
     | '/ai-ceo/learning/$id'
+    | '/ai-ceo/morning/execution'
+    | '/ai-ceo/morning/plan'
     | '/ai-ceo/performance/$kpi'
     | '/ai-ceo/predictions/$id'
     | '/ai-ceo/predictions/scenarios'
@@ -589,6 +609,8 @@ export interface FileRouteTypes {
     | '/ai-ceo/company-brain/$id'
     | '/ai-ceo/decision-engine/$id'
     | '/ai-ceo/learning/$id'
+    | '/ai-ceo/morning/execution'
+    | '/ai-ceo/morning/plan'
     | '/ai-ceo/performance/$kpi'
     | '/ai-ceo/predictions/$id'
     | '/ai-ceo/predictions/scenarios'
@@ -645,6 +667,8 @@ export interface FileRouteTypes {
     | '/ai-ceo/company-brain/$id'
     | '/ai-ceo/decision-engine/$id'
     | '/ai-ceo/learning/$id'
+    | '/ai-ceo/morning/execution'
+    | '/ai-ceo/morning/plan'
     | '/ai-ceo/performance/$kpi'
     | '/ai-ceo/predictions/$id'
     | '/ai-ceo/predictions/scenarios'
@@ -916,6 +940,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AiCeoMorningIndexRouteImport
       parentRoute: typeof AiCeoRoute
     }
+    '/ai-ceo/morning/execution': {
+      id: '/ai-ceo/morning/execution'
+      path: '/morning/execution'
+      fullPath: '/ai-ceo/morning/execution'
+      preLoaderRoute: typeof AiCeoMorningExecutionRouteImport
+      parentRoute: typeof AiCeoRoute
+    }
+    '/ai-ceo/morning/plan': {
+      id: '/ai-ceo/morning/plan'
+      path: '/morning/plan'
+      fullPath: '/ai-ceo/morning/plan'
+      preLoaderRoute: typeof AiCeoMorningPlanRouteImport
+      parentRoute: typeof AiCeoRoute
+    }
     '/ai-ceo/performance/': {
       id: '/ai-ceo/performance/'
       path: '/performance'
@@ -1093,6 +1131,8 @@ interface AiCeoRouteChildren {
   AiCeoCompanyBrainIdRoute: typeof AiCeoCompanyBrainIdRoute
   AiCeoDecisionEngineIdRoute: typeof AiCeoDecisionEngineIdRoute
   AiCeoLearningIdRoute: typeof AiCeoLearningIdRoute
+  AiCeoMorningExecutionRoute: typeof AiCeoMorningExecutionRoute
+  AiCeoMorningPlanRoute: typeof AiCeoMorningPlanRoute
   AiCeoPerformanceKpiRoute: typeof AiCeoPerformanceKpiRoute
   AiCeoPredictionsIdRoute: typeof AiCeoPredictionsIdRoute
   AiCeoPredictionsScenariosRoute: typeof AiCeoPredictionsScenariosRoute
@@ -1140,6 +1180,8 @@ const AiCeoRouteChildren: AiCeoRouteChildren = {
   AiCeoCompanyBrainIdRoute: AiCeoCompanyBrainIdRoute,
   AiCeoDecisionEngineIdRoute: AiCeoDecisionEngineIdRoute,
   AiCeoLearningIdRoute: AiCeoLearningIdRoute,
+  AiCeoMorningExecutionRoute: AiCeoMorningExecutionRoute,
+  AiCeoMorningPlanRoute: AiCeoMorningPlanRoute,
   AiCeoPerformanceKpiRoute: AiCeoPerformanceKpiRoute,
   AiCeoPredictionsIdRoute: AiCeoPredictionsIdRoute,
   AiCeoPredictionsScenariosRoute: AiCeoPredictionsScenariosRoute,
