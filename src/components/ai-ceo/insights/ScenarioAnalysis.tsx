@@ -78,7 +78,7 @@ export function ScenarioAnalysis() {
         </DetailSection>
         <div className="space-y-4">
           <DetailSection title="Scenario vs baseline">
-            <ForecastChart data={compare ? series : series.map((s) => ({ label: s.label, scenario: s.scenario }))} />
+            <ForecastChart data={compare ? series : series.map(({ forecast: _f, ...rest }) => rest)} />
           </DetailSection>
           <div className="grid gap-4 sm:grid-cols-3">
             <DetailSection title="Expected impact"><p className="text-xl font-semibold text-foreground tabular-nums">{delta > 0 ? "+" : ""}{delta}</p><p className="text-xs">index points by M6</p></DetailSection>
