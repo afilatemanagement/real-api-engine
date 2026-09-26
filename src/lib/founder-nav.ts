@@ -1,5 +1,5 @@
 import {
-  Sunrise, Activity, BarChart3, Bell, Bot, Files, Gauge, HelpCircle, KeyRound, MessagesSquare, Radar, Brain, CheckSquare, Database, FileText, FolderKanban, LayoutDashboard, Lightbulb,
+  Users, Sunrise, Activity, BarChart3, Bell, Bot, Files, Gauge, HelpCircle, KeyRound, MessagesSquare, Radar, Brain, CheckSquare, Database, FileText, FolderKanban, LayoutDashboard, Lightbulb,
   Library, ListTodo, MessageSquare, Microscope, Settings, ShieldAlert, TrendingUp, Workflow,
 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
@@ -49,6 +49,7 @@ export const FOUNDER_NAV_GROUPS: { label: string; items: FounderNavItem[] }[] = 
   {
     label: "Operations",
     items: [
+      { label: "Worker Agents", to: "/ai-ceo/workers", icon: Users, description: "Operational workforce, queue and failures" },
       { label: "Operations Agents", to: "/ai-ceo/agents", icon: Bot, description: "Operational AI agents" },
       { label: "Tasks & Work Queue", to: "/ai-ceo/tasks", icon: ListTodo, description: "Operational tasks and owners" },
       { label: "Automations", to: "/ai-ceo/automations", icon: Workflow, description: "Governed operational automations" },

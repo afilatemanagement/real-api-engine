@@ -57,6 +57,10 @@ import { Route as AiCeoRiskIndexRouteImport } from './routes/ai-ceo.risk.index'
 import { Route as AiCeoRiskIdRouteImport } from './routes/ai-ceo.risk.$id'
 import { Route as AiCeoTasksIndexRouteImport } from './routes/ai-ceo.tasks.index'
 import { Route as AiCeoTasksTaskIdRouteImport } from './routes/ai-ceo.tasks.$taskId'
+import { Route as AiCeoWorkersIndexRouteImport } from './routes/ai-ceo.workers.index'
+import { Route as AiCeoWorkersIdRouteImport } from './routes/ai-ceo.workers.$id'
+import { Route as FounderAiWorkersIndexRouteImport } from './routes/founder-ai.workers.index'
+import { Route as FounderAiWorkersIdRouteImport } from './routes/founder-ai.workers.$id'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -301,6 +305,26 @@ const AiCeoTasksTaskIdRoute = AiCeoTasksTaskIdRouteImport.update({
   path: '/tasks/$taskId',
   getParentRoute: () => AiCeoRoute,
 } as any)
+const AiCeoWorkersIndexRoute = AiCeoWorkersIndexRouteImport.update({
+  id: '/workers/',
+  path: '/workers/',
+  getParentRoute: () => AiCeoRoute,
+} as any)
+const AiCeoWorkersIdRoute = AiCeoWorkersIdRouteImport.update({
+  id: '/workers/$id',
+  path: '/workers/$id',
+  getParentRoute: () => AiCeoRoute,
+} as any)
+const FounderAiWorkersIndexRoute = FounderAiWorkersIndexRouteImport.update({
+  id: '/founder-ai/workers/',
+  path: '/founder-ai/workers/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const FounderAiWorkersIdRoute = FounderAiWorkersIdRouteImport.update({
+  id: '/founder-ai/workers/$id',
+  path: '/founder-ai/workers/$id',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -337,6 +361,8 @@ export interface FileRoutesByFullPath {
   '/ai-ceo/research/$researchId': typeof AiCeoResearchResearchIdRoute
   '/ai-ceo/risk/$id': typeof AiCeoRiskIdRoute
   '/ai-ceo/tasks/$taskId': typeof AiCeoTasksTaskIdRoute
+  '/ai-ceo/workers/$id': typeof AiCeoWorkersIdRoute
+  '/founder-ai/workers/$id': typeof FounderAiWorkersIdRoute
   '/ai-ceo/agents/': typeof AiCeoAgentsIndexRoute
   '/ai-ceo/approvals/': typeof AiCeoApprovalsIndexRoute
   '/ai-ceo/automations/': typeof AiCeoAutomationsIndexRoute
@@ -351,6 +377,8 @@ export interface FileRoutesByFullPath {
   '/ai-ceo/research/': typeof AiCeoResearchIndexRoute
   '/ai-ceo/risk/': typeof AiCeoRiskIndexRoute
   '/ai-ceo/tasks/': typeof AiCeoTasksIndexRoute
+  '/ai-ceo/workers/': typeof AiCeoWorkersIndexRoute
+  '/founder-ai/workers/': typeof FounderAiWorkersIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -386,6 +414,8 @@ export interface FileRoutesByTo {
   '/ai-ceo/research/$researchId': typeof AiCeoResearchResearchIdRoute
   '/ai-ceo/risk/$id': typeof AiCeoRiskIdRoute
   '/ai-ceo/tasks/$taskId': typeof AiCeoTasksTaskIdRoute
+  '/ai-ceo/workers/$id': typeof AiCeoWorkersIdRoute
+  '/founder-ai/workers/$id': typeof FounderAiWorkersIdRoute
   '/ai-ceo/agents': typeof AiCeoAgentsIndexRoute
   '/ai-ceo/approvals': typeof AiCeoApprovalsIndexRoute
   '/ai-ceo/automations': typeof AiCeoAutomationsIndexRoute
@@ -400,6 +430,8 @@ export interface FileRoutesByTo {
   '/ai-ceo/research': typeof AiCeoResearchIndexRoute
   '/ai-ceo/risk': typeof AiCeoRiskIndexRoute
   '/ai-ceo/tasks': typeof AiCeoTasksIndexRoute
+  '/ai-ceo/workers': typeof AiCeoWorkersIndexRoute
+  '/founder-ai/workers': typeof FounderAiWorkersIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -437,6 +469,8 @@ export interface FileRoutesById {
   '/ai-ceo/research/$researchId': typeof AiCeoResearchResearchIdRoute
   '/ai-ceo/risk/$id': typeof AiCeoRiskIdRoute
   '/ai-ceo/tasks/$taskId': typeof AiCeoTasksTaskIdRoute
+  '/ai-ceo/workers/$id': typeof AiCeoWorkersIdRoute
+  '/founder-ai/workers/$id': typeof FounderAiWorkersIdRoute
   '/ai-ceo/agents/': typeof AiCeoAgentsIndexRoute
   '/ai-ceo/approvals/': typeof AiCeoApprovalsIndexRoute
   '/ai-ceo/automations/': typeof AiCeoAutomationsIndexRoute
@@ -451,6 +485,8 @@ export interface FileRoutesById {
   '/ai-ceo/research/': typeof AiCeoResearchIndexRoute
   '/ai-ceo/risk/': typeof AiCeoRiskIndexRoute
   '/ai-ceo/tasks/': typeof AiCeoTasksIndexRoute
+  '/ai-ceo/workers/': typeof AiCeoWorkersIndexRoute
+  '/founder-ai/workers/': typeof FounderAiWorkersIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -489,6 +525,8 @@ export interface FileRouteTypes {
     | '/ai-ceo/research/$researchId'
     | '/ai-ceo/risk/$id'
     | '/ai-ceo/tasks/$taskId'
+    | '/ai-ceo/workers/$id'
+    | '/founder-ai/workers/$id'
     | '/ai-ceo/agents/'
     | '/ai-ceo/approvals/'
     | '/ai-ceo/automations/'
@@ -503,6 +541,8 @@ export interface FileRouteTypes {
     | '/ai-ceo/research/'
     | '/ai-ceo/risk/'
     | '/ai-ceo/tasks/'
+    | '/ai-ceo/workers/'
+    | '/founder-ai/workers/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -538,6 +578,8 @@ export interface FileRouteTypes {
     | '/ai-ceo/research/$researchId'
     | '/ai-ceo/risk/$id'
     | '/ai-ceo/tasks/$taskId'
+    | '/ai-ceo/workers/$id'
+    | '/founder-ai/workers/$id'
     | '/ai-ceo/agents'
     | '/ai-ceo/approvals'
     | '/ai-ceo/automations'
@@ -552,6 +594,8 @@ export interface FileRouteTypes {
     | '/ai-ceo/research'
     | '/ai-ceo/risk'
     | '/ai-ceo/tasks'
+    | '/ai-ceo/workers'
+    | '/founder-ai/workers'
   id:
     | '__root__'
     | '/'
@@ -588,6 +632,8 @@ export interface FileRouteTypes {
     | '/ai-ceo/research/$researchId'
     | '/ai-ceo/risk/$id'
     | '/ai-ceo/tasks/$taskId'
+    | '/ai-ceo/workers/$id'
+    | '/founder-ai/workers/$id'
     | '/ai-ceo/agents/'
     | '/ai-ceo/approvals/'
     | '/ai-ceo/automations/'
@@ -602,6 +648,8 @@ export interface FileRouteTypes {
     | '/ai-ceo/research/'
     | '/ai-ceo/risk/'
     | '/ai-ceo/tasks/'
+    | '/ai-ceo/workers/'
+    | '/founder-ai/workers/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -611,6 +659,8 @@ export interface RootRouteChildren {
   SoftwarewalaRoute: typeof SoftwarewalaRoute
   ApiCeoBriefRoute: typeof ApiCeoBriefRoute
   FounderAiMorningRoute: typeof FounderAiMorningRoute
+  FounderAiWorkersIdRoute: typeof FounderAiWorkersIdRoute
+  FounderAiWorkersIndexRoute: typeof FounderAiWorkersIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -951,6 +1001,34 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AiCeoTasksTaskIdRouteImport
       parentRoute: typeof AiCeoRoute
     }
+    '/ai-ceo/workers/': {
+      id: '/ai-ceo/workers/'
+      path: '/workers'
+      fullPath: '/ai-ceo/workers/'
+      preLoaderRoute: typeof AiCeoWorkersIndexRouteImport
+      parentRoute: typeof AiCeoRoute
+    }
+    '/ai-ceo/workers/$id': {
+      id: '/ai-ceo/workers/$id'
+      path: '/workers/$id'
+      fullPath: '/ai-ceo/workers/$id'
+      preLoaderRoute: typeof AiCeoWorkersIdRouteImport
+      parentRoute: typeof AiCeoRoute
+    }
+    '/founder-ai/workers/': {
+      id: '/founder-ai/workers/'
+      path: '/founder-ai/workers'
+      fullPath: '/founder-ai/workers/'
+      preLoaderRoute: typeof FounderAiWorkersIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/founder-ai/workers/$id': {
+      id: '/founder-ai/workers/$id'
+      path: '/founder-ai/workers/$id'
+      fullPath: '/founder-ai/workers/$id'
+      preLoaderRoute: typeof FounderAiWorkersIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -983,6 +1061,7 @@ interface AiCeoRouteChildren {
   AiCeoResearchResearchIdRoute: typeof AiCeoResearchResearchIdRoute
   AiCeoRiskIdRoute: typeof AiCeoRiskIdRoute
   AiCeoTasksTaskIdRoute: typeof AiCeoTasksTaskIdRoute
+  AiCeoWorkersIdRoute: typeof AiCeoWorkersIdRoute
   AiCeoAgentsIndexRoute: typeof AiCeoAgentsIndexRoute
   AiCeoApprovalsIndexRoute: typeof AiCeoApprovalsIndexRoute
   AiCeoAutomationsIndexRoute: typeof AiCeoAutomationsIndexRoute
@@ -997,6 +1076,7 @@ interface AiCeoRouteChildren {
   AiCeoResearchIndexRoute: typeof AiCeoResearchIndexRoute
   AiCeoRiskIndexRoute: typeof AiCeoRiskIndexRoute
   AiCeoTasksIndexRoute: typeof AiCeoTasksIndexRoute
+  AiCeoWorkersIndexRoute: typeof AiCeoWorkersIndexRoute
 }
 
 const AiCeoRouteChildren: AiCeoRouteChildren = {
@@ -1028,6 +1108,7 @@ const AiCeoRouteChildren: AiCeoRouteChildren = {
   AiCeoResearchResearchIdRoute: AiCeoResearchResearchIdRoute,
   AiCeoRiskIdRoute: AiCeoRiskIdRoute,
   AiCeoTasksTaskIdRoute: AiCeoTasksTaskIdRoute,
+  AiCeoWorkersIdRoute: AiCeoWorkersIdRoute,
   AiCeoAgentsIndexRoute: AiCeoAgentsIndexRoute,
   AiCeoApprovalsIndexRoute: AiCeoApprovalsIndexRoute,
   AiCeoAutomationsIndexRoute: AiCeoAutomationsIndexRoute,
@@ -1042,6 +1123,7 @@ const AiCeoRouteChildren: AiCeoRouteChildren = {
   AiCeoResearchIndexRoute: AiCeoResearchIndexRoute,
   AiCeoRiskIndexRoute: AiCeoRiskIndexRoute,
   AiCeoTasksIndexRoute: AiCeoTasksIndexRoute,
+  AiCeoWorkersIndexRoute: AiCeoWorkersIndexRoute,
 }
 
 const AiCeoRouteWithChildren = AiCeoRoute._addFileChildren(AiCeoRouteChildren)
@@ -1053,6 +1135,8 @@ const rootRouteChildren: RootRouteChildren = {
   SoftwarewalaRoute: SoftwarewalaRoute,
   ApiCeoBriefRoute: ApiCeoBriefRoute,
   FounderAiMorningRoute: FounderAiMorningRoute,
+  FounderAiWorkersIdRoute: FounderAiWorkersIdRoute,
+  FounderAiWorkersIndexRoute: FounderAiWorkersIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
