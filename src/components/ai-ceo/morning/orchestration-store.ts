@@ -6,7 +6,7 @@ export type MsgKind = "Instruction" | "Clarification" | "Handoff" | "Result" | "
 export interface PlanMsg { id: string; at: string; kind: MsgKind; from: string; to: string; text: string }
 export interface PlanTask {
   id: string; title: string; requirement: string; agentId?: string; priority: RiskTier; dependsOn: string[];
-  deadline?: string; approval: boolean; verification: string[]; handoffTo?: string; handoffReason?: string;
+  deadline?: string; approval: boolean; verification: string[]; handoffTo?: string | undefined; handoffReason?: string | undefined;
   opsTaskId?: string; deferred?: boolean; messages: PlanMsg[];
 }
 export interface Plan { objective: string; priority: RiskTier; expectedOutcome: string; tasks: PlanTask[]; learnings: string[] }
