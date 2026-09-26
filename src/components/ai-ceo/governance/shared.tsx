@@ -111,15 +111,3 @@ export function AuditTimeline({ entries }: { entries: AuditEntry[] }) {
   );
 }
 
-/** Session-only UI state for governance actions until the approvals write API is connected. */
-export function useSessionMap<T>(key: string) {
-  const read = (): Record<string, T> => {
-    try { return JSON.parse(sessionStorage.getItem(key) ?? "{}"); } catch { return {}; }
-  };
-  const write = (id: string, value: T) => {
-    const next = { ...read(), [id]: value };
-    try { sessionStorage.setItem(key, JSON.stringify(next)); } catch { /* ignore */ }
-    window.dispatchEvent(new Event(`session:${key}`));
-  };
-  return { read, write };
-}
