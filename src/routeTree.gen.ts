@@ -20,12 +20,14 @@ import { Route as AiCeoEvaluationRouteImport } from './routes/ai-ceo.evaluation'
 import { Route as AiCeoFilesRouteImport } from './routes/ai-ceo.files'
 import { Route as AiCeoHelpRouteImport } from './routes/ai-ceo.help'
 import { Route as AiCeoLiveMonitorRouteImport } from './routes/ai-ceo.live-monitor'
+import { Route as AiCeoMorningRouteImport } from './routes/ai-ceo.morning'
 import { Route as AiCeoNotificationsRouteImport } from './routes/ai-ceo.notifications'
 import { Route as AiCeoSecurityRouteImport } from './routes/ai-ceo.security'
 import { Route as AiCeoSettingsRouteImport } from './routes/ai-ceo.settings'
 import { Route as AiCeoStatusRouteImport } from './routes/ai-ceo.status'
 import { Route as AiCeoUsageRouteImport } from './routes/ai-ceo.usage'
 import { Route as ApiCeoBriefRouteImport } from './routes/api/ceo-brief'
+import { Route as FounderAiMorningRouteImport } from './routes/founder-ai.morning'
 import { Route as AiCeoAgentsIndexRouteImport } from './routes/ai-ceo.agents.index'
 import { Route as AiCeoAgentsAgentIdRouteImport } from './routes/ai-ceo.agents.$agentId'
 import { Route as AiCeoApprovalsIndexRouteImport } from './routes/ai-ceo.approvals.index'
@@ -111,6 +113,11 @@ const AiCeoLiveMonitorRoute = AiCeoLiveMonitorRouteImport.update({
   path: '/live-monitor',
   getParentRoute: () => AiCeoRoute,
 } as any)
+const AiCeoMorningRoute = AiCeoMorningRouteImport.update({
+  id: '/morning',
+  path: '/morning',
+  getParentRoute: () => AiCeoRoute,
+} as any)
 const AiCeoNotificationsRoute = AiCeoNotificationsRouteImport.update({
   id: '/notifications',
   path: '/notifications',
@@ -139,6 +146,11 @@ const AiCeoUsageRoute = AiCeoUsageRouteImport.update({
 const ApiCeoBriefRoute = ApiCeoBriefRouteImport.update({
   id: '/api/ceo-brief',
   path: '/api/ceo-brief',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const FounderAiMorningRoute = FounderAiMorningRouteImport.update({
+  id: '/founder-ai/morning',
+  path: '/founder-ai/morning',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AiCeoAgentsIndexRoute = AiCeoAgentsIndexRouteImport.update({
@@ -301,12 +313,14 @@ export interface FileRoutesByFullPath {
   '/ai-ceo/files': typeof AiCeoFilesRoute
   '/ai-ceo/help': typeof AiCeoHelpRoute
   '/ai-ceo/live-monitor': typeof AiCeoLiveMonitorRoute
+  '/ai-ceo/morning': typeof AiCeoMorningRoute
   '/ai-ceo/notifications': typeof AiCeoNotificationsRoute
   '/ai-ceo/security': typeof AiCeoSecurityRoute
   '/ai-ceo/settings': typeof AiCeoSettingsRoute
   '/ai-ceo/status': typeof AiCeoStatusRoute
   '/ai-ceo/usage': typeof AiCeoUsageRoute
   '/api/ceo-brief': typeof ApiCeoBriefRoute
+  '/founder-ai/morning': typeof FounderAiMorningRoute
   '/ai-ceo/': typeof AiCeoIndexRoute
   '/ai-ceo/agents/$agentId': typeof AiCeoAgentsAgentIdRoute
   '/ai-ceo/approvals/$id': typeof AiCeoApprovalsIdRoute
@@ -348,12 +362,14 @@ export interface FileRoutesByTo {
   '/ai-ceo/files': typeof AiCeoFilesRoute
   '/ai-ceo/help': typeof AiCeoHelpRoute
   '/ai-ceo/live-monitor': typeof AiCeoLiveMonitorRoute
+  '/ai-ceo/morning': typeof AiCeoMorningRoute
   '/ai-ceo/notifications': typeof AiCeoNotificationsRoute
   '/ai-ceo/security': typeof AiCeoSecurityRoute
   '/ai-ceo/settings': typeof AiCeoSettingsRoute
   '/ai-ceo/status': typeof AiCeoStatusRoute
   '/ai-ceo/usage': typeof AiCeoUsageRoute
   '/api/ceo-brief': typeof ApiCeoBriefRoute
+  '/founder-ai/morning': typeof FounderAiMorningRoute
   '/ai-ceo': typeof AiCeoIndexRoute
   '/ai-ceo/agents/$agentId': typeof AiCeoAgentsAgentIdRoute
   '/ai-ceo/approvals/$id': typeof AiCeoApprovalsIdRoute
@@ -397,12 +413,14 @@ export interface FileRoutesById {
   '/ai-ceo/files': typeof AiCeoFilesRoute
   '/ai-ceo/help': typeof AiCeoHelpRoute
   '/ai-ceo/live-monitor': typeof AiCeoLiveMonitorRoute
+  '/ai-ceo/morning': typeof AiCeoMorningRoute
   '/ai-ceo/notifications': typeof AiCeoNotificationsRoute
   '/ai-ceo/security': typeof AiCeoSecurityRoute
   '/ai-ceo/settings': typeof AiCeoSettingsRoute
   '/ai-ceo/status': typeof AiCeoStatusRoute
   '/ai-ceo/usage': typeof AiCeoUsageRoute
   '/api/ceo-brief': typeof ApiCeoBriefRoute
+  '/founder-ai/morning': typeof FounderAiMorningRoute
   '/ai-ceo/': typeof AiCeoIndexRoute
   '/ai-ceo/agents/$agentId': typeof AiCeoAgentsAgentIdRoute
   '/ai-ceo/approvals/$id': typeof AiCeoApprovalsIdRoute
@@ -447,12 +465,14 @@ export interface FileRouteTypes {
     | '/ai-ceo/files'
     | '/ai-ceo/help'
     | '/ai-ceo/live-monitor'
+    | '/ai-ceo/morning'
     | '/ai-ceo/notifications'
     | '/ai-ceo/security'
     | '/ai-ceo/settings'
     | '/ai-ceo/status'
     | '/ai-ceo/usage'
     | '/api/ceo-brief'
+    | '/founder-ai/morning'
     | '/ai-ceo/'
     | '/ai-ceo/agents/$agentId'
     | '/ai-ceo/approvals/$id'
@@ -494,12 +514,14 @@ export interface FileRouteTypes {
     | '/ai-ceo/files'
     | '/ai-ceo/help'
     | '/ai-ceo/live-monitor'
+    | '/ai-ceo/morning'
     | '/ai-ceo/notifications'
     | '/ai-ceo/security'
     | '/ai-ceo/settings'
     | '/ai-ceo/status'
     | '/ai-ceo/usage'
     | '/api/ceo-brief'
+    | '/founder-ai/morning'
     | '/ai-ceo'
     | '/ai-ceo/agents/$agentId'
     | '/ai-ceo/approvals/$id'
@@ -542,12 +564,14 @@ export interface FileRouteTypes {
     | '/ai-ceo/files'
     | '/ai-ceo/help'
     | '/ai-ceo/live-monitor'
+    | '/ai-ceo/morning'
     | '/ai-ceo/notifications'
     | '/ai-ceo/security'
     | '/ai-ceo/settings'
     | '/ai-ceo/status'
     | '/ai-ceo/usage'
     | '/api/ceo-brief'
+    | '/founder-ai/morning'
     | '/ai-ceo/'
     | '/ai-ceo/agents/$agentId'
     | '/ai-ceo/approvals/$id'
@@ -586,6 +610,7 @@ export interface RootRouteChildren {
   OwnerRoute: typeof OwnerRoute
   SoftwarewalaRoute: typeof SoftwarewalaRoute
   ApiCeoBriefRoute: typeof ApiCeoBriefRoute
+  FounderAiMorningRoute: typeof FounderAiMorningRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -667,6 +692,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AiCeoLiveMonitorRouteImport
       parentRoute: typeof AiCeoRoute
     }
+    '/ai-ceo/morning': {
+      id: '/ai-ceo/morning'
+      path: '/morning'
+      fullPath: '/ai-ceo/morning'
+      preLoaderRoute: typeof AiCeoMorningRouteImport
+      parentRoute: typeof AiCeoRoute
+    }
     '/ai-ceo/notifications': {
       id: '/ai-ceo/notifications'
       path: '/notifications'
@@ -707,6 +739,13 @@ declare module '@tanstack/react-router' {
       path: '/api/ceo-brief'
       fullPath: '/api/ceo-brief'
       preLoaderRoute: typeof ApiCeoBriefRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/founder-ai/morning': {
+      id: '/founder-ai/morning'
+      path: '/founder-ai/morning'
+      fullPath: '/founder-ai/morning'
+      preLoaderRoute: typeof FounderAiMorningRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/ai-ceo/agents/': {
@@ -922,6 +961,7 @@ interface AiCeoRouteChildren {
   AiCeoFilesRoute: typeof AiCeoFilesRoute
   AiCeoHelpRoute: typeof AiCeoHelpRoute
   AiCeoLiveMonitorRoute: typeof AiCeoLiveMonitorRoute
+  AiCeoMorningRoute: typeof AiCeoMorningRoute
   AiCeoNotificationsRoute: typeof AiCeoNotificationsRoute
   AiCeoSecurityRoute: typeof AiCeoSecurityRoute
   AiCeoSettingsRoute: typeof AiCeoSettingsRoute
@@ -966,6 +1006,7 @@ const AiCeoRouteChildren: AiCeoRouteChildren = {
   AiCeoFilesRoute: AiCeoFilesRoute,
   AiCeoHelpRoute: AiCeoHelpRoute,
   AiCeoLiveMonitorRoute: AiCeoLiveMonitorRoute,
+  AiCeoMorningRoute: AiCeoMorningRoute,
   AiCeoNotificationsRoute: AiCeoNotificationsRoute,
   AiCeoSecurityRoute: AiCeoSecurityRoute,
   AiCeoSettingsRoute: AiCeoSettingsRoute,
@@ -1011,6 +1052,7 @@ const rootRouteChildren: RootRouteChildren = {
   OwnerRoute: OwnerRoute,
   SoftwarewalaRoute: SoftwarewalaRoute,
   ApiCeoBriefRoute: ApiCeoBriefRoute,
+  FounderAiMorningRoute: FounderAiMorningRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
