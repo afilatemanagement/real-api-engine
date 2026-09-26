@@ -1,7 +1,8 @@
+import { RiskRegister } from "@/components/ai-ceo/governance/RiskRegister";
 import { createFileRoute } from "@tanstack/react-router";
 import AICEORiskCompliance from "@/components/ai-ceo/sections/AICEORiskCompliance";
 
-export const Route = createFileRoute("/ai-ceo/risk")({
+export const Route = createFileRoute("/ai-ceo/risk/")({
   head: () => ({
     meta: [
       { title: "Risk & Compliance — Software Vala" },
@@ -12,5 +13,5 @@ export const Route = createFileRoute("/ai-ceo/risk")({
       { name: "twitter:card", content: "summary" },
     ],
   }),
-  component: AICEORiskCompliance,
+  component: () => (<><RiskRegister /><AICEORiskCompliance /></>),
 });
