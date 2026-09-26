@@ -8,6 +8,8 @@ export const Route = createFileRoute("/ai-ceo/performance")({
       { name: "description", content: "AI performance intelligence across teams, regions and modules." },
       { property: "og:title", content: "Performance Intelligence — Software Vala" },
       { property: "og:description", content: "AI performance intelligence across teams, regions and modules." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary" },
     ],
   }),
   component: AICEOPerformance,

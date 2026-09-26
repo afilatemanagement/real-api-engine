@@ -8,6 +8,8 @@ export const Route = createFileRoute("/ai-ceo/live-monitor")({
       { name: "description", content: "Real-time stream of every action across the ecosystem, watched by the AI CEO." },
       { property: "og:title", content: "Live Action Monitor — Software Vala" },
       { property: "og:description", content: "Real-time stream of every action across the ecosystem, watched by the AI CEO." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary" },
     ],
   }),
   component: AICEOLiveMonitor,

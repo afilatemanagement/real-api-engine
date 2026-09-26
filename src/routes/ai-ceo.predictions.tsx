@@ -8,6 +8,8 @@ export const Route = createFileRoute("/ai-ceo/predictions")({
       { name: "description", content: "AI forecasting and opportunity detection for the coming quarters." },
       { property: "og:title", content: "Predictive Insights — Software Vala" },
       { property: "og:description", content: "AI forecasting and opportunity detection for the coming quarters." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary" },
     ],
   }),
   component: AICEOPredictions,

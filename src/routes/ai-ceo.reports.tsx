@@ -8,6 +8,8 @@ export const Route = createFileRoute("/ai-ceo/reports")({
       { name: "description", content: "Executive briefings and AI-generated reports ready for download." },
       { property: "og:title", content: "AI Reports — Software Vala" },
       { property: "og:description", content: "Executive briefings and AI-generated reports ready for download." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary" },
     ],
   }),
   component: AICEOReports,

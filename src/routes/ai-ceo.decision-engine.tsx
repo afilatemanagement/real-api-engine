@@ -8,6 +8,8 @@ export const Route = createFileRoute("/ai-ceo/decision-engine")({
       { name: "description", content: "How the AI CEO reasons: signals, weights, confidence and recommended decisions." },
       { property: "og:title", content: "AI Decision Engine — Software Vala" },
       { property: "og:description", content: "How the AI CEO reasons: signals, weights, confidence and recommended decisions." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary" },
     ],
   }),
   component: AICEODecisionEngine,

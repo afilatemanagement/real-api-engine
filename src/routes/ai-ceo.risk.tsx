@@ -8,6 +8,8 @@ export const Route = createFileRoute("/ai-ceo/risk")({
       { name: "description", content: "AI risk detection, compliance posture and escalation tracking." },
       { property: "og:title", content: "Risk & Compliance — Software Vala" },
       { property: "og:description", content: "AI risk detection, compliance posture and escalation tracking." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary" },
     ],
   }),
   component: AICEORiskCompliance,
