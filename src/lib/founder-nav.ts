@@ -34,6 +34,7 @@ export const FOUNDER_NAV_GROUPS: { label: string; items: FounderNavItem[] }[] = 
   {
     label: "Knowledge",
     items: [
+      { label: "Company Brain", to: "/ai-ceo/company-brain", icon: Library, description: "Company knowledge and context" },
       { label: "AI Reports", to: "/ai-ceo/reports", icon: FileText, description: "Generated executive reports" },
       { label: "System Learning Log", to: "/ai-ceo/learning", icon: Database, description: "What Founder AI has learned" },
     ],
@@ -41,12 +42,12 @@ export const FOUNDER_NAV_GROUPS: { label: string; items: FounderNavItem[] }[] = 
   {
     label: "Operations",
     items: [
-      { label: "Company Brain", to: "/ai-ceo/company-brain", icon: Library, description: "Company knowledge and context" },
+      
       { label: "Tasks", to: "/ai-ceo/tasks", icon: ListTodo, description: "Operational tasks and owners" },
       { label: "Automations", to: "/ai-ceo/automations", icon: Workflow, description: "Governed operational automations" },
-      { label: "Agents", to: "/ai-ceo/agents", icon: Bot, description: "Operational AI agents" },
+      { label: "Operations Agents", to: "/ai-ceo/agents", icon: Bot, description: "Operational AI agents" },
       { label: "Research", to: "/ai-ceo/research", icon: Microscope, description: "Market and business research" },
-      { label: "Activity", to: "/ai-ceo/activity", icon: Activity, description: "Important operational events" },
+      { label: "Execution Activity", to: "/ai-ceo/activity", icon: Activity, description: "Escalations, monitoring and timeline" },
     ],
   },
 ];
