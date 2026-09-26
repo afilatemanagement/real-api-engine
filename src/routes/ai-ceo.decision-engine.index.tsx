@@ -1,7 +1,8 @@
+import { DecisionQueue } from "@/components/ai-ceo/governance/DecisionQueue";
 import { createFileRoute } from "@tanstack/react-router";
 import AICEODecisionEngine from "@/components/ai-ceo/sections/AICEODecisionEngine";
 
-export const Route = createFileRoute("/ai-ceo/decision-engine")({
+export const Route = createFileRoute("/ai-ceo/decision-engine/")({
   head: () => ({
     meta: [
       { title: "AI Decision Engine — Software Vala" },
@@ -12,5 +13,5 @@ export const Route = createFileRoute("/ai-ceo/decision-engine")({
       { name: "twitter:card", content: "summary" },
     ],
   }),
-  component: AICEODecisionEngine,
+  component: () => (<><DecisionQueue /><AICEODecisionEngine /></>),
 });

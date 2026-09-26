@@ -1,7 +1,8 @@
+import { ApprovalQueue } from "@/components/ai-ceo/governance/ApprovalQueue";
 import { createFileRoute } from "@tanstack/react-router";
 import AICEOApprovals from "@/components/ai-ceo/sections/AICEOApprovals";
 
-export const Route = createFileRoute("/ai-ceo/approvals")({
+export const Route = createFileRoute("/ai-ceo/approvals/")({
   head: () => ({
     meta: [
       { title: "Approval Suggestions — Software Vala" },
@@ -12,5 +13,5 @@ export const Route = createFileRoute("/ai-ceo/approvals")({
       { name: "twitter:card", content: "summary" },
     ],
   }),
-  component: AICEOApprovals,
+  component: () => (<><ApprovalQueue /><AICEOApprovals /></>),
 });
