@@ -9,4 +9,4 @@
 - [ ] Run browser automation once the host provides Chromium system libraries
 - [ ] Connect production AIRA by supplying `AIRA_API_URL` and `AIRA_API_TOKEN`
 - [x] Prompt 4: Company Brain, knowledge search/detail, Reports builder/detail, Learning Log detail
-- [ ] Prompt 5: Ask Founder AI chat — threads, search, citations, context inspector, handoffs, feedback
+- [x] Prompt 5: Ask Founder AI chat — threads, search, citations, context inspector, handoffs, feedback
