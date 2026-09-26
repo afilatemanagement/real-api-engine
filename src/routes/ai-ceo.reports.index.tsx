@@ -1,7 +1,8 @@
+import { ReportsWorkspace } from "@/components/ai-ceo/knowledge/ReportsWorkspace";
 import { createFileRoute } from "@tanstack/react-router";
 import AICEOReports from "@/components/ai-ceo/sections/AICEOReports";
 
-export const Route = createFileRoute("/ai-ceo/reports")({
+export const Route = createFileRoute("/ai-ceo/reports/")({
   head: () => ({
     meta: [
       { title: "AI Reports — Software Vala" },
@@ -12,5 +13,5 @@ export const Route = createFileRoute("/ai-ceo/reports")({
       { name: "twitter:card", content: "summary" },
     ],
   }),
-  component: AICEOReports,
+  component: () => (<><ReportsWorkspace /><AICEOReports /></>),
 });

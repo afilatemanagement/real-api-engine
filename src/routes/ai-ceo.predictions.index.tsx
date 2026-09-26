@@ -1,7 +1,8 @@
+import { InsightsFeed } from "@/components/ai-ceo/insights/InsightsFeed";
 import { createFileRoute } from "@tanstack/react-router";
 import AICEOPredictions from "@/components/ai-ceo/sections/AICEOPredictions";
 
-export const Route = createFileRoute("/ai-ceo/predictions")({
+export const Route = createFileRoute("/ai-ceo/predictions/")({
   head: () => ({
     meta: [
       { title: "Predictive Insights — Software Vala" },
@@ -12,5 +13,5 @@ export const Route = createFileRoute("/ai-ceo/predictions")({
       { name: "twitter:card", content: "summary" },
     ],
   }),
-  component: AICEOPredictions,
+  component: () => (<><InsightsFeed /><AICEOPredictions /></>),
 });

@@ -1,7 +1,8 @@
+import { PerformanceWorkspace } from "@/components/ai-ceo/insights/PerformanceWorkspace";
 import { createFileRoute } from "@tanstack/react-router";
 import AICEOPerformance from "@/components/ai-ceo/sections/AICEOPerformance";
 
-export const Route = createFileRoute("/ai-ceo/performance")({
+export const Route = createFileRoute("/ai-ceo/performance/")({
   head: () => ({
     meta: [
       { title: "Performance Intelligence — Software Vala" },
@@ -12,5 +13,5 @@ export const Route = createFileRoute("/ai-ceo/performance")({
       { name: "twitter:card", content: "summary" },
     ],
   }),
-  component: AICEOPerformance,
+  component: () => (<><PerformanceWorkspace /><AICEOPerformance /></>),
 });

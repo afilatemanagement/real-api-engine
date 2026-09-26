@@ -102,7 +102,7 @@ export function CommandCenter() {
     { label: "Analyze Product", icon: Target, tip: "Open Predictive Insights", run: () => navigate({ to: "/ai-ceo/predictions" }) },
     { label: "Research", icon: Microscope, tip: "Open Research", run: () => navigate({ to: "/ai-ceo/research" }) },
     { label: "Create Report", icon: FileText, tip: "Open AI Reports", run: () => navigate({ to: "/ai-ceo/reports" }) },
-    { label: "Ask Founder AI", icon: MessageSquare, tip: "Open the AI Decision Brief below", run: () => document.getElementById("decision-brief")?.scrollIntoView({ behavior: "smooth" }) },
+    { label: "Ask Founder AI", icon: MessageSquare, tip: "Open Ask Founder AI", run: () => navigate({ to: "/ai-ceo/chat" }) },
     { label: "Create Task", icon: ListTodo, tip: "Open Tasks", run: () => pendingTask("New task") },
     { label: "Review Decisions", icon: CheckSquare, tip: "Open Approval Suggestions", run: () => navigate({ to: "/ai-ceo/approvals" }) },
   ];
