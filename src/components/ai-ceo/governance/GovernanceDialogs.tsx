@@ -34,7 +34,7 @@ export function GovernanceDialogs({ action, onClose }: { action: GovernanceActio
   const at = new Date().toLocaleString();
 
   const done = (outcome: ApprovalOutcome["outcome"], note?: string) => {
-    setOutcome(item.id, { outcome, note, at });
+    setOutcome(item.id, note ? { outcome, note, at } : { outcome, at });
     toast.success(`${outcome.charAt(0) + outcome.slice(1).toLowerCase()}: ${item.action}`, {
       description: "Recorded for this session. It will be saved permanently once approvals are connected.",
     });
