@@ -1,5 +1,5 @@
 import {
-  Activity, BarChart3, Bell, Bot, Files, Gauge, HelpCircle, KeyRound, MessagesSquare, Radar, Brain, CheckSquare, Database, FileText, FolderKanban, LayoutDashboard, Lightbulb,
+  Sunrise, Activity, BarChart3, Bell, Bot, Files, Gauge, HelpCircle, KeyRound, MessagesSquare, Radar, Brain, CheckSquare, Database, FileText, FolderKanban, LayoutDashboard, Lightbulb,
   Library, ListTodo, MessageSquare, Microscope, Settings, ShieldAlert, TrendingUp, Workflow,
 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
@@ -17,6 +17,7 @@ export const FOUNDER_NAV_GROUPS: { label: string; items: FounderNavItem[] }[] = 
     label: "Core",
     items: [
       { label: "Command Center", to: "/ai-ceo", icon: LayoutDashboard, description: "Executive operational overview" },
+      { label: "Morning AI", to: "/ai-ceo/morning", icon: Sunrise, description: "Daily operating picture and priorities" },
       { label: "Decision Engine", to: "/ai-ceo/decision-engine", icon: Brain, description: "AI decision recommendations" },
       { label: "Predictive Insights", to: "/ai-ceo/predictions", icon: Lightbulb, description: "Forecasts and early signals" },
       { label: "Performance Intelligence", to: "/ai-ceo/performance", icon: TrendingUp, description: "Team and KPI performance" },
