@@ -24,6 +24,8 @@ import { Route as AiCeoTasksRouteImport } from './routes/ai-ceo.tasks'
 import { Route as ApiCeoBriefRouteImport } from './routes/api/ceo-brief'
 import { Route as AiCeoApprovalsIndexRouteImport } from './routes/ai-ceo.approvals.index'
 import { Route as AiCeoApprovalsIdRouteImport } from './routes/ai-ceo.approvals.$id'
+import { Route as AiCeoChatIndexRouteImport } from './routes/ai-ceo.chat.index'
+import { Route as AiCeoChatThreadIdRouteImport } from './routes/ai-ceo.chat.$threadId'
 import { Route as AiCeoCompanyBrainIndexRouteImport } from './routes/ai-ceo.company-brain.index'
 import { Route as AiCeoCompanyBrainIdRouteImport } from './routes/ai-ceo.company-brain.$id'
 import { Route as AiCeoDecisionEngineIndexRouteImport } from './routes/ai-ceo.decision-engine.index'
@@ -113,6 +115,16 @@ const AiCeoApprovalsIndexRoute = AiCeoApprovalsIndexRouteImport.update({
 const AiCeoApprovalsIdRoute = AiCeoApprovalsIdRouteImport.update({
   id: '/approvals/$id',
   path: '/approvals/$id',
+  getParentRoute: () => AiCeoRoute,
+} as any)
+const AiCeoChatIndexRoute = AiCeoChatIndexRouteImport.update({
+  id: '/chat/',
+  path: '/chat/',
+  getParentRoute: () => AiCeoRoute,
+} as any)
+const AiCeoChatThreadIdRoute = AiCeoChatThreadIdRouteImport.update({
+  id: '/chat/$threadId',
+  path: '/chat/$threadId',
   getParentRoute: () => AiCeoRoute,
 } as any)
 const AiCeoCompanyBrainIndexRoute = AiCeoCompanyBrainIndexRouteImport.update({
@@ -208,6 +220,7 @@ export interface FileRoutesByFullPath {
   '/api/ceo-brief': typeof ApiCeoBriefRoute
   '/ai-ceo/': typeof AiCeoIndexRoute
   '/ai-ceo/approvals/$id': typeof AiCeoApprovalsIdRoute
+  '/ai-ceo/chat/$threadId': typeof AiCeoChatThreadIdRoute
   '/ai-ceo/company-brain/$id': typeof AiCeoCompanyBrainIdRoute
   '/ai-ceo/decision-engine/$id': typeof AiCeoDecisionEngineIdRoute
   '/ai-ceo/learning/$id': typeof AiCeoLearningIdRoute
@@ -217,6 +230,7 @@ export interface FileRoutesByFullPath {
   '/ai-ceo/reports/$id': typeof AiCeoReportsIdRoute
   '/ai-ceo/risk/$id': typeof AiCeoRiskIdRoute
   '/ai-ceo/approvals/': typeof AiCeoApprovalsIndexRoute
+  '/ai-ceo/chat/': typeof AiCeoChatIndexRoute
   '/ai-ceo/company-brain/': typeof AiCeoCompanyBrainIndexRoute
   '/ai-ceo/decision-engine/': typeof AiCeoDecisionEngineIndexRoute
   '/ai-ceo/learning/': typeof AiCeoLearningIndexRoute
@@ -239,6 +253,7 @@ export interface FileRoutesByTo {
   '/api/ceo-brief': typeof ApiCeoBriefRoute
   '/ai-ceo': typeof AiCeoIndexRoute
   '/ai-ceo/approvals/$id': typeof AiCeoApprovalsIdRoute
+  '/ai-ceo/chat/$threadId': typeof AiCeoChatThreadIdRoute
   '/ai-ceo/company-brain/$id': typeof AiCeoCompanyBrainIdRoute
   '/ai-ceo/decision-engine/$id': typeof AiCeoDecisionEngineIdRoute
   '/ai-ceo/learning/$id': typeof AiCeoLearningIdRoute
@@ -248,6 +263,7 @@ export interface FileRoutesByTo {
   '/ai-ceo/reports/$id': typeof AiCeoReportsIdRoute
   '/ai-ceo/risk/$id': typeof AiCeoRiskIdRoute
   '/ai-ceo/approvals': typeof AiCeoApprovalsIndexRoute
+  '/ai-ceo/chat': typeof AiCeoChatIndexRoute
   '/ai-ceo/company-brain': typeof AiCeoCompanyBrainIndexRoute
   '/ai-ceo/decision-engine': typeof AiCeoDecisionEngineIndexRoute
   '/ai-ceo/learning': typeof AiCeoLearningIndexRoute
@@ -272,6 +288,7 @@ export interface FileRoutesById {
   '/api/ceo-brief': typeof ApiCeoBriefRoute
   '/ai-ceo/': typeof AiCeoIndexRoute
   '/ai-ceo/approvals/$id': typeof AiCeoApprovalsIdRoute
+  '/ai-ceo/chat/$threadId': typeof AiCeoChatThreadIdRoute
   '/ai-ceo/company-brain/$id': typeof AiCeoCompanyBrainIdRoute
   '/ai-ceo/decision-engine/$id': typeof AiCeoDecisionEngineIdRoute
   '/ai-ceo/learning/$id': typeof AiCeoLearningIdRoute
@@ -281,6 +298,7 @@ export interface FileRoutesById {
   '/ai-ceo/reports/$id': typeof AiCeoReportsIdRoute
   '/ai-ceo/risk/$id': typeof AiCeoRiskIdRoute
   '/ai-ceo/approvals/': typeof AiCeoApprovalsIndexRoute
+  '/ai-ceo/chat/': typeof AiCeoChatIndexRoute
   '/ai-ceo/company-brain/': typeof AiCeoCompanyBrainIndexRoute
   '/ai-ceo/decision-engine/': typeof AiCeoDecisionEngineIndexRoute
   '/ai-ceo/learning/': typeof AiCeoLearningIndexRoute
@@ -306,6 +324,7 @@ export interface FileRouteTypes {
     | '/api/ceo-brief'
     | '/ai-ceo/'
     | '/ai-ceo/approvals/$id'
+    | '/ai-ceo/chat/$threadId'
     | '/ai-ceo/company-brain/$id'
     | '/ai-ceo/decision-engine/$id'
     | '/ai-ceo/learning/$id'
@@ -315,6 +334,7 @@ export interface FileRouteTypes {
     | '/ai-ceo/reports/$id'
     | '/ai-ceo/risk/$id'
     | '/ai-ceo/approvals/'
+    | '/ai-ceo/chat/'
     | '/ai-ceo/company-brain/'
     | '/ai-ceo/decision-engine/'
     | '/ai-ceo/learning/'
@@ -337,6 +357,7 @@ export interface FileRouteTypes {
     | '/api/ceo-brief'
     | '/ai-ceo'
     | '/ai-ceo/approvals/$id'
+    | '/ai-ceo/chat/$threadId'
     | '/ai-ceo/company-brain/$id'
     | '/ai-ceo/decision-engine/$id'
     | '/ai-ceo/learning/$id'
@@ -346,6 +367,7 @@ export interface FileRouteTypes {
     | '/ai-ceo/reports/$id'
     | '/ai-ceo/risk/$id'
     | '/ai-ceo/approvals'
+    | '/ai-ceo/chat'
     | '/ai-ceo/company-brain'
     | '/ai-ceo/decision-engine'
     | '/ai-ceo/learning'
@@ -369,6 +391,7 @@ export interface FileRouteTypes {
     | '/api/ceo-brief'
     | '/ai-ceo/'
     | '/ai-ceo/approvals/$id'
+    | '/ai-ceo/chat/$threadId'
     | '/ai-ceo/company-brain/$id'
     | '/ai-ceo/decision-engine/$id'
     | '/ai-ceo/learning/$id'
@@ -378,6 +401,7 @@ export interface FileRouteTypes {
     | '/ai-ceo/reports/$id'
     | '/ai-ceo/risk/$id'
     | '/ai-ceo/approvals/'
+    | '/ai-ceo/chat/'
     | '/ai-ceo/company-brain/'
     | '/ai-ceo/decision-engine/'
     | '/ai-ceo/learning/'
@@ -502,6 +526,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AiCeoApprovalsIdRouteImport
       parentRoute: typeof AiCeoRoute
     }
+    '/ai-ceo/chat/': {
+      id: '/ai-ceo/chat/'
+      path: '/chat'
+      fullPath: '/ai-ceo/chat/'
+      preLoaderRoute: typeof AiCeoChatIndexRouteImport
+      parentRoute: typeof AiCeoRoute
+    }
+    '/ai-ceo/chat/$threadId': {
+      id: '/ai-ceo/chat/$threadId'
+      path: '/chat/$threadId'
+      fullPath: '/ai-ceo/chat/$threadId'
+      preLoaderRoute: typeof AiCeoChatThreadIdRouteImport
+      parentRoute: typeof AiCeoRoute
+    }
     '/ai-ceo/company-brain/': {
       id: '/ai-ceo/company-brain/'
       path: '/company-brain'
@@ -620,6 +658,7 @@ interface AiCeoRouteChildren {
   AiCeoTasksRoute: typeof AiCeoTasksRoute
   AiCeoIndexRoute: typeof AiCeoIndexRoute
   AiCeoApprovalsIdRoute: typeof AiCeoApprovalsIdRoute
+  AiCeoChatThreadIdRoute: typeof AiCeoChatThreadIdRoute
   AiCeoCompanyBrainIdRoute: typeof AiCeoCompanyBrainIdRoute
   AiCeoDecisionEngineIdRoute: typeof AiCeoDecisionEngineIdRoute
   AiCeoLearningIdRoute: typeof AiCeoLearningIdRoute
@@ -629,6 +668,7 @@ interface AiCeoRouteChildren {
   AiCeoReportsIdRoute: typeof AiCeoReportsIdRoute
   AiCeoRiskIdRoute: typeof AiCeoRiskIdRoute
   AiCeoApprovalsIndexRoute: typeof AiCeoApprovalsIndexRoute
+  AiCeoChatIndexRoute: typeof AiCeoChatIndexRoute
   AiCeoCompanyBrainIndexRoute: typeof AiCeoCompanyBrainIndexRoute
   AiCeoDecisionEngineIndexRoute: typeof AiCeoDecisionEngineIndexRoute
   AiCeoLearningIndexRoute: typeof AiCeoLearningIndexRoute
@@ -648,6 +688,7 @@ const AiCeoRouteChildren: AiCeoRouteChildren = {
   AiCeoTasksRoute: AiCeoTasksRoute,
   AiCeoIndexRoute: AiCeoIndexRoute,
   AiCeoApprovalsIdRoute: AiCeoApprovalsIdRoute,
+  AiCeoChatThreadIdRoute: AiCeoChatThreadIdRoute,
   AiCeoCompanyBrainIdRoute: AiCeoCompanyBrainIdRoute,
   AiCeoDecisionEngineIdRoute: AiCeoDecisionEngineIdRoute,
   AiCeoLearningIdRoute: AiCeoLearningIdRoute,
@@ -657,6 +698,7 @@ const AiCeoRouteChildren: AiCeoRouteChildren = {
   AiCeoReportsIdRoute: AiCeoReportsIdRoute,
   AiCeoRiskIdRoute: AiCeoRiskIdRoute,
   AiCeoApprovalsIndexRoute: AiCeoApprovalsIndexRoute,
+  AiCeoChatIndexRoute: AiCeoChatIndexRoute,
   AiCeoCompanyBrainIndexRoute: AiCeoCompanyBrainIndexRoute,
   AiCeoDecisionEngineIndexRoute: AiCeoDecisionEngineIndexRoute,
   AiCeoLearningIndexRoute: AiCeoLearningIndexRoute,
