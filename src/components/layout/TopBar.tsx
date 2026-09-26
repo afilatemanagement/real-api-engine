@@ -1,5 +1,7 @@
 import { Bell, Menu, Radio, Search, Settings, Shield } from "lucide-react";
-import { Link, useNavigate } from "@tanstack/react-router";
+import { Link } from "@tanstack/react-router";
+import { CommandPalette } from "@/components/ai-ceo/CommandPalette";
+import { useCEOData } from "@/hooks/useCEOData";
 import { useState } from "react";
 
 import { cn } from "@/lib/utils";
@@ -24,20 +26,15 @@ interface TopBarProps {
 }
 
 export function TopBar({ onOpenMenu, streamingOn, onStreamingToggle }: TopBarProps) {
-  const navigate = useNavigate();
-  const [query, setQuery] = useState("");
-  const search = () => {
-    const q = query.trim().toLowerCase();
-    const destination = q.includes("risk") || q.includes("compliance") ? "/ai-ceo/risk"
-      : q.includes("report") ? "/ai-ceo/reports"
-      : q.includes("predict") || q.includes("forecast") ? "/ai-ceo/predictions"
-      : q.includes("learn") || q.includes("memory") ? "/ai-ceo/learning"
-      : q.includes("performance") || q.includes("kpi") ? "/ai-ceo/performance"
-      : q.includes("decision") ? "/ai-ceo/decision-engine"
-      : q.includes("approval") || q.includes("notification") ? "/ai-ceo/approvals"
-      : q.includes("setting") ? "/ai-ceo/settings" : "/ai-ceo/live-monitor";
-    if (q) void navigate({ to: destination });
-  };
+  const [paletteOpen, setPaletteOpen] = useState(false);
+  const { isPersisted, isLoading } = useCEOData();
+  const monitor = !streamingOn
+    ? { label: "OFFLINE", hint: "Monitoring paused", cls: "border-destructive/40 bg-destructive/15 text-destructive" }
+    : isLoading
+      ? { label: "CONNECTING", hint: "Checking live connection", cls: "border-border bg-surface text-muted-foreground" }
+      : isPersisted
+        ? { label: "ACTIVE", hint: "Live connection active", cls: "border-accent-emerald/40 bg-accent-emerald/15 text-accent-emerald" }
+        : { label: "AWAITING", hint: "Awaiting live connection — showing realistic seed data", cls: "border-accent-amber/40 bg-accent-amber/15 text-accent-amber" };
   return (
     <header className="sticky top-0 z-40 border-b border-border bg-background/80 backdrop-blur-xl">
       <div className="flex h-14 items-center gap-1.5 px-3 lg:px-5">
@@ -54,18 +51,19 @@ export function TopBar({ onOpenMenu, streamingOn, onStreamingToggle }: TopBarPro
         </Link>
 
         <div className="hidden min-w-0 flex-1 sm:block">
-          <div className="flex max-w-xl items-center gap-2 rounded-xl border border-border bg-surface px-3 py-1.5">
-            <Search className="h-3.5 w-3.5 shrink-0 text-muted-foreground" />
-            <input
-              placeholder="Search actions, decisions, insights…"
-              aria-label="Search actions, decisions, insights"
-              value={query}
-              onChange={(event) => setQuery(event.target.value)}
-              onKeyDown={(event) => { if (event.key === "Enter") search(); }}
-              className="w-full bg-transparent text-xs outline-none placeholder:text-muted-foreground"
-            />
-          </div>
+          <button
+            onClick={() => setPaletteOpen(true)}
+            aria-label="Open global search"
+            className="flex w-full max-w-xl items-center gap-2 rounded-xl border border-border bg-surface px-3 py-1.5 text-left text-xs text-muted-foreground transition-colors hover:border-primary/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+          >
+            <Search className="h-3.5 w-3.5 shrink-0" />
+            <span className="flex-1 truncate">Search actions, decisions, insights...</span>
+            <kbd className="rounded border border-border px-1.5 py-0.5 text-[10px]">Ctrl K</kbd>
+          </button>
         </div>
+        <button className={cn(ICON_BTN, "sm:hidden")} onClick={() => setPaletteOpen(true)} aria-label="Open global search">
+          <Search className="h-[18px] w-[18px]" />
+        </button>
 
         <div className="flex-1 sm:hidden" />
 
@@ -74,14 +72,14 @@ export function TopBar({ onOpenMenu, streamingOn, onStreamingToggle }: TopBarPro
             onClick={onStreamingToggle}
             className={cn(
               "inline-flex items-center gap-2 rounded-full border px-3 py-1.5 text-[11px] font-semibold transition-colors",
-              streamingOn
-                ? "border-accent-emerald/40 bg-accent-emerald/15 text-accent-emerald"
-                : "border-destructive/40 bg-destructive/15 text-destructive",
+              monitor.cls,
             )}
             aria-pressed={streamingOn}
+            aria-label={`Monitoring: ${monitor.hint}. Click to ${streamingOn ? "pause" : "resume"}.`}
+            title={monitor.hint}
           >
             <Radio className={cn("h-3.5 w-3.5", streamingOn && "animate-pulse")} />
-            <span className="hidden sm:inline">{streamingOn ? "MONITORING" : "PAUSED"}</span>
+            <span className="hidden sm:inline">{monitor.label}</span>
           </button>
 
           <Tooltip>
@@ -112,6 +110,7 @@ export function TopBar({ onOpenMenu, streamingOn, onStreamingToggle }: TopBarPro
           </Tooltip>
         </nav>
       </div>
+      <CommandPalette open={paletteOpen} onOpenChange={setPaletteOpen} />
     </header>
   );
 }
