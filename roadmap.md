@@ -11,3 +11,4 @@
 - [x] Prompt 4: Company Brain, knowledge search/detail, Reports builder/detail, Learning Log detail
 - [x] Prompt 5: Ask Founder AI chat — threads, search, citations, context inspector, handoffs, feedback
 - [x] Prompt 6: Operations agents, tasks, automations, execution activity (preview state)
+- [x] Prompt 7: Research Center/workspace, Operational Projects workspace (preview state)
