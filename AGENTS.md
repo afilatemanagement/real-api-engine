@@ -20,3 +20,5 @@
   never introduce mock APIs or fabricated figures elsewhere.
 - AI generation runs server-side through the Lovable AI Gateway Responses
   endpoint in `src/routes/api/ceo-brief.ts`, streamed to the client.
+- Every CEO screen reads one validated `/ai-ceo/operational-data` contract;
+  deterministic realistic seed data is the only fallback, so screens cannot drift into hidden static fixtures.

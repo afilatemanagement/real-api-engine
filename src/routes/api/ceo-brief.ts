@@ -21,10 +21,23 @@ Rank by business impact, risk, urgency and confidence. For each output:
 <one or two sentence rationale citing the given figures>
 Finish with one line "**Bottom line:**" summary. Use only the data given; never invent figures. Keep the whole answer under 250 words.`;
 
+const requestWindows = new Map<string, { count: number; resetAt: number }>();
+
 export const Route = createFileRoute("/api/ceo-brief")({
   server: {
     handlers: {
       POST: async ({ request }) => {
+        const origin = request.headers.get("origin");
+        if (origin && origin !== new URL(request.url).origin) {
+          return Response.json({ error: "Request origin is not allowed." }, { status: 403 });
+        }
+        const client = request.headers.get("cf-connecting-ip") ?? request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ?? "local";
+        const now = Date.now();
+        const window = requestWindows.get(client);
+        if (window && window.resetAt > now && window.count >= 10) {
+          return Response.json({ error: "Too many requests — please wait a minute and try again." }, { status: 429 });
+        }
+        requestWindows.set(client, window && window.resetAt > now ? { ...window, count: window.count + 1 } : { count: 1, resetAt: now + 60_000 });
         const apiKey = process.env["LOVABLE_API_KEY"];
         if (!apiKey) return Response.json({ error: "AI is not configured." }, { status: 500 });
         let body: z.infer<typeof Body>;
