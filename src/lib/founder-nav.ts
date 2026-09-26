@@ -1,5 +1,5 @@
 import {
-  Activity, Bot, Brain, CheckSquare, Database, FileText, LayoutDashboard, Lightbulb,
+  Activity, Bot, Brain, CheckSquare, Database, FileText, FolderKanban, LayoutDashboard, Lightbulb,
   Library, ListTodo, MessageSquare, Microscope, Settings, ShieldAlert, TrendingUp, Workflow,
 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
@@ -25,6 +25,19 @@ export const FOUNDER_NAV_GROUPS: { label: string; items: FounderNavItem[] }[] = 
     ],
   },
   {
+    label: "Intelligence",
+    items: [
+      { label: "Research", to: "/ai-ceo/research", icon: Microscope, description: "Operational research and evidence" },
+    ],
+  },
+  {
+    label: "Work",
+    items: [
+      { label: "Projects", to: "/ai-ceo/projects", icon: FolderKanban, description: "Operational initiatives and milestones" },
+      { label: "Tasks", to: "/ai-ceo/tasks", icon: ListTodo, description: "Operational tasks and owners" },
+    ],
+  },
+  {
     label: "Governance",
     items: [
       { label: "Approval Suggestions", to: "/ai-ceo/approvals", icon: CheckSquare, description: "Items awaiting Founder approval" },
@@ -43,10 +56,8 @@ export const FOUNDER_NAV_GROUPS: { label: string; items: FounderNavItem[] }[] = 
     label: "Operations",
     items: [
       
-      { label: "Tasks", to: "/ai-ceo/tasks", icon: ListTodo, description: "Operational tasks and owners" },
       { label: "Automations", to: "/ai-ceo/automations", icon: Workflow, description: "Governed operational automations" },
       { label: "Operations Agents", to: "/ai-ceo/agents", icon: Bot, description: "Operational AI agents" },
-      { label: "Research", to: "/ai-ceo/research", icon: Microscope, description: "Market and business research" },
       { label: "Execution Activity", to: "/ai-ceo/activity", icon: Activity, description: "Escalations, monitoring and timeline" },
     ],
   },

@@ -22,4 +22,4 @@
   endpoint in `src/routes/api/ceo-brief.ts`, streamed to the client.
 - Every CEO screen reads one validated `/ai-ceo/operational-data` contract;
   deterministic realistic seed data is the only fallback, so screens cannot drift into hidden static fixtures.
-- Operations execution UI (agents/tasks/automations/activity) keeps prototype state in sessionStorage via `src/components/ai-ceo/ops/store.ts`; agent definitions are a policy catalog, never shown as deployed, because no execution backend exists yet.
+- Operations execution UI (agents/tasks/automations/activity) and research/projects (`src/components/ai-ceo/work/store.ts`) keeps prototype state in sessionStorage via `src/components/ai-ceo/ops/store.ts`; agent definitions are a policy catalog, never shown as deployed, because no execution backend exists yet.
