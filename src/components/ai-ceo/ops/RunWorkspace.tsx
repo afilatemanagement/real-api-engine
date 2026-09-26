@@ -22,7 +22,7 @@ export function RunWorkspace({ agent }: { agent: AgentDef }) {
   const [status, setStatus] = useState<RunStatus>("Queued");
   const task = tasks.find((t) => t.id === taskId);
   const setTask = (st: TaskStatus) => task && update((x) => ({ ...x, tasks: x.tasks.map((t) => t.id === task.id ? { ...t, status: st } : t) }));
-  const log = (text: string, rs: RunStatus) => update((x) => ({ ...x, runs: [{ id: uid("run"), taskId: task?.id, agentId: agent.id, status: rs, steps: STEPS.slice(0, step + 1), at: new Date().toISOString() }, ...x.runs] }), { kind: "Run", text, agentId: agent.id });
+  const log = (text: string, rs: RunStatus) => update((x) => ({ ...x, runs: [{ id: uid("run"), ...(task ? { taskId: task.id } : {}), agentId: agent.id, status: rs, steps: STEPS.slice(0, step + 1), at: new Date().toISOString() }, ...x.runs] }), { kind: "Run", text, agentId: agent.id });
 
   if (s.killSwitch) return <Unavailable>Global stop is active. Resume operations from Execution Activity to run agents.</Unavailable>;
   if (s.paused.includes(agent.id)) return <Unavailable>This agent is paused. Resume it to start a run.</Unavailable>;
