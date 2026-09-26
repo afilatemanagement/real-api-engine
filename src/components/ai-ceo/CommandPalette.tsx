@@ -68,11 +68,11 @@ export function CommandPalette({ open, onOpenChange }: { open: boolean; onOpenCh
   }, [open, onOpenChange, navigate]);
 
   const records = useMemo(() => [
-    ...data.decisions.map((d) => ({ id: `d-${d.id}`, icon: Brain, title: d.action, type: "Decision", desc: d.reasoning, to: "/ai-ceo/decision-engine", time: undefined as string | undefined })),
-    ...data.reports.map((r) => ({ id: `r-${r.id}`, icon: FileText, title: r.title, type: "Report", desc: r.highlights[0] ?? r.status, to: "/ai-ceo/reports", time: r.generatedAt })),
+    ...data.decisions.map((d) => ({ id: `d-${d.id}`, icon: Brain, title: d.action, type: "Decision", desc: d.reasoning, to: `/ai-ceo/decision-engine/${d.id}`, time: undefined as string | undefined })),
+    ...data.reports.map((r) => ({ id: `r-${r.id}`, icon: FileText, title: r.title, type: "Report", desc: r.highlights[0] ?? r.status, to: `/ai-ceo/reports/${r.id}`, time: r.generatedAt })),
     ...data.complianceItems.map((c) => ({ id: `p-${c.id}`, icon: Library, title: c.policy, type: "Policy", desc: `${c.status} · last audit ${c.lastAudit}`, to: "/ai-ceo/company-brain", time: undefined as string | undefined })),
     ...data.learningLogs.map((l) => ({ id: `l-${l.id}`, icon: Database, title: l.observation, type: "Learning", desc: l.outcome, to: "/ai-ceo/learning", time: undefined as string | undefined })),
-    ...data.riskCategories.map((r) => ({ id: `k-${r.id}`, icon: ShieldAlert, title: r.category, type: "Risk", desc: `${r.level} · ${r.issues} open issues`, to: "/ai-ceo/risk", time: undefined as string | undefined })),
+    ...data.riskCategories.map((r) => ({ id: `k-${r.id}`, icon: ShieldAlert, title: r.category, type: "Risk", desc: `${r.level} · ${r.issues} open issues`, to: `/ai-ceo/risk/${r.id}`, time: undefined as string | undefined })),
     ...AGENTS.map((a) => ({ id: `a-${a.id}`, icon: Brain, title: a.name, type: "Agent", desc: `${a.category} · ${a.purpose}`, to: `/ai-ceo/agents/${a.id}`, time: undefined as string | undefined })),
     ...AGENTS.map((a) => ({ id: `w-${a.id}`, icon: Brain, title: a.name, type: "Worker", desc: `Workforce · ${a.category}`, to: `/ai-ceo/workers/${a.id}`, time: undefined as string | undefined })),
     ...data.decisions.filter((d) => d.aiDecision !== "approve").map((d) => ({ id: `ap-${d.id}`, icon: ShieldAlert, title: d.action, type: "Approval", desc: `Awaiting Founder · ${d.type}`, to: `/ai-ceo/approvals/${d.id}`, time: undefined as string | undefined })),

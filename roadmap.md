@@ -16,3 +16,4 @@
 - [x] Prompt 9: Morning AI Command Center (/ai-ceo/morning)
 - [x] Prompt 10: Worker Agent Command Center (/ai-ceo/workers)
 - [x] Prompt 11: Morning AI orchestration (/ai-ceo/morning/plan, /execution)
+- [x] Prompt 12: final hardening (system map, lifecycle vocabulary, global search coverage)
