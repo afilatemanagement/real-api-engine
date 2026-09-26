@@ -16,7 +16,6 @@ import { Route as SoftwarewalaRouteImport } from './routes/softwarewala'
 import { Route as AiCeoIndexRouteImport } from './routes/ai-ceo.index'
 import { Route as AiCeoActivityRouteImport } from './routes/ai-ceo.activity'
 import { Route as AiCeoLiveMonitorRouteImport } from './routes/ai-ceo.live-monitor'
-import { Route as AiCeoResearchRouteImport } from './routes/ai-ceo.research'
 import { Route as AiCeoSettingsRouteImport } from './routes/ai-ceo.settings'
 import { Route as ApiCeoBriefRouteImport } from './routes/api/ceo-brief'
 import { Route as AiCeoAgentsIndexRouteImport } from './routes/ai-ceo.agents.index'
@@ -78,11 +77,6 @@ const AiCeoActivityRoute = AiCeoActivityRouteImport.update({
 const AiCeoLiveMonitorRoute = AiCeoLiveMonitorRouteImport.update({
   id: '/live-monitor',
   path: '/live-monitor',
-  getParentRoute: () => AiCeoRoute,
-} as any)
-const AiCeoResearchRoute = AiCeoResearchRouteImport.update({
-  id: '/research',
-  path: '/research',
   getParentRoute: () => AiCeoRoute,
 } as any)
 const AiCeoSettingsRoute = AiCeoSettingsRouteImport.update({
@@ -231,7 +225,6 @@ export interface FileRoutesByFullPath {
   '/softwarewala': typeof SoftwarewalaRoute
   '/ai-ceo/activity': typeof AiCeoActivityRoute
   '/ai-ceo/live-monitor': typeof AiCeoLiveMonitorRoute
-  '/ai-ceo/research': typeof AiCeoResearchRoute
   '/ai-ceo/settings': typeof AiCeoSettingsRoute
   '/api/ceo-brief': typeof ApiCeoBriefRoute
   '/ai-ceo/': typeof AiCeoIndexRoute
@@ -267,7 +260,6 @@ export interface FileRoutesByTo {
   '/softwarewala': typeof SoftwarewalaRoute
   '/ai-ceo/activity': typeof AiCeoActivityRoute
   '/ai-ceo/live-monitor': typeof AiCeoLiveMonitorRoute
-  '/ai-ceo/research': typeof AiCeoResearchRoute
   '/ai-ceo/settings': typeof AiCeoSettingsRoute
   '/api/ceo-brief': typeof ApiCeoBriefRoute
   '/ai-ceo': typeof AiCeoIndexRoute
@@ -305,7 +297,6 @@ export interface FileRoutesById {
   '/softwarewala': typeof SoftwarewalaRoute
   '/ai-ceo/activity': typeof AiCeoActivityRoute
   '/ai-ceo/live-monitor': typeof AiCeoLiveMonitorRoute
-  '/ai-ceo/research': typeof AiCeoResearchRoute
   '/ai-ceo/settings': typeof AiCeoSettingsRoute
   '/api/ceo-brief': typeof ApiCeoBriefRoute
   '/ai-ceo/': typeof AiCeoIndexRoute
@@ -344,7 +335,6 @@ export interface FileRouteTypes {
     | '/softwarewala'
     | '/ai-ceo/activity'
     | '/ai-ceo/live-monitor'
-    | '/ai-ceo/research'
     | '/ai-ceo/settings'
     | '/api/ceo-brief'
     | '/ai-ceo/'
@@ -380,7 +370,6 @@ export interface FileRouteTypes {
     | '/softwarewala'
     | '/ai-ceo/activity'
     | '/ai-ceo/live-monitor'
-    | '/ai-ceo/research'
     | '/ai-ceo/settings'
     | '/api/ceo-brief'
     | '/ai-ceo'
@@ -417,7 +406,6 @@ export interface FileRouteTypes {
     | '/softwarewala'
     | '/ai-ceo/activity'
     | '/ai-ceo/live-monitor'
-    | '/ai-ceo/research'
     | '/ai-ceo/settings'
     | '/api/ceo-brief'
     | '/ai-ceo/'
@@ -505,13 +493,6 @@ declare module '@tanstack/react-router' {
       path: '/live-monitor'
       fullPath: '/ai-ceo/live-monitor'
       preLoaderRoute: typeof AiCeoLiveMonitorRouteImport
-      parentRoute: typeof AiCeoRoute
-    }
-    '/ai-ceo/research': {
-      id: '/ai-ceo/research'
-      path: '/research'
-      fullPath: '/ai-ceo/research'
-      preLoaderRoute: typeof AiCeoResearchRouteImport
       parentRoute: typeof AiCeoRoute
     }
     '/ai-ceo/settings': {
@@ -709,7 +690,6 @@ declare module '@tanstack/react-router' {
 interface AiCeoRouteChildren {
   AiCeoActivityRoute: typeof AiCeoActivityRoute
   AiCeoLiveMonitorRoute: typeof AiCeoLiveMonitorRoute
-  AiCeoResearchRoute: typeof AiCeoResearchRoute
   AiCeoSettingsRoute: typeof AiCeoSettingsRoute
   AiCeoIndexRoute: typeof AiCeoIndexRoute
   AiCeoAgentsAgentIdRoute: typeof AiCeoAgentsAgentIdRoute
@@ -742,7 +722,6 @@ interface AiCeoRouteChildren {
 const AiCeoRouteChildren: AiCeoRouteChildren = {
   AiCeoActivityRoute: AiCeoActivityRoute,
   AiCeoLiveMonitorRoute: AiCeoLiveMonitorRoute,
-  AiCeoResearchRoute: AiCeoResearchRoute,
   AiCeoSettingsRoute: AiCeoSettingsRoute,
   AiCeoIndexRoute: AiCeoIndexRoute,
   AiCeoAgentsAgentIdRoute: AiCeoAgentsAgentIdRoute,
