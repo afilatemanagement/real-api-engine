@@ -107,7 +107,7 @@ const AICEODashboardMain = () => {
         status="Observer · real-time analysis"
       />
 
-      <DecisionBrief suggestions={suggestions} />
+      <div id="decision-brief"><DecisionBrief suggestions={suggestions} /></div>
 
       {/* Ecosystem Monitor - Live Metrics */}
       {isLoading && !ecosystemMetrics && <LoadingState label="Syncing ecosystem metrics…" rows={2} />}
