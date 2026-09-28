@@ -23,3 +23,4 @@
 - Every CEO screen reads one validated `/ai-ceo/operational-data` contract;
   deterministic realistic seed data is the only fallback, so screens cannot drift into hidden static fixtures.
 - Operations execution UI (agents/tasks/automations/activity) and research/projects (`src/components/ai-ceo/work/store.ts`) keeps prototype state in sessionStorage via `src/components/ai-ceo/ops/store.ts`; agent definitions are a policy catalog, never shown as deployed, because no execution backend exists yet.
+- Worker execution state lives in Lovable Cloud tables (worker_tasks/runs/evidence/verifications/audit); browser has read-only RLS and all writes go through `src/lib/worker.functions.ts` with status-guarded transitions, so approvals and audit can't be forged.
