@@ -42,8 +42,8 @@ function Board() {
   const onErr = (e: Error) => toast.error(e.message);
   const create = useServerFn(createWorkerTask), approve = useServerFn(approveWorkerTask), run = useServerFn(runWorkerTask), verify = useServerFn(verifyWorkerTask), cancel = useServerFn(cancelWorkerTask);
   const mCreate = useMutation({ mutationFn: create, onSuccess: () => { toast.success("Task sent for your approval"); setTitle(""); setIns(""); done(); }, onError: onErr });
-  const mApprove = useMutation({ mutationFn: approve, onSuccess: done, onError: onErr });
   const mRun = useMutation({ mutationFn: run, onSuccess: (r) => { r.ok ? toast.success("Worker finished — review and verify") : toast.error(`Run failed: ${r.error}`); done(); }, onError: (e: Error) => { onErr(e); done(); } });
+  const mApprove = useMutation({ mutationFn: approve, onSuccess: (_r, v) => { done(); toast.message("Approved — worker is generating the result"); mRun.mutate({ data: { taskId: (v as { data: { taskId: string } }).data.taskId } }); }, onError: onErr });
   const mVerify = useMutation({ mutationFn: verify, onSuccess: done, onError: onErr });
   const mCancel = useMutation({ mutationFn: cancel, onSuccess: done, onError: onErr });
   const [title, setTitle] = useState(""); const [ins, setIns] = useState(""); const [agent, setAgent] = useState(AGENTS[0]?.id ?? ""); const [prio, setPrio] = useState<"LOW" | "MEDIUM" | "HIGH" | "CRITICAL">("MEDIUM");
@@ -51,7 +51,7 @@ function Board() {
   const [plan] = usePlan();
   const [open, setOpen] = useState<string | null>(null);
 
-  const d = q.data;
+  const d = q.data ? { tasks: q.data.tasks ?? [], runs: q.data.runs ?? [], evidence: q.data.evidence ?? [], verifications: q.data.verifications ?? [], audit: q.data.audit ?? [] } : undefined;
   const counts = (d?.tasks ?? []).reduce<Record<string, number>>((a, t) => ({ ...a, [t.status]: (a[t.status] ?? 0) + 1 }), {});
 
   return <DetailSection title="Live worker runs">
@@ -76,14 +76,14 @@ function Board() {
     {d && d.tasks.length === 0 && <p className="text-sm text-muted-foreground">No worker tasks yet. Create one above.</p>}
     <div className="space-y-2">{d?.tasks.map((t) => {
       const ev = d.evidence.filter((e) => e.task_id === t.id); const au = d.audit.filter((a) => a.task_id === t.id); const ver = d.verifications.filter((v) => v.task_id === t.id); const runs = d.runs.filter((r) => r.task_id === t.id);
-      const busy = (m: { isPending: boolean; variables?: { data: { taskId?: string } } }) => m.isPending && m.variables?.data.taskId === t.id;
+      const busy = (m: { isPending: boolean; variables: unknown }) => m.isPending && (m.variables as { data?: { taskId?: string } } | undefined)?.data?.taskId === t.id;
       return <div key={t.id} className="rounded-lg border p-3">
         <div className="flex flex-wrap items-center justify-between gap-2">
           <div><p className="font-medium">{t.title}</p><p className="text-xs text-muted-foreground">{agentById(t.agent_id)?.name ?? t.agent_id} · {t.priority} · {t.source} · attempts {t.attempts}</p></div>
           <span className={`rounded-full px-2 py-0.5 text-xs ${TONE[t.status]}`}>{busy(mRun) ? "Running…" : LBL[t.status]}</span>
         </div>
         <div className="mt-2 flex flex-wrap gap-2">
-          {t.status === "waiting_approval" && <Button size="sm" disabled={busy(mApprove)} onClick={() => mApprove.mutate({ data: { taskId: t.id } })}>Approve</Button>}
+          {t.status === "waiting_approval" && <Button size="sm" disabled={busy(mApprove)} onClick={() => mApprove.mutate({ data: { taskId: t.id } })}>Approve & run</Button>}
           {(t.status === "approved" || t.status === "failed" || t.status === "rejected") && <Button size="sm" disabled={busy(mRun)} onClick={() => mRun.mutate({ data: { taskId: t.id } })}>{t.status === "approved" ? "Run" : "Retry"}</Button>}
           {t.status === "completed" && <>
             <Input className="h-8 w-64" placeholder="Verification note (required to reject)" value={notes[t.id] ?? ""} onChange={(e) => setNotes({ ...notes, [t.id]: e.target.value })} />

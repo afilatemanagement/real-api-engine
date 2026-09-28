@@ -115,7 +115,7 @@ export const runWorkerTask = createServerFn({ method: "POST" })
         method: "POST",
         headers: { "Content-Type": "application/json", "Lovable-API-Key": apiKey, "X-Lovable-AIG-SDK": "fetch" },
         body: JSON.stringify({
-          model: MODEL, store: false, reasoning: { effort: "low" },
+          model: MODEL, stream: true, store: false, reasoning: { effort: "low" },
           input: [
             { role: "system", content: `You are the "${task.agent_id}" operations worker for Software Vala's Founder AI. Carry out the assigned operational task using ONLY the company data provided. Never invent numbers; if data is missing, say so. Output markdown with sections: ## Result, ## Evidence used (cite record titles), ## Risks & open questions, ## Suggested next step. Under 350 words. You cannot take external actions; you produce analysis and a recommended action only.` },
             { role: "user", content: `TASK: ${task.title}\nPRIORITY: ${task.priority}\nINSTRUCTIONS: ${task.instructions || "(none)"}\n\nCOMPANY DATA:\n${ctx.text}` },
@@ -126,8 +126,19 @@ export const runWorkerTask = createServerFn({ method: "POST" })
         const t = await res.text(); console.error("worker AI failed", res.status, t);
         return fail(res.status === 402 ? "AI credits are used up" : res.status === 429 ? "AI rate limit reached — retry shortly" : `AI request failed (${res.status})`);
       }
-      const json = (await res.json()) as { output_text?: string; output?: { type: string; content?: { type: string; text?: string }[] }[] };
-      const text = json.output_text ?? (json.output ?? []).filter((o) => o.type === "message").flatMap((o) => o.content ?? []).map((c) => c.text ?? "").join("\n").trim();
+      let text = "";
+      const reader = res.body!.getReader(); const dec = new TextDecoder(); let buf = "";
+      for (;;) {
+        const { done, value } = await reader.read(); if (done) break;
+        buf += dec.decode(value, { stream: true });
+        let k; while ((k = buf.indexOf("\n")) >= 0) {
+          const line = buf.slice(0, k).trim(); buf = buf.slice(k + 1);
+          if (!line.startsWith("data:")) continue;
+          const payload = line.slice(5).trim(); if (payload === "[DONE]") continue;
+          try { const ev = JSON.parse(payload) as { type?: string; delta?: string }; if (ev.type === "response.output_text.delta" && ev.delta) text += ev.delta; } catch { /* partial */ }
+        }
+      }
+      text = text.trim();
       if (!text) return fail("Worker returned an empty result");
       await db.from("task_evidence").insert({ task_id: task.id, run_id: run.id, kind: "output", title: "Worker result", content: text });
       await db.from("worker_runs").update({ status: "completed", finished_at: new Date().toISOString() }).eq("id", run.id);
