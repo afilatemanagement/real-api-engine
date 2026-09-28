@@ -148,6 +148,54 @@ export type Database = {
           },
         ]
       }
+      worker_profiles: {
+        Row: {
+          active: boolean
+          agent_id: string | null
+          created_at: string
+          created_by: string
+          email: string | null
+          id: string
+          kind: string
+          max_concurrent: number
+          name: string
+          role: string
+          skills: string[]
+          updated_at: string
+          user_id: string | null
+        }
+        Insert: {
+          active?: boolean
+          agent_id?: string | null
+          created_at?: string
+          created_by: string
+          email?: string | null
+          id?: string
+          kind: string
+          max_concurrent?: number
+          name: string
+          role?: string
+          skills?: string[]
+          updated_at?: string
+          user_id?: string | null
+        }
+        Update: {
+          active?: boolean
+          agent_id?: string | null
+          created_at?: string
+          created_by?: string
+          email?: string | null
+          id?: string
+          kind?: string
+          max_concurrent?: number
+          name?: string
+          role?: string
+          skills?: string[]
+          updated_at?: string
+          user_id?: string | null
+        }
+        Relationships: []
+      }
       worker_runs: {
         Row: {
           error: string | null
@@ -205,6 +253,7 @@ export type Database = {
           status: Database["public"]["Enums"]["worker_task_status"]
           title: string
           updated_at: string
+          worker_id: string | null
         }
         Insert: {
           agent_id: string
@@ -221,6 +270,7 @@ export type Database = {
           status?: Database["public"]["Enums"]["worker_task_status"]
           title: string
           updated_at?: string
+          worker_id?: string | null
         }
         Update: {
           agent_id?: string
@@ -237,8 +287,17 @@ export type Database = {
           status?: Database["public"]["Enums"]["worker_task_status"]
           title?: string
           updated_at?: string
+          worker_id?: string | null
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "worker_tasks_worker_id_fkey"
+            columns: ["worker_id"]
+            isOneToOne: false
+            referencedRelation: "worker_profiles"
+            referencedColumns: ["id"]
+          },
+        ]
       }
     }
     Views: {
