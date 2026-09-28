@@ -51,7 +51,7 @@ function Board() {
   const [plan] = usePlan();
   const [open, setOpen] = useState<string | null>(null);
 
-  const d = q.data;
+  const d = q.data ? { tasks: q.data.tasks ?? [], runs: q.data.runs ?? [], evidence: q.data.evidence ?? [], verifications: q.data.verifications ?? [], audit: q.data.audit ?? [] } : undefined;
   const counts = (d?.tasks ?? []).reduce<Record<string, number>>((a, t) => ({ ...a, [t.status]: (a[t.status] ?? 0) + 1 }), {});
 
   return <DetailSection title="Live worker runs">
@@ -76,7 +76,7 @@ function Board() {
     {d && d.tasks.length === 0 && <p className="text-sm text-muted-foreground">No worker tasks yet. Create one above.</p>}
     <div className="space-y-2">{d?.tasks.map((t) => {
       const ev = d.evidence.filter((e) => e.task_id === t.id); const au = d.audit.filter((a) => a.task_id === t.id); const ver = d.verifications.filter((v) => v.task_id === t.id); const runs = d.runs.filter((r) => r.task_id === t.id);
-      const busy = (m: { isPending: boolean; variables?: { data: { taskId?: string } } }) => m.isPending && m.variables?.data.taskId === t.id;
+      const busy = (m: { isPending: boolean; variables: unknown }) => m.isPending && (m.variables as { data?: { taskId?: string } } | undefined)?.data?.taskId === t.id;
       return <div key={t.id} className="rounded-lg border p-3">
         <div className="flex flex-wrap items-center justify-between gap-2">
           <div><p className="font-medium">{t.title}</p><p className="text-xs text-muted-foreground">{agentById(t.agent_id)?.name ?? t.agent_id} · {t.priority} · {t.source} · attempts {t.attempts}</p></div>
