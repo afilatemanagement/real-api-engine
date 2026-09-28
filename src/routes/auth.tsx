@@ -43,7 +43,7 @@ function AuthPage() {
       ? await supabase.auth.signInWithPassword({ email, password: pw })
       : await supabase.auth.signUp({ email, password: pw, options: { emailRedirectTo: window.location.origin + "/auth" } });
     setBusy(false);
-    if (error) return toast.error(error.message);
+    if (error) { toast.error(error.message); return; }
     if (mode === "up" && !data.session) toast.success("Check your email to confirm your account, then sign in.");
   };
   const google = async () => {
