@@ -18,4 +18,4 @@
 - [x] Prompt 11: Morning AI orchestration (/ai-ceo/morning/plan, /execution)
 - [x] Prompt 12: final hardening (system map, lifecycle vocabulary, global search coverage)
 - [ ] Connect real AIRA API (KPIs, forecasts, Morning brief) — needs AIRA_API_URL / AIRA_API_TOKEN
-- [ ] Approving a worker task auto-runs it and saves the AI result as evidence
+- [x] Approving a worker task auto-runs it and saves the AI result as evidence
