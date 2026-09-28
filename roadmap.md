@@ -19,4 +19,4 @@
 - [x] Prompt 12: final hardening (system map, lifecycle vocabulary, global search coverage)
 - [ ] Connect real AIRA API (KPIs, forecasts, Morning brief) — needs AIRA_API_URL / AIRA_API_TOKEN
 - [x] Approving a worker task auto-runs it and saves the AI result as evidence
-- [ ] Browser walkthrough: sign in → create/assign → approve & run → verify → Live Execution
+- [x] Browser walkthrough: sign in → create/assign → approve & run → verify → Live Execution
