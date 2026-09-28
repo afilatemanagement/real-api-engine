@@ -183,8 +183,8 @@ export function LiveExecution() {
   return <PageShell>
     <BackLink to="/ai-ceo/morning" label="Morning AI" />
     <section className="flex flex-wrap items-end justify-between gap-3"><div><p className="inline-flex items-center gap-2 text-xs text-muted-foreground"><GitBranch className="h-3.5 w-3.5" /> Morning AI · Orchestration</p><h1 className="mt-1 text-2xl font-semibold tracking-tight sm:text-3xl">Live Execution</h1><p className="mt-1 text-sm text-muted-foreground">Active plan: {p.objective || "Untitled plan"}</p></div><Button asChild size="sm" variant="outline"><Link to="/ai-ceo/morning/plan">Edit plan</Link></Button></section>
-    <PreviewNotice>Prototype preview: controls change preview state in this tab only. No worker is running; "Verify" records a Founder verification, not an automated check.</PreviewNotice>
     <WorkerBackend />
+    <PreviewNotice>Below this line is the plan preview: controls change preview state in this tab only. No worker is running; "Verify" records a Founder verification, not an automated check.</PreviewNotice>
     <DetailSection title="Orchestration flow"><OrchestrationFlow reached={useStage()} /></DetailSection>
     <div className="grid grid-cols-2 gap-3 sm:grid-cols-4 lg:grid-cols-7">{([["Current agents", agents.length], ["Current tasks", c.tasks], ["Completed", c.completed], ["Blocked", c.blocked], ["Waiting", c.waiting], ["Failed", c.failed], ["Verified", c.verified]] as const).map(([k, v]) => <div key={k} className="bento-card p-3"><p className="text-xl font-semibold tabular-nums">{v}</p><p className="text-[11px] text-muted-foreground">{k}</p></div>)}</div>
 
