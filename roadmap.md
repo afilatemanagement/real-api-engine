@@ -21,4 +21,4 @@
 - [x] Approving a worker task auto-runs it and saves the AI result as evidence
 - [x] Browser walkthrough: sign in → create/assign → approve & run → verify → Live Execution
 - [x] Worker profiles (AI + team members) — assigning starts a real run; only risky tasks wait
-- [ ] Browser test: sign in → approve → run → verify → Live Execution
+- [x] Browser test: sign in → approve → run → verify → Live Execution
